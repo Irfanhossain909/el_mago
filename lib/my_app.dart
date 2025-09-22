@@ -1,5 +1,10 @@
-import 'package:el_mago/splash_screen/splash_screen.dart';
+import 'package:el_mago/const/app_theme.dart';
+import 'package:el_mago/routes/app_routes.dart';
+import 'package:el_mago/routes/app_routes_file.dart';
+import 'package:el_mago/routes/bindings/app_binding.dart';
+import 'package:el_mago/utils/app_size.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -7,13 +12,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: SplashScreen(),
+    AppSize.size = MediaQuery.of(context).size;
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      // initialRoute: AppRoutes.instance.initial,
+      initialRoute: AppRoutes.instance.signupScreen,
+      getPages: appRootRoutesFile,
+      enableLog: true,
+      themeMode: ThemeMode.light,
+      initialBinding: AppBinding(),
+
+      title: 'el_mago',
+      theme: AppTheme.lightTheme,
+      defaultTransition: Transition.fadeIn,
+      transitionDuration: Duration(milliseconds: 300),
     );
   }
 }

@@ -1,6 +1,6 @@
 
+import 'package:el_mago/widgets/app_log/error_log.dart';
 import 'package:flutter/foundation.dart';
-import 'package:tinnierenee12/widget/app_log/error_log.dart';
 
 class AppApiEndPoint {
   AppApiEndPoint._privateConstructor();
