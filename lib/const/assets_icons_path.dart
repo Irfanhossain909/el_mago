@@ -26,13 +26,15 @@ class AssetsPath {
   static const String editBio = "assets/icons/edit_bio.png";
   static const String delete = "assets/icons/delete.png";
   static const String subIcon = "assets/icons/subIcon.png";
+  static const String camera = "assets/icons/camera.png";
   static const String qualificationDocument =
       "assets/icons/qualification_doc.png";
 
   //////////////////////Image//////////////////////////////////////
-  
+
   static const String placeHolder = "assets/images/placeholder.png";
-  
+  static const String changePass = "assets/images/change_pass.png";
+
   static const String appLogo = "assets/images/app_logo.png";
-  
+  static const String termsImg = "assets/images/terms_img.png";
 }

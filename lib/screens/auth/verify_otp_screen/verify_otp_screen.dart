@@ -1,4 +1,5 @@
 import 'package:el_mago/const/app_color.dart';
+import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/screens/auth/verify_otp_screen/controller/verify_otp_controller.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_button/app_button.dart';
@@ -114,7 +115,7 @@ class VerifyOtpScreen extends StatelessWidget {
                   ),
                   child: AppButton(
                     onTap: () {
-                      // Get.toNamed(AppRoutes.instance.locationScreen);
+                      Get.toNamed(AppRoutes.instance.createNewPassScreen);
                     },
                     title: "Verify and Continue",
                     titleSize: AppSize.width(value: 18),
