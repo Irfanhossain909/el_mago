@@ -1,8 +1,8 @@
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/const/assets_icons_path.dart';
+import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/screens/auth/sign_up_screen/controller/signup_controller.dart';
 import 'package:el_mago/utils/app_size.dart';
-import 'package:el_mago/widgets/app_button/app_button.dart';
 import 'package:el_mago/widgets/app_image/app_image.dart';
 import 'package:el_mago/widgets/app_input/add_descreption_text_field.dart';
 import 'package:el_mago/widgets/app_input/app_input_widget_two.dart';
@@ -118,13 +118,38 @@ class SignUpScreen extends StatelessWidget {
                           );
                         }),
                         Gap(height: AppSize.width(value: 12)),
-                        AppButton(
-                          width: double.infinity,
+                        GestureDetector(
                           onTap: () {
-                            // Get.toNamed(AppRoutes.instance.verifyOtpScreen);
+                            Get.toNamed(AppRoutes.instance.otpVerifyScreen);
                           },
-                          title: "Sign Up",
-                          titleSize: AppSize.width(value: 18),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: AppColor.blue,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            width: AppSize.width(value: double.infinity),
+                            height: AppSize.size.height * 0.06,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                AppText(
+                                  data: "Sign Up",
+                                  fontSize: AppSize.width(value: 18),
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColor.white,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.arrow_right_alt_outlined,
+                                    size: AppSize.width(value: 28),
+                                    color: AppColor.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                         Gap(height: AppSize.size.height * 0.02),
                         Row(
@@ -136,11 +161,16 @@ class SignUpScreen extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                             ),
                             Gap(width: AppSize.width(value: 4)),
-                            AppText(
-                              data: "Sign In",
-                              fontSize: AppSize.width(value: 18),
-                              color: AppColor.blue,
-                              fontWeight: FontWeight.w700,
+                            InkWell(
+                              onTap: () {
+                                Get.offNamed(AppRoutes.instance.signinScreen);
+                              },
+                              child: AppText(
+                                data: "Sign In",
+                                fontSize: AppSize.width(value: 18),
+                                color: AppColor.blue,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ],
                         ),
