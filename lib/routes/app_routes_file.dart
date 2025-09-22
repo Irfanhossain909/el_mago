@@ -1,5 +1,6 @@
 import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/routes/bindings/app_binding.dart';
+import 'package:el_mago/screens/app_navigation_screen/retailer_navigation_screen.dart';
 import 'package:el_mago/screens/auth/create_your_password_screen/create_your_password_screen.dart';
 import 'package:el_mago/screens/auth/forget_pass_screen/forget_pass_screen.dart';
 import 'package:el_mago/screens/auth/sign_in_screen/sign_in_screen.dart';
@@ -21,6 +22,11 @@ List<GetPage> appRootRoutesFile = <GetPage>[
   //   transitionDuration: Duration(milliseconds: 800),
   //   opaque: false,
   // ),
+  GetPage(
+    name: AppRoutes.instance.retailerNavigationScreen,
+    binding: AppBinding(),
+    page: () => const RetailerNavigationScreen(),
+  ),
   GetPage(
     name: AppRoutes.instance.signupScreen,
     binding: AppBinding(),
