@@ -1,5 +1,6 @@
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/const/assets_icons_path.dart';
+import 'package:el_mago/const/role.dart';
 import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/screens/auth/sign_up_screen/controller/signup_controller.dart';
 import 'package:el_mago/utils/app_size.dart';
@@ -7,6 +8,7 @@ import 'package:el_mago/widgets/app_image/app_image.dart';
 import 'package:el_mago/widgets/app_input/add_descreption_text_field.dart';
 import 'package:el_mago/widgets/app_input/app_input_widget_two.dart';
 import 'package:el_mago/widgets/app_input/labeled_radio.dart';
+import 'package:el_mago/widgets/app_loading/app_loading.dart';
 import 'package:el_mago/widgets/app_log/gap.dart';
 import 'package:el_mago/widgets/app_text/app_text.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +57,7 @@ class SignUpScreen extends StatelessWidget {
                         ),
                         Gap(height: AppSize.size.height * 0.02),
                         AppInputWidgetTwo(
+                          controller: controller.fullNameController,
                           borderRadius: AppSize.width(value: 8),
                           contentPadding: EdgeInsets.symmetric(
                             horizontal: AppSize.width(value: 20),
@@ -62,6 +65,7 @@ class SignUpScreen extends StatelessWidget {
                           hintText: "Full Name",
                         ),
                         AppInputWidgetTwo(
+                          controller: controller.emailController,
                           isEmail: true,
                           borderRadius: AppSize.width(value: 8),
                           contentPadding: EdgeInsets.symmetric(
@@ -69,17 +73,28 @@ class SignUpScreen extends StatelessWidget {
                           ),
                           hintText: "example@gmail.com",
                         ),
-                        AppDescriptionTextField(
-                          hintText: "Enter Your Full Address",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              AppSize.width(value: 12),
-                            ),
-                            borderSide: BorderSide(color: AppColor.black),
-                          ),
-                        ),
+                        Obx(() {
+                          return Stack(
+                            children: [
+                              AppDescriptionTextField(
+                                controller: controller.addressController,
+                                hintText: "Enter Your Full Address",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    AppSize.width(value: 12),
+                                  ),
+                                  borderSide: BorderSide(color: AppColor.black),
+                                ),
+                              ),
+                              controller.isLoading.value
+                                  ? Center(child: AppLoading())
+                                  : SizedBox(),
+                            ],
+                          );
+                        }),
 
                         AppInputWidgetTwo(
+                          controller: controller.passwordController,
                           borderRadius: AppSize.width(value: 8),
                           contentPadding: EdgeInsets.symmetric(
                             horizontal: AppSize.width(value: 20),
@@ -88,6 +103,7 @@ class SignUpScreen extends StatelessWidget {
                           hintText: "Password",
                         ),
                         AppInputWidgetTwo(
+                          controller: controller.confirmpasswordController,
                           borderRadius: AppSize.width(value: 8),
                           contentPadding: EdgeInsets.symmetric(
                             horizontal: AppSize.width(value: 20),
@@ -98,21 +114,21 @@ class SignUpScreen extends StatelessWidget {
 
                         Gap(height: AppSize.width(value: 12)),
                         Obx(() {
-                          final selected = controller.workedInChildCare.value;
+                          final selected = controller.userRole.value;
                           return Row(
                             spacing: AppSize.width(value: 16),
                             children: [
                               LabeledRadio<Role>(
                                 label: "Sales Rep.",
-                                value: Role.SalesRep,
+                                value: Role.SALES,
                                 groupValue: selected,
-                                onChanged: controller.setWorkedInChildCare,
+                                onChanged: controller.setUserRole,
                               ),
                               LabeledRadio<Role>(
                                 label: "Retailer",
-                                value: Role.Retailer,
+                                value: Role.RETAILER,
                                 groupValue: selected,
-                                onChanged: controller.setWorkedInChildCare,
+                                onChanged: controller.setUserRole,
                               ),
                             ],
                           );
@@ -120,7 +136,7 @@ class SignUpScreen extends StatelessWidget {
                         Gap(height: AppSize.width(value: 12)),
                         GestureDetector(
                           onTap: () {
-                            Get.toNamed(AppRoutes.instance.otpVerifyScreen);
+                            controller.signUp();
                           },
                           child: Container(
                             decoration: BoxDecoration(

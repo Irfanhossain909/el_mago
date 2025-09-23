@@ -1,4 +1,3 @@
-
 import 'package:el_mago/widgets/app_log/error_log.dart';
 import 'package:flutter/foundation.dart';
 
@@ -19,9 +18,10 @@ class AppApiEndPoint {
 
   ////////////////////// auth
   final String authLogin = "/auth/login";
+  final String signup = "/users";
   final String verifyEmail = "/auth/verify-email";
-  final String resendOtp = "/user/resend-otp";
-  final String forgetPassword = "/auth/forgot-password";
+  final String resendOtp = "/resend-otp";
+  final String forgetPassword = "/auth/forget-password";
   final String resetPassword = "/auth/reset-password";
   final String changePassword = "/auth/change-password";
   final String googleAuthLogin = "/user/google-auth";
@@ -71,22 +71,16 @@ class AppApiEndPoint {
   /////////////////////  message or conversion
   final String chatList = "/chat";
   final String sendMsg = "/message";
-  static String getMessage(var page, var limit ,String iD) => "/message/$iD?page=$page&limit=$limit";
-  static String search(var text,) => "/wcservice?search=$text";
+  static String getMessage(var page, var limit, String iD) =>
+      "/message/$iD?page=$page&limit=$limit";
+  static String search(var text) => "/wcservice?search=$text";
   final String specificCategoryService = "/service/";
 }
 
 // Move this function outside the class
 String _getDomain() {
-  ///////////10.0.70.208:3001///////////////////////
-  // String liveServer = "http://10.0.70.208:10.0.70.30:3002";
-  // String localServer = "http://10.0.70.208:3001";
-  //////////LIVE////////////////////////
-  // String liveServer = "http://195.35.9.21:3001";
-  // String localServer = "http://10.0.70.30:3002";
-  //////////10.0.70.30:3002////////////////////////
-  String liveServer = "https://api.flxbookonline.com";
-  String localServer = "https://api.flxbookonline.com";
+  String liveServer = "http://10.10.7.62:5003";
+  String localServer = "http://10.10.7.62:5003";
   try {
     if (kDebugMode) {
       return localServer;
