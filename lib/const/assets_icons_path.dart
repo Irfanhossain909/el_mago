@@ -30,6 +30,7 @@ class AssetsPath {
   static const String notification = "assets/icons/notification.png";
   static const String cartColor = "assets/icons/cart_color.png";
   static const String dollerColor = "assets/icons/doller_color.png";
+  static const String gift = "assets/icons/gift.png";
   static const String qualificationDocument =
       "assets/icons/qualification_doc.png";
 

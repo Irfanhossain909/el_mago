@@ -1,11 +1,13 @@
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/const/assets_icons_path.dart';
+import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_image/app_image.dart';
 import 'package:el_mago/widgets/app_log/gap.dart';
 import 'package:el_mago/widgets/app_text/app_text.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class RetailerDashBoard extends StatelessWidget {
   const RetailerDashBoard({super.key});
@@ -16,7 +18,11 @@ class RetailerDashBoard extends StatelessWidget {
       appBar: CustomAppbar(
         title: "Dashboard Overview",
         action: [
-          CircleIconWithBg(path: AssetsPath.cart),
+          CircleIconWithBg(
+            onTap: () {
+              Get.toNamed(AppRoutes.instance.retailerShoppingCartScreen);
+            },
+            path: AssetsPath.cart),
           Gap(width: AppSize.width(value: 8)),
           CircleIconWithBg(path: AssetsPath.notification),
           Gap(width: AppSize.width(value: 8)),
@@ -215,19 +221,23 @@ class RetailerDataCard extends StatelessWidget {
 
 class CircleIconWithBg extends StatelessWidget {
   final String? path;
-  const CircleIconWithBg({super.key, this.path});
+  final VoidCallback? onTap;
+  const CircleIconWithBg({super.key, this.path, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(AppSize.width(value: 8)),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.width(value: 16)),
-        color: AppColor.blue,
-      ),
-      child: AppImage(
-        path: path ?? AssetsPath.cart,
-        width: AppSize.width(value: 16),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(AppSize.width(value: 8)),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(AppSize.width(value: 16)),
+          color: AppColor.blue,
+        ),
+        child: AppImage(
+          path: path ?? AssetsPath.cart,
+          width: AppSize.width(value: 16),
+        ),
       ),
     );
   }
