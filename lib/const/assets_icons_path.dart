@@ -16,7 +16,6 @@ class AssetsPath {
   static const String nav3 = "assets/icons/nav3.png";
   static const String nav4 = "assets/icons/nav4.png";
   static const String nav5 = "assets/icons/nav5.png";
-  static const String nav6 = "assets/icons/nav6.png";
   static const String close = "assets/icons/close.png";
   static const String filter = "assets/icons/filter.png";
   static const String right = "assets/icons/right.png";
@@ -27,6 +26,10 @@ class AssetsPath {
   static const String delete = "assets/icons/delete.png";
   static const String subIcon = "assets/icons/subIcon.png";
   static const String camera = "assets/icons/camera.png";
+  static const String cart = "assets/icons/cart.png";
+  static const String notification = "assets/icons/notification.png";
+  static const String cartColor = "assets/icons/cart_color.png";
+  static const String dollerColor = "assets/icons/doller_color.png";
   static const String qualificationDocument =
       "assets/icons/qualification_doc.png";
 

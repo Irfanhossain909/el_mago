@@ -15,5 +15,6 @@ class AppRoutes {
   final String privicyScreen = "/privicy-screen";
   final String changeProfileScreen = "/change-profile-screen";
   final String changePasswordScreen = "/change-password-screen";
+  final String retailerDashboardScreen = "/retailer-dashboard-screen";
   
 }

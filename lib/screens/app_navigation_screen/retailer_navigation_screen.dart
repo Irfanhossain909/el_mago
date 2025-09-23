@@ -1,11 +1,11 @@
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/const/assets_icons_path.dart';
 import 'package:el_mago/screens/app_navigation_screen/controller/retailer_navigation_screen_controller.dart';
-import 'package:el_mago/screens/auth/sign_in_screen/sign_in_screen.dart';
 import 'package:el_mago/screens/auth/sign_up_screen/sign_up_screen.dart';
 import 'package:el_mago/screens/auth/verify_otp_screen/verify_otp_screen.dart';
 import 'package:el_mago/screens/chnage_pass_screen/change_pass_screen.dart';
 import 'package:el_mago/screens/profile_screen/profile_screen.dart';
+import 'package:el_mago/screens/retailer_dash_board/retailer_dash_board.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_image/app_image.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class RetailerNavigationScreen extends StatelessWidget {
             () => IndexedStack(
               index: controller.selectedIndex.value,
               children: [
-                SignInScreen(),
+                RetailerDashBoard(),
                 SignUpScreen(),
                 VerifyOtpScreen(),
 
@@ -62,10 +62,10 @@ class RetailerNavigationScreen extends StatelessWidget {
                     final isSelected = controller.selectedIndex.value == index;
                     final iconPaths = [
                       AssetsPath.nav1,
-                      AssetsPath.nav2,
-                      AssetsPath.nav3,
-                      AssetsPath.nav4,
                       AssetsPath.nav5,
+                      AssetsPath.nav3,
+                      AssetsPath.nav2,
+                      AssetsPath.nav4,
                     ];
 
                     return InkWell(
