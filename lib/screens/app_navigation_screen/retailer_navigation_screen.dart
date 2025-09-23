@@ -1,11 +1,11 @@
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/const/assets_icons_path.dart';
 import 'package:el_mago/screens/app_navigation_screen/controller/retailer_navigation_screen_controller.dart';
-import 'package:el_mago/screens/auth/sign_up_screen/sign_up_screen.dart';
 import 'package:el_mago/screens/auth/verify_otp_screen/verify_otp_screen.dart';
 import 'package:el_mago/screens/chnage_pass_screen/change_pass_screen.dart';
 import 'package:el_mago/screens/profile_screen/profile_screen.dart';
 import 'package:el_mago/screens/retailer_dash_board/retailer_dash_board.dart';
+import 'package:el_mago/screens/retailer_my_order_screen/retailer_my_order_screen.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_image/app_image.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +25,7 @@ class RetailerNavigationScreen extends StatelessWidget {
               index: controller.selectedIndex.value,
               children: [
                 RetailerDashBoard(),
-                SignUpScreen(),
+                RetailerMyOrderScreen(),
                 VerifyOtpScreen(),
 
                 ChangePassScreen(),
