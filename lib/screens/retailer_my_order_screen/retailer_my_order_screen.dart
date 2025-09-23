@@ -1,11 +1,13 @@
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/const/assets_icons_path.dart';
+import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_circle_card/circle_icon_with_bg.dart';
 import 'package:el_mago/widgets/app_input/app_input_widget_two.dart';
 import 'package:el_mago/widgets/app_text/app_text.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 class RetailerMyOrderScreen extends StatelessWidget {
   const RetailerMyOrderScreen({super.key});
@@ -33,7 +35,7 @@ class RetailerMyOrderScreen extends StatelessWidget {
                 vertical: 4.0,
                 horizontal: 12.0,
               ),
-              hintText: "Search by invoice ID or Product Name",
+              hintText: "Search by invoice ID o r Product Name",
             ),
 
             // Make the ListView scrollable independently
@@ -41,7 +43,9 @@ class RetailerMyOrderScreen extends StatelessWidget {
               child: ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return ViewOrderCard();
+                  return ViewOrderCard(onTap: () {
+                    Get.toNamed(AppRoutes.instance.retailerOrderDetailsScreen);
+                  },);
                 },
               ),
             ),
@@ -53,7 +57,8 @@ class RetailerMyOrderScreen extends StatelessWidget {
 }
 
 class ViewOrderCard extends StatelessWidget {
-  const ViewOrderCard({super.key});
+  final VoidCallback? onTap;
+  const ViewOrderCard({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -84,19 +89,22 @@ class ViewOrderCard extends StatelessWidget {
               children: [
                 SizedBox(),
 
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                      AppSize.width(value: 6),
+                InkWell(
+                  onTap: onTap,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        AppSize.width(value: 6),
+                      ),
+                      color: AppColor.blue,
                     ),
-                    color: AppColor.blue,
-                  ),
-                  child: AppText(
-                    data: "View Details",
-                    fontSize: AppSize.width(value: 16),
-                    color: AppColor.white,
-                    fontWeight: FontWeight.w600,
+                    child: AppText(
+                      data: "View Details",
+                      fontSize: AppSize.width(value: 16),
+                      color: AppColor.white,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],

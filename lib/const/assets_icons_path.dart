@@ -33,6 +33,11 @@ class AssetsPath {
   static const String gift = "assets/icons/gift.png";
   static const String qualificationDocument =
       "assets/icons/qualification_doc.png";
+  static const String currency = "assets/icons/currency.png";
+  static const String calender = "assets/icons/calender_ic.png";
+  static const String box = "assets/icons/box.png";
+  static const String addressCard = "assets/icons/address_card.png";
+  static const String tag = "assets/icons/tag.png";
 
   //////////////////////Image//////////////////////////////////////
 
