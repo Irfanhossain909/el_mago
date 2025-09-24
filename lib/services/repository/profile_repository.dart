@@ -1,8 +1,12 @@
-
+import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:el_mago/const/app_api_end_point.dart';
 import 'package:el_mago/models/user_model/user_model.dart';
 import 'package:el_mago/services/api/api_services.dart';
 import 'package:el_mago/widgets/app_log/app_print.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:mime/mime.dart';
 
 class ProfileRepository {
   ProfileRepository._();
@@ -52,82 +56,69 @@ class ProfileRepository {
   //   return false;
   // }
 
-  // Future<bool> updateUserProfile({
-  //   required String name,
-  //   required String gender,
-  //   required String birthday,
-  //   required String relationshipStatus,
-  //   required List<String> interests,
-  //   required List<String> language,
-  //   required String nationality,
-  //   required String location,
-  //   String? profession,
-  //   String? bio,
-  //   String? image,
-  // }) async {
-  //   try {
-  //     FormData formDataMap = FormData.fromMap({
-  //       "name": name,
-  //       "gender": gender,
-  //       "birthday": birthday,
-  //       "relationshipStatus": relationshipStatus,
-  //       "bio": bio,
-  //       "profession": profession,
-  //       // "interests": interests,
-  //       "language": language,
-  //       "nationality": nationality,
-  //       "location": location,
-  //     });
+  Future<bool> updateUserProfile({
+    required String name,
+    required String address,
+    required String phone,
+    required String image,
+  }) async {
+    try {
+      FormData formDataMap = FormData.fromMap({
+        "data": jsonEncode({"name": name, "address": address, "phone": phone}),
+      });
 
-  //     for (var element in interests) {
-  //       formDataMap.fields.add(MapEntry("interests[]", element));
-  //     }
-  //     // Image থাকলে এবং file path valid হলে MultipartFile যোগ করি
-  //     if (image != null && image.isNotEmpty) {
-  //       try {
-  //         // Verify file exists
-  //         final file = File(image);
-  //         if (await file.exists()) {
-  //           String fileName = file.path.split('/').last;
-  //           var mimeType = lookupMimeType(file.path);
+      // FormData formDataMap = FormData.fromMap({
+      //   "name": name,
+      //   "address": address,
+      //   "phone": phone,
+      // });
 
-  //           formDataMap.files.add(
-  //             MapEntry(
-  //               "image",
-  //               await MultipartFile.fromFile(
-  //                 file.path,
-  //                 filename: fileName,
-  //                 contentType: MediaType.parse(
-  //                   mimeType ?? 'application/octet-stream',
-  //                 ),
-  //               ),
-  //             ),
-  //           );
-  //         } else {
-  //           AppPrint.appLog("Image file does not exist at path: $image");
-  //         }
-  //       } catch (e) {
-  //         AppPrint.appError("Error processing image file: $e");
-  //       }
-  //     }
+      // Image থাকলে এবং file path valid হলে MultipartFile যোগ করি
+      if (image != null && image.isNotEmpty) {
+        try {
+          // Verify file exists
+          final file = File(image);
+          if (await file.exists()) {
+            String fileName = file.path.split('/').last;
+            var mimeType = lookupMimeType(file.path);
 
-  //     var response = await apiServices.apiPatchServices(
-  //       url: AppApiEndPoint.instance.profile,
-  //       body: formDataMap,
-  //     );
+            formDataMap.files.add(
+              MapEntry(
+                "image",
+                await MultipartFile.fromFile(
+                  file.path,
+                  filename: fileName,
+                  contentType: MediaType.parse(
+                    mimeType ?? 'application/octet-stream',
+                  ),
+                ),
+              ),
+            );
+          } else {
+            AppPrint.appLog("Image file does not exist at path: $image");
+          }
+        } catch (e) {
+          AppPrint.appError("Error processing image file: $e");
+        }
+      }
 
-  //     if (response != null) {
-  //       AppPrint.appLog("✅ Profile updated successfully");
-  //       return true;
-  //     } else {
-  //       AppPrint.appLog("❌ Profile update failed: Response is null");
-  //       return false;
-  //     }
-  //   } catch (e) {
-  //     AppPrint.appError(e, title: "updateUserProfile");
-  //     return false;
-  //   }
-  // }
+      var response = await apiServices.apiPatchServices(
+        url: AppApiEndPoint.instance.profile,
+        body: formDataMap,
+      );
+
+      if (response != null) {
+        AppPrint.appLog("✅ Profile updated successfully");
+        return true;
+      } else {
+        AppPrint.appLog("❌ Profile update failed: Response is null");
+        return false;
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "updateUserProfile");
+      return false;
+    }
+  }
 
   Future<UserModelData?> getProfileData() async {
     try {

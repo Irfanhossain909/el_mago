@@ -1,6 +1,8 @@
+import 'package:el_mago/const/app_api_end_point.dart';
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/const/assets_icons_path.dart';
 import 'package:el_mago/routes/app_routes.dart';
+import 'package:el_mago/screens/profile_screen/controller/profile_controller.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_button/app_button.dart';
 import 'package:el_mago/widgets/app_image/app_image.dart';
@@ -12,162 +14,179 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatelessWidget {
+  // final ProfileController controller = Get.put(ProfileController());
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppbar(autoShowLeading: false, title: "Profile"),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(AppSize.width(value: 16)),
-              child: Row(
-                children: [
-                  AppImageCircular(
-                    fit: BoxFit.cover,
-                    url:
-                        "https://cdn.pixabay.com/photo/2016/12/07/21/01/cartoon-1890438_640.jpg",
-                    width: AppSize.width(value: 124),
-                    height: AppSize.width(value: 124),
+    return GetBuilder<ProfileController>(
+      init: ProfileController(),
+      builder: (controller) {
+        return Scaffold(
+          appBar: CustomAppbar(autoShowLeading: false, title: "Profile"),
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                Obx(() {
+                  return Padding(
+                    padding: EdgeInsets.all(AppSize.width(value: 16)),
+                    child: Row(
+                      children: [
+                        AppImageCircular(
+                          fit: BoxFit.cover,
+                          url:
+                              "${AppApiEndPoint.domain}${controller.profileData.value?.image}",
+                          width: AppSize.width(value: 124),
+                          height: AppSize.width(value: 124),
+                        ),
+                        Gap(width: AppSize.width(value: 20)),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+
+                          children: [
+                            AppText(
+                              data:
+                                  controller.profileData.value?.name ??
+                                  "Unknown",
+                              fontSize: AppSize.width(value: 18),
+                              fontWeight: FontWeight.w700,
+                              color: AppColor.black,
+                            ),
+                            Gap(height: AppSize.width(value: 8)),
+                            if (controller.profileData.value?.phone != null)
+                              AppText(
+                                data:
+                                    controller.profileData.value?.phone ??
+                                    "No Phone",
+                                fontSize: AppSize.width(value: 12),
+                                fontWeight: FontWeight.w400,
+                                // Use the text color from the current theme
+                                color: AppColor.black,
+                              ),
+                            Gap(height: 4),
+                            AppText(
+                              data:
+                                  controller.profileData.value?.address ??
+                                  "Dhaka, Bangladesh",
+                              fontSize: AppSize.width(value: 12),
+                              fontWeight: FontWeight.w400,
+                              // Use the text color from the current theme
+                              color: AppColor.black,
+                            ),
+                            Gap(height: AppSize.width(value: 12)),
+                            AppButton(
+                              onTap: () {
+                                Get.toNamed(
+                                  AppRoutes.instance.changeProfileScreen,
+                                );
+                              },
+                              title: "Edit Profile",
+
+                              width: AppSize.size.width * 0.3,
+                              height: AppSize.size.width * 0.1,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColor.white, // Background color of the container
+                    borderRadius: BorderRadius.circular(
+                      AppSize.width(value: 8),
+                    ), // Border radius
                   ),
-                  Gap(width: AppSize.width(value: 20)),
-                  Column(
+                  padding: EdgeInsets.all(24),
+                  child: Column(
+                    spacing: AppSize.size.height * 0.04,
                     crossAxisAlignment: CrossAxisAlignment.start,
-
                     children: [
-                      AppText(
-                        data: "Sabbir Ahmed",
-                        fontSize: AppSize.width(value: 18),
-                        fontWeight: FontWeight.w700,
-                        color: AppColor.black,
-                      ),
-                      Gap(height: AppSize.width(value: 8)),
-                      AppText(
-                        data: "012345-678912",
-                        fontSize: AppSize.width(value: 12),
-                        fontWeight: FontWeight.w400,
-                        // Use the text color from the current theme
-                        color: AppColor.black,
-                      ),
-                      Gap(height: 4),
-                      AppText(
-                        data: "Dhaka, Bangladesh",
-                        fontSize: AppSize.width(value: 12),
-                        fontWeight: FontWeight.w400,
-                        // Use the text color from the current theme
-                        color: AppColor.black,
-                      ),
-                      Gap(height: AppSize.width(value: 12)),
-                      AppButton(
+                      ProfileRow(
+                        iconPath: AssetsPath.pass,
                         onTap: () {
-                          Get.toNamed(AppRoutes.instance.changeProfileScreen);
+                          Get.toNamed(AppRoutes.instance.changePasswordScreen);
                         },
-                        title: "Edit Profile",
+                        text: "Password",
+                      ),
+                      ProfileRow(
+                        iconPath: AssetsPath.terms,
+                        onTap: () {
+                          Get.toNamed(AppRoutes.instance.termScreen);
+                        },
+                        text: "Terms & Conditions",
+                      ),
+                      ProfileRow(
+                        iconPath: AssetsPath.privicy,
+                        onTap: () {
+                          Get.toNamed(AppRoutes.instance.privicyScreen);
+                        },
+                        text: "Privacy Policy",
+                      ),
 
-                        width: AppSize.size.width * 0.3,
-                        height: AppSize.size.width * 0.1,
+                      ProfileRow(
+                        iconPath: AssetsPath.logout,
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return LogOutpopUp();
+                            },
+                          );
+                        },
+                        text: "Log Out",
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+
+                // if (roll == "employee")
+                //   AppCard(
+                //     child: Column(
+                //       spacing: AppSize.size.height * 0.03,
+                //       children: [
+                //         ProfileRow(
+                //           iconPath: AssetsPath.editBio,
+                //           onTap: () {},
+                //           text: "Edit Bio",
+                //         ),
+                //         ProfileRow(
+                //           iconPath: AssetsPath.editQualification,
+                //           onTap: () {},
+                //           text: "Edit Qualification",
+                //         ),
+                //         ProfileRow(
+                //           iconPath: AssetsPath.employeeMedicale,
+                //           onTap: () {},
+                //           text: "Employee Medical Statement",
+                //         ),
+                //         ProfileRow(
+                //           iconPath: AssetsPath.qualificationDocument,
+                //           onTap: () {},
+                //           text: "Qualification Documents",
+                //         ),
+                //         ProfileRow(
+                //           iconPath: AssetsPath.logout,
+                //           onTap: () {
+                //             showDialog(
+                //               context: context,
+                //               builder: (BuildContext context) {
+                //                 return LogOutpopUp();
+                //               },
+                //             );
+                //           },
+                //           text: "Log Out",
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+              ],
             ),
-
-            Container(
-              decoration: BoxDecoration(
-                color: AppColor.white, // Background color of the container
-                borderRadius: BorderRadius.circular(
-                  AppSize.width(value: 8),
-                ), // Border radius
-              ),
-              padding: EdgeInsets.all(24),
-              child: Column(
-                spacing: AppSize.size.height * 0.04,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ProfileRow(
-                    iconPath: AssetsPath.pass,
-                    onTap: () {
-                      Get.toNamed(AppRoutes.instance.changePasswordScreen);
-                    },
-                    text: "Password",
-                  ),
-                  ProfileRow(
-                    iconPath: AssetsPath.terms,
-                    onTap: () {
-                      Get.toNamed(AppRoutes.instance.termScreen);
-                    },
-                    text: "Terms & Conditions",
-                  ),
-                  ProfileRow(
-                    iconPath: AssetsPath.privicy,
-                    onTap: () {
-                      Get.toNamed(AppRoutes.instance.privicyScreen);
-                    },
-                    text: "Privacy Policy",
-                  ),
-
-                  ProfileRow(
-                    iconPath: AssetsPath.logout,
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return LogOutpopUp();
-                        },
-                      );
-                    },
-                    text: "Log Out",
-                  ),
-                ],
-              ),
-            ),
-
-            // if (roll == "employee")
-            //   AppCard(
-            //     child: Column(
-            //       spacing: AppSize.size.height * 0.03,
-            //       children: [
-            //         ProfileRow(
-            //           iconPath: AssetsPath.editBio,
-            //           onTap: () {},
-            //           text: "Edit Bio",
-            //         ),
-            //         ProfileRow(
-            //           iconPath: AssetsPath.editQualification,
-            //           onTap: () {},
-            //           text: "Edit Qualification",
-            //         ),
-            //         ProfileRow(
-            //           iconPath: AssetsPath.employeeMedicale,
-            //           onTap: () {},
-            //           text: "Employee Medical Statement",
-            //         ),
-            //         ProfileRow(
-            //           iconPath: AssetsPath.qualificationDocument,
-            //           onTap: () {},
-            //           text: "Qualification Documents",
-            //         ),
-            //         ProfileRow(
-            //           iconPath: AssetsPath.logout,
-            //           onTap: () {
-            //             showDialog(
-            //               context: context,
-            //               builder: (BuildContext context) {
-            //                 return LogOutpopUp();
-            //               },
-            //             );
-            //           },
-            //           text: "Log Out",
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

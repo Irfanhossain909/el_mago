@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
+import 'package:el_mago/const/assets_icons_path.dart';
+import 'package:el_mago/utils/app_size.dart';
 import 'package:flutter/material.dart';
 
 class AppImageCircular extends StatelessWidget {
@@ -49,11 +50,12 @@ class AppImageCircular extends StatelessWidget {
               log("Error loading file image: $error");
               return ClipRRect(
                 borderRadius: BorderRadius.circular(borderRadius),
-                child: Container(
-                  width: width,
-                  height: height,
-                  color: Colors.pinkAccent,
-                ),
+                child: AppImageCircular(path: AssetsPath.placeHolder),
+                // child: Container(
+                //   width: width,
+                //   height: height,
+                //   color: Colors.pinkAccent,
+                // ),
               );
             },
           ),
@@ -88,11 +90,15 @@ class AppImageCircular extends StatelessWidget {
               log("Error loading network image: $error");
               return ClipRRect(
                 borderRadius: BorderRadius.circular(borderRadius),
-                child: Container(
-                  width: width,
-                  height: height,
-                  color: Colors.pinkAccent,
+                child: AppImageCircular(
+                  width: AppSize.size.width * 0.33,
+                  path: AssetsPath.placeHolder,
                 ),
+                // child: Container(
+                //   width: width,
+                //   height: height,
+                //   color: Colors.pinkAccent,
+                // ),
               );
             },
             loadingBuilder: (context, child, loadingProgress) {
@@ -101,12 +107,16 @@ class AppImageCircular extends StatelessWidget {
               }
               return ClipRRect(
                 borderRadius: BorderRadius.circular(borderRadius),
-                child: Container(
-                  width: width,
-                  height: height,
-                  color: Colors.pinkAccent,
-                  child: const CupertinoActivityIndicator(color: Colors.black),
+                child: AppImageCircular(
+                  width: AppSize.size.width * 0.33,
+                  path: AssetsPath.placeHolder,
                 ),
+                // child: Container(
+                //   width: width,
+                //   height: height,
+                //   color: Colors.pinkAccent,
+                //   child: const CupertinoActivityIndicator(color: Colors.black),
+                // ),
               );
             },
           ),
@@ -135,11 +145,15 @@ class AppImageCircular extends StatelessWidget {
               log("Error loading asset image: $error");
               return ClipRRect(
                 borderRadius: BorderRadius.circular(borderRadius),
-                child: Container(
-                  width: width,
-                  height: height,
-                  color: Colors.pinkAccent,
+                child: AppImageCircular(
+                  width: AppSize.size.width * 0.33,
+                  path: AssetsPath.placeHolder,
                 ),
+                // child: Container(
+                //   width: width,
+                //   height: height,
+                //   color: Colors.pinkAccent,
+                // ),
               );
             },
           ),
@@ -163,5 +177,3 @@ class AppImageCircular extends StatelessWidget {
     );
   }
 }
-
-

@@ -66,4 +66,4 @@ class CustomDropdown<T> extends StatelessWidget {
   }
 }
 
-class AssetsIconsPath {}
+

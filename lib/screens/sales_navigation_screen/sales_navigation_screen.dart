@@ -47,7 +47,7 @@ class SalesNavigationScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: AppColor.black.withOpacity(0.3),
+                    color: AppColor.black.withValues(alpha: 0.3),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),

@@ -1,5 +1,2 @@
-// class Roles {
-//   String salesRep = "SalesRep";
-//   String retailer = "Retailer";
-// }
+// ignore: constant_identifier_names
 enum Role { SALES, RETAILER }
