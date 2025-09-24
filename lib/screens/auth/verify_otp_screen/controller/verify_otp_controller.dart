@@ -61,10 +61,10 @@ class VerifyOtpController extends GetxController {
       );
       if (response) {
         String role = getStorageServices.getUserRole();
-        if (role == Role.RETAILER) {
+        if (role == Role.RETAILER.name) {
           Get.snackbar("Success", "You are a retailer");
         }
-        if (role == Role.SALES) {
+        if (role == Role.SALES.name) {
           Get.snackbar("Success", "You are a sales");
         }
         Get.snackbar("Successsfull !!!", "");

@@ -20,7 +20,7 @@ class AppApiEndPoint {
   final String authLogin = "/auth/login";
   final String signup = "/users";
   final String verifyEmail = "/auth/verify-email";
-  final String resendOtp = "/resend-otp";
+  final String resendOtp = "/auth/resend-otp";
   final String forgetPassword = "/auth/forget-password";
   final String resetPassword = "/auth/reset-password";
   final String changePassword = "/auth/change-password";
