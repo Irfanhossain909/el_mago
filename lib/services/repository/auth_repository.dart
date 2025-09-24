@@ -14,36 +14,39 @@ class AuthRepository {
   static final AuthRepository instance = AuthRepository._();
   GetStorageServices storageServices = GetStorageServices.instance;
 
-  // Future<dynamic> login({required String email, required String password}) async {
-  //   try {
-  //     Map<String, String> body = {"email": email, "password": password};
-  //     appInPutUnfocused();
-  //     var response = await nonAuthApi.sendRequest.post(AppApiEndPoint.instance.authLogin, data: body);
-  //     if (response.statusCode == 200 && response.data != null) {
-  //       String accessToken = response.data["data"]["accessToken"];
-  //       storageServices.setToken(accessToken);
+  Future<bool> login({required String email, required String password}) async {
+    try {
+      Map<String, String> body = {"email": email, "password": password};
+      appInPutUnfocused();
+      var response = await nonAuthApi.sendRequest.post(
+        AppApiEndPoint.instance.authLogin,
+        data: body,
+      );
+      if (response.statusCode == 200 && response.data != null) {
+        String accessToken = response.data["data"]["accessToken"];
+        storageServices.setToken(accessToken);
 
-  //       String userId = response.data["data"]["userId"];
-  //       storageServices.setUID(userId);
-  //       AppPrint.apiResponse(userId, title: "User Id Saved");
+        return true;
+      } else {
+        // Handle the error if the response or data is null
+        AppPrint.apiResponse("Error: Access Token not found!");
+      }
 
-  //       return response.data;
-  //     } else {
-  //       // Handle the error if the response or data is null
-  //       AppPrint.apiResponse("Error: Access Token not found!");
-  //     }
+      return false;
+    } on DioException catch (error) {
+      if (error.response?.data["message"].runtimeType != null) {
+        Get.snackbar(
+          "error",
+          "${error.response?.data["message"] ?? "Something went wrong"}",
+        );
+      }
+      return false;
+    } catch (e) {
+      errorLog("login", e);
+      return false;
+    }
+  }
 
-  //     return false;
-  //   } on DioException catch (error) {
-  //     if (error.response?.data["message"].runtimeType != null) {
-  //       Get.snackbar("error", "${error.response?.data["message"] ?? "Something went wrong"}");
-  //     }
-  //     return false;
-  //   } catch (e) {
-  //     errorLog("login", e);
-  //     return false;
-  //   }
-  // }
   Future<bool> forgetEmailSend({required String email}) async {
     Map<String, String> body = {"email": email};
     try {

@@ -5,6 +5,7 @@ class AppRoutes {
   /////////////  initial or splash screen
   final String initial = "/";
   final String retailerNavigationScreen = "/retailer-navigation-screen";
+  final String salesNavigationScreen = "/sales-navigation-screen";
   final String signupScreen = "/sign-up-screen";
   final String signinScreen = "/sign-in-screen";
   final String forgetPasswordScreen = "/forget-password-screen";

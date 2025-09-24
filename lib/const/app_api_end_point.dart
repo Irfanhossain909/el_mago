@@ -25,48 +25,16 @@ class AppApiEndPoint {
   final String resetPassword = "/auth/reset-password";
   final String changePassword = "/auth/change-password";
   final String googleAuthLogin = "/user/google-auth";
-  ////////////////////// user part
-  final String getUserRecomendedService = "/wcservice/highest-rated";
-  final String getUserAllServiceCategory = "/service";
-  final String providerAllService = "/wcservice";
-  final String getUserPortfolio = "/portfolio/me";
-  final String userBooking = "/booking";
-  final String getUserProfile = "/user/profile";
-  final String banner = "/banner";
-  final String about = "/rule/about";
-  final String termsAndCondition = "/rule/terms-and-conditions";
-  final String privicyAndPolicy = "/rule/privacy-policy";
-  final String faqContent = "/faq/get";
-  final String bookmark = "/bookmark";
-  final String providerAddService = "/wcservice/create-servicewc";
-  final String notification = "/notification/admin";
-  final String notificationForCustomer = "/notification";
-  final String serviceBooking = "/booking/service-provider/";
-  final String statusDataForProvider = "/booking/booking-status";
-  final String providerDeleteService = "/wcservice/";
-  final String plandetails = "/package";
+  
+  /////////////////////App body
+  final String profile = "/users/profile";
+  
 
   ///////////////////// payment related
   final String payment = "/payment/create-session";
   // final String paymentDashboard = "/payment/dashboard";
   ///////////////////// vendor
-  final String vendorProfile = "/vendor/profile";
-  final String vendorProfileUpdate = "/vendor";
-  final String vendorBusinessInformationUpdate = "/vendor/business-information";
-  final String vendorStatisticRevenue = "/vendor/statistic/revenue/";
-  final String vendorStatisticRetention = "/vendor/statistic/retention/";
-  final String vendorStatisticOrder = "/vendor/statistic/order/";
-  final String vendorService = "/service";
-  final String vendorServiceList = "/service/vendor";
-  final String vendorPackage = "/package";
-  final String vendorOrderStatus = "/order/user/";
-  final String orderAcceptReject = "/order/accept-reject";
-  final String vendorOrderStartDelivery = "/order/start-delivery";
-  final String servicesForProvider =
-      "/booking/admin/booking-status/details?status=";
-  final String updateServiceStatus = "/booking/";
-  final String getPortFolio = "/portfolio/me/all";
-  final String getPortFoliospecificProvider = "/portfolio/me";
+  
 
   /////////////////////  message or conversion
   final String chatList = "/chat";

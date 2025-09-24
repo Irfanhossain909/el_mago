@@ -1,10 +1,11 @@
 import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/routes/bindings/app_binding.dart';
-import 'package:el_mago/screens/app_navigation_screen/retailer_navigation_screen.dart';
+import 'package:el_mago/screens/retailer_navigation_screen/retailer_navigation_screen.dart';
 import 'package:el_mago/screens/auth/create_your_password_screen/create_your_password_screen.dart';
 import 'package:el_mago/screens/auth/forget_pass_screen/forget_pass_screen.dart';
 import 'package:el_mago/screens/auth/sign_in_screen/sign_in_screen.dart';
 import 'package:el_mago/screens/auth/sign_up_screen/sign_up_screen.dart';
+import 'package:el_mago/screens/auth/splash_screen/splash_screen.dart';
 import 'package:el_mago/screens/auth/verify_otp_screen/verify_otp_screen.dart';
 import 'package:el_mago/screens/chnage_pass_screen/change_pass_screen.dart';
 import 'package:el_mago/screens/chnage_profile_info/chnage_profile_screen.dart';
@@ -14,22 +15,28 @@ import 'package:el_mago/screens/retailer_dash_board/retailer_dash_board.dart';
 import 'package:el_mago/screens/retailer_my_order_screen/retailer_my_order_screen.dart';
 import 'package:el_mago/screens/retailer_order_details_screen/retailer_order_details_screen.dart';
 import 'package:el_mago/screens/retailer_shopping_cart/retailer_shopping_cart.dart';
+import 'package:el_mago/screens/sales_navigation_screen/sales_navigation_screen.dart';
 import 'package:el_mago/screens/terms_screen/terms_screen.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
 List<GetPage> appRootRoutesFile = <GetPage>[
   //   /////////////////  splash screen start
-  // GetPage(
-  //   name: AppRoutes.instance.initial,
-  //   binding: AuthBinding(),
-  //   page: () => const SplashScreen(),
-  //   transitionDuration: Duration(milliseconds: 800),
-  //   opaque: false,
-  // ),
+  GetPage(
+    name: AppRoutes.instance.initial,
+    binding: AppBinding(),
+    page: () => const SplashScreen(),
+    transitionDuration: Duration(milliseconds: 800),
+    opaque: false,
+  ),
   GetPage(
     name: AppRoutes.instance.retailerNavigationScreen,
     binding: AppBinding(),
     page: () => const RetailerNavigationScreen(),
+  ),
+  GetPage(
+    name: AppRoutes.instance.salesNavigationScreen,
+    binding: AppBinding(),
+    page: () => const SalesNavigationScreen(),
   ),
   GetPage(
     name: AppRoutes.instance.signupScreen,
