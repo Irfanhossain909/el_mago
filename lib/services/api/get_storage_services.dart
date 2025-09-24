@@ -139,12 +139,12 @@ class GetStorageServices {
       // await box.remove(
       //   AppStorageKey.instance.setFullFill,
       // ); // Remove profile completion status
-      await box.remove(
-        AppStorageKey.instance.language,
-      ); // Remove language preference
-      await box.remove(
-        AppStorageKey.instance.country,
-      ); // Remove country preference
+      // await box.remove(
+      //   AppStorageKey.instance.language,
+      // ); // Remove language preference
+      // await box.remove(
+      //   AppStorageKey.instance.country,
+      // ); // Remove country preference
 
       // Save changes
       await box.save();
@@ -159,7 +159,7 @@ class GetStorageServices {
   Future<void> completeLogout() async {
     try {
       await storageClear();
-      // Navigate to sign in screen and remove all previous routes
+      
       Get.offAllNamed(AppRoutes.instance.signinScreen);
     } catch (e) {
       errorLog("completeLogout", e);

@@ -1,12 +1,13 @@
 import 'package:el_mago/models/user_model/user_model.dart';
+import 'package:el_mago/services/api/get_storage_services.dart';
 import 'package:el_mago/services/repository/profile_repository.dart';
 import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
   //all repository
-
   ProfileRepository profileRepository = ProfileRepository.instance;
+  GetStorageServices getStorageServices = GetStorageServices.instance;
 
   ///Model variables
   Rxn<UserModelData> profileData = Rxn<UserModelData>();
@@ -28,6 +29,10 @@ class ProfileController extends GetxController {
     }
   }
 
+  //logout function
+  void logout () async {
+    await getStorageServices.completeLogout();
+  }
   @override
   void onInit() {
     fetchProfileData();

@@ -1,9 +1,6 @@
 import 'dart:io';
-
-import 'package:el_mago/const/app_api_end_point.dart';
 import 'package:el_mago/screens/profile_screen/controller/profile_controller.dart';
 import 'package:el_mago/services/repository/profile_repository.dart';
-import 'package:el_mago/widgets/app_image/app_image.dart';
 import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:el_mago/widgets/app_text/app_text.dart';
 import 'package:flutter/material.dart';

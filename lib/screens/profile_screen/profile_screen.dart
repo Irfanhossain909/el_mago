@@ -132,7 +132,11 @@ class ProfileScreen extends StatelessWidget {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return LogOutpopUp();
+                              return LogOutpopUp(
+                                onTap: () {
+                                  controller.logout();
+                                },
+                              );
                             },
                           );
                         },
@@ -192,7 +196,8 @@ class ProfileScreen extends StatelessWidget {
 }
 
 class LogOutpopUp extends StatelessWidget {
-  const LogOutpopUp({super.key});
+  final Function? onTap;
+  const LogOutpopUp({super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -241,9 +246,7 @@ class LogOutpopUp extends StatelessWidget {
               Gap(width: 20),
               Expanded(
                 child: AppButton(
-                  onTap: () {
-                    // Get.offAllNamed(AppRoutes.instance.authScreen);
-                  },
+                  onTap: onTap as void Function(),
                   height: 36,
                   title: "Logout",
                 ),

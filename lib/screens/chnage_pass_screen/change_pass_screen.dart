@@ -9,7 +9,6 @@ import 'package:el_mago/widgets/app_loading/app_loading.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:get/utils.dart';
 
 class ChangePassScreen extends StatelessWidget {
   const ChangePassScreen({super.key});
