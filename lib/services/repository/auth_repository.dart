@@ -134,6 +134,36 @@ class AuthRepository {
     return false;
   }
 
+  Future<dynamic> forgetEmailVerify({
+    required String email,
+    required int otp,
+  }) async {
+    Map<String, dynamic> body = {"email": email, "oneTimeCode": otp};
+    try {
+      var response = await nonAuthApi.sendRequest.post(
+        AppApiEndPoint.instance.verifyEmail,
+        data: body,
+      );
+      if (response.statusCode == 200 && response.data != null) {
+        AppPrint.apiResponse(
+          response.data["data"]["verifyToken"],
+          title: "Reset Token",
+        );
+        // String resetToket = response.data["data"]["accessToken"];
+        // AppPrint.apiResponse(storageServices.getToken(), title: "Store Token");
+        return response.data["data"]["verifyToken"];
+      } else {
+        // Handle the error if the response or data is null
+        AppPrint.apiResponse("Error: Access Token not found!");
+      }
+
+      return false;
+    } catch (e) {
+      AppPrint.appError(e.toString(), title: "Email Verify");
+    }
+    return false;
+  }
+
   // Future<dynamic> emailVerifyFormForgetPass({required String email, required String otp}) async {
   //   Map<String, dynamic> body = {"email": email, "oneTimeCode": otp};
   //   try {
@@ -257,35 +287,35 @@ class AuthRepository {
     }
   }
 
-  // Future<bool> resetPassword({required String newPassword, required String confirmPassword, required String resetToken}) async {
-  //   try {
-  //     appInPutUnfocused();
-  //     Map body = {"newPassword": newPassword, "confirmPassword": confirmPassword};
-  //     var response = await nonAuthApi.sendRequest.post(
-  //       AppApiEndPoint.instance.resetPassword,
-  //       data: body,
-  //       options: Options(
-  //         receiveTimeout: const Duration(minutes: 2),
-  //         sendTimeout: const Duration(minutes: 2),
-  //         headers: {"Accept": "application/json", "Authorization": resetToken},
-  //       ),
-  //     );
+  Future<bool> resetPassword({required String newPassword, required String confirmPassword, required String resetToken}) async {
+    try {
+      appInPutUnfocused();
+      Map body = {"newPassword": newPassword, "confirmPassword": confirmPassword};
+      var response = await nonAuthApi.sendRequest.post(
+        AppApiEndPoint.instance.resetPassword,
+        data: body,
+        options: Options(
+          receiveTimeout: const Duration(minutes: 2),
+          sendTimeout: const Duration(minutes: 2),
+          headers: {"Accept": "application/json", "resetToken": resetToken},
+        ),
+      );
 
-  //     if (response.statusCode == 200) {
-  //       AppPrint.appLog("confirm password repository response :: $response");
-  //       return true;
-  //     }
-  //     return false;
-  //   } on DioException catch (error) {
-  //     if (error.response?.data["message"].runtimeType != Null) {
-  //       AppSnackBar.message("${error.response?.data["message"] ?? "Something was wrong"}");
-  //     }
-  //     return false;
-  //   } catch (e) {
-  //     errorLog("resetPassword", e);
-  //     return false;
-  //   }
-  // }
+      if (response.statusCode == 200) {
+        AppPrint.appLog("confirm password repository response :: $response");
+        return true;
+      }
+      return false;
+    } on DioException catch (error) {
+      if (error.response?.data["message"].runtimeType != Null) {
+        Get.snackbar("Error", "${error.response?.data["message"] ?? "Something was wrong"}");
+      }
+      return false;
+    } catch (e) {
+      errorLog("resetPassword", e);
+      return false;
+    }
+  }
 
   // Future<bool> phoneLogin({required String phone}) async {
   //   try {

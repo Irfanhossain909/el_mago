@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:el_mago/const/role.dart';
 import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/services/api/get_storage_services.dart';
 import 'package:el_mago/services/repository/auth_repository.dart';
@@ -8,7 +7,7 @@ import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class VerifyOtpController extends GetxController {
+class ForgetPassVerifyOtpController extends GetxController {
   final RxInt _seconds = 0.obs;
   RxInt get seconds => _seconds;
   Timer? _timer;
@@ -56,25 +55,19 @@ class VerifyOtpController extends GetxController {
       if (valid) return;
 
       isLoading.value = true;
-      var response = await authRepository.emailVerify(
+      var response = await authRepository.forgetEmailVerify(
         email: email,
         otp: int.parse(otpTextEditingController.text),
       );
-      if (response) {
-        String role = getStorageServices.getUserRole();
-        if (role == Role.RETAILER.name) {
-          Get.offAllNamed(AppRoutes.instance.retailerNavigationScreen);
-          Get.snackbar("Success", "You are a retailer");
-        }
-        if (role == Role.SALES.name) {
-          Get.offAllNamed(AppRoutes.instance.salesNavigationScreen);
-          Get.snackbar("Success", "You are a sales");
-        }
-        Get.snackbar("Successsfull !!!", "");
+      if (response != null || response != false) {
+        Get.toNamed(
+          AppRoutes.instance.createNewPassScreen,
+          arguments: response,
+        );
       } else {
-        isLoading.value = false;
-        AppPrint.appPrint("forget password otp verify response false");
+        Get.snackbar("Failed", "Failed to verify OTP. Please try again later.");
       }
+      
     } catch (e) {
       AppPrint.appError(
         e.toString(),
@@ -130,7 +123,7 @@ class VerifyOtpController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    email = Get.arguments ?? '';
+    email = Get.arguments;
     startTimer();
   }
 

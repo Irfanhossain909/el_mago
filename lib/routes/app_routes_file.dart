@@ -1,5 +1,6 @@
 import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/routes/bindings/app_binding.dart';
+import 'package:el_mago/screens/auth/forgetpass_verify_otp_screen/forgetpass_verify_otp_screen.dart';
 import 'package:el_mago/screens/retailer_navigation_screen/retailer_navigation_screen.dart';
 import 'package:el_mago/screens/auth/create_your_password_screen/create_your_password_screen.dart';
 import 'package:el_mago/screens/auth/forget_pass_screen/forget_pass_screen.dart';
@@ -34,6 +35,16 @@ List<GetPage> appRootRoutesFile = <GetPage>[
     page: () => const RetailerNavigationScreen(),
   ),
   GetPage(
+    name: AppRoutes.instance.createNewPassScreen,
+    binding: AppBinding(),
+    page: () => const CreatePasswordScreen(),
+  ),
+  GetPage(
+    name: AppRoutes.instance.retailerNavigationScreen,
+    binding: AppBinding(),
+    page: () => const RetailerNavigationScreen(),
+  ),
+  GetPage(
     name: AppRoutes.instance.salesNavigationScreen,
     binding: AppBinding(),
     page: () => const SalesNavigationScreen(),
@@ -57,6 +68,11 @@ List<GetPage> appRootRoutesFile = <GetPage>[
     name: AppRoutes.instance.otpVerifyScreen,
     binding: AppBinding(),
     page: () => const VerifyOtpScreen(),
+  ),
+  GetPage(
+    name: AppRoutes.instance.forgetPassOtpVerifyScreen,
+    binding: AppBinding(),
+    page: () => const ForgetPassVerifyOtpScreen(),
   ),
   GetPage(
     name: AppRoutes.instance.createNewPassScreen,
