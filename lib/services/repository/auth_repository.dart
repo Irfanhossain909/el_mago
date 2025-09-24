@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:el_mago/const/app_api_end_point.dart';
+import 'package:el_mago/services/api/api_services.dart';
 import 'package:el_mago/services/api/app_in_put_unfocused.dart';
 import 'package:el_mago/services/api/get_storage_services.dart';
 import 'package:el_mago/services/api/non_auth_api.dart';
@@ -221,26 +222,40 @@ class AuthRepository {
   //   return false;
   // }
 
-  // Future<bool> changePassword({required String currentPassword, required String newPassword, required String confirmPassword}) async {
-  //   try {
-  //     appInPutUnfocused();
-  //     Map body = {"currentPassword": currentPassword, "newPassword": newPassword, "confirmPassword": confirmPassword};
-  //     var response = await ApiServices.instance.apiPostServices(url: AppApiEndPoint.instance.chnagePassword, body: body);
-  //     if (response != null) {
-  //       AppPrint.appLog("confirm password repository response :: $response");
-  //       return true;
-  //     }
-  //     return false;
-  //   } on DioException catch (error) {
-  //     if (error.response?.data["message"].runtimeType != Null) {
-  //       AppSnackBar.message("${error.response?.data["message"] ?? "Something was wrong"}");
-  //     }
-  //     return false;
-  //   } catch (e) {
-  //     errorLog("resetPassword", e);
-  //     return false;
-  //   }
-  // }
+  Future<bool> changePassword({
+    required String currentPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    try {
+      appInPutUnfocused();
+      Map body = {
+        "currentPassword": currentPassword,
+        "newPassword": newPassword,
+        "confirmPassword": confirmPassword,
+      };
+      var response = await ApiServices.instance.apiPostServices(
+        url: AppApiEndPoint.instance.changePassword,
+        body: body,
+      );
+      if (response != null) {
+        AppPrint.appLog("confirm password repository response :: $response");
+        return true;
+      }
+      return false;
+    } on DioException catch (error) {
+      if (error.response?.data["message"].runtimeType != Null) {
+        Get.snackbar(
+          "Error",
+          "${error.response?.data["message"] ?? "Something was wrong"}",
+        );
+      }
+      return false;
+    } catch (e) {
+      errorLog("resetPassword", e);
+      return false;
+    }
+  }
 
   // Future<bool> resetPassword({required String newPassword, required String confirmPassword, required String resetToken}) async {
   //   try {
