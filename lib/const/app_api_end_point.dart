@@ -9,8 +9,9 @@ class AppApiEndPoint {
   //app use base
   static final String domain = _getDomain();
   final String baseUrl = "$domain/api/v1";
-  ////////////////////// Product Dashboard
+  ////////////////////// Sales Product Dashboard
   final String getProducts = "/retailer/dashboard/get-products";
+  final String getMyRetailers = "/sales/dashboard/my-retailers";
 
   final String refreshToken = "/auth/refresh-token";
   final String user = "/user";

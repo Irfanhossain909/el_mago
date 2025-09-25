@@ -68,7 +68,7 @@ class SalesShoppingCartScreen extends StatelessWidget {
                   ),
                   SizedBox(height: AppSize.height(value: 20)),
                   // These can be replaced with actual dropdowns and text fields later
-                  _buildPlaceholderInput("Select Retailer"),
+                  _buildRetailerDropdown(controller),
                   SizedBox(height: AppSize.height(value: 15)),
                   _buildPlaceholderInput("Due on Receipt"),
                   SizedBox(height: AppSize.height(value: 15)),
@@ -139,6 +139,41 @@ class SalesShoppingCartScreen extends StatelessWidget {
         );
       }),
     );
+  }
+
+  Widget _buildRetailerDropdown(SalesShoppingCartController controller) {
+    return Obx(() {
+      if (controller.isRetailerLoading.value) {
+        return const Center(
+          child: CircularProgressIndicator(color: Colors.white),
+        );
+      }
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(
+          color: AppColor.white.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<String>(
+            value: controller.selectedRetailerId.value,
+            isExpanded: true,
+            hint: const AppText(data: "Select Retailer", color: AppColor.white),
+            icon: const Icon(Icons.arrow_drop_down, color: AppColor.white),
+            dropdownColor: AppColor.blue,
+            items: controller.retailers.map((retailer) {
+              return DropdownMenuItem<String>(
+                value: retailer.id,
+                child: AppText(data: retailer.name, color: AppColor.white),
+              );
+            }).toList(),
+            onChanged: (newValue) {
+              controller.selectRetailer(newValue);
+            },
+          ),
+        ),
+      );
+    });
   }
 
   Widget _buildSummaryRow(String title, String value) {
