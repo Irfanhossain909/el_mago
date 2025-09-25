@@ -39,6 +39,13 @@ class AssetsPath {
   static const String addressCard = "assets/icons/address_card.png";
   static const String tag = "assets/icons/tag.png";
 
+  //sales
+  static const String retailerManagement =
+      "assets/icons/retailer_management.png";
+  static const String salesMyOrder = "assets/icons/sales_myorder.png";
+  static const String commisionBreakdown =
+      "assets/icons/commision_breakdown.png";
+
   //////////////////////Image//////////////////////////////////////
 
   static const String placeHolder = "assets/images/placeholder.png";

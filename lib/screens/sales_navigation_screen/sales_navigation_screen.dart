@@ -4,8 +4,11 @@ import 'package:el_mago/screens/auth/verify_otp_screen/verify_otp_screen.dart';
 import 'package:el_mago/screens/chnage_pass_screen/change_pass_screen.dart';
 import 'package:el_mago/screens/profile_screen/profile_screen.dart';
 import 'package:el_mago/screens/retailer_my_order_screen/retailer_my_order_screen.dart';
+import 'package:el_mago/screens/sales_commision_breakdown/sales_commision_breakdown_screen.dart';
 import 'package:el_mago/screens/sales_dash_board/sales_dash_board.dart';
+import 'package:el_mago/screens/sales_my_order/sales_my_order_screen.dart';
 import 'package:el_mago/screens/sales_navigation_screen/controller/sales_navigation_screen_controller.dart';
+import 'package:el_mago/screens/sales_retailer_management/controller/sales_retailer_management_screen.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_image/app_image.dart';
 import 'package:flutter/material.dart';
@@ -25,10 +28,9 @@ class SalesNavigationScreen extends StatelessWidget {
               index: controller.selectedIndex.value,
               children: [
                 SalesDashBoard(),
-                RetailerMyOrderScreen(),
-                VerifyOtpScreen(),
-
-                ChangePassScreen(),
+                SalesRetailerManagementScreen(),
+                SalesMyOrderScreen(),
+                SalesCommisionBreakdownScreen(),
                 ProfileScreen(),
               ],
             ),
@@ -62,9 +64,9 @@ class SalesNavigationScreen extends StatelessWidget {
                     final isSelected = controller.selectedIndex.value == index;
                     final iconPaths = [
                       AssetsPath.nav1,
-                      AssetsPath.nav5,
-                      AssetsPath.nav3,
-                      AssetsPath.nav2,
+                      AssetsPath.retailerManagement,
+                      AssetsPath.salesMyOrder,
+                      AssetsPath.commisionBreakdown,
                       AssetsPath.nav4,
                     ];
 
