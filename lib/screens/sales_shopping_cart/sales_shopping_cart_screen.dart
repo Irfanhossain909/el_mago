@@ -3,28 +3,29 @@ import 'package:el_mago/screens/sales_shopping_cart/controller/sales_shopping_ca
 import 'package:el_mago/screens/sales_shopping_cart/widgets/sales_shopping_cart_card.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_text/app_text.dart';
+import 'package:el_mago/widgets/app_text/custom_text.dart';
+import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 
 class SalesShoppingCartScreen extends StatelessWidget {
   const SalesShoppingCartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final SalesShoppingCartController controller = Get.find<SalesShoppingCartController>();
+    final SalesShoppingCartController controller =
+        Get.find<SalesShoppingCartController>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Shopping Cart'),
-        backgroundColor: Colors.white,
-        elevation: 1,
-      ),
+      appBar: CustomAppbar(title: 'Shopping Cart', autoShowLeading: true),
       backgroundColor: Colors.white,
       body: Obx(() {
         if (controller.cartItems.isEmpty) {
           return const Center(
-            child: Text('Your Cart is Empty', style: TextStyle(fontSize: 18, color: Colors.grey)),
+            child: Text(
+              'Your Cart is Empty',
+              style: TextStyle(fontSize: 18, color: Colors.grey),
+            ),
           );
         }
         return Column(
@@ -32,7 +33,9 @@ class SalesShoppingCartScreen extends StatelessWidget {
             // List of Cart Items
             Expanded(
               child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: AppSize.width(value: 20)),
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppSize.width(value: 20),
+                ),
                 itemCount: controller.cartItems.length,
                 itemBuilder: (context, index) {
                   final item = controller.cartItems[index];
@@ -57,20 +60,36 @@ class SalesShoppingCartScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const AppText(data: "Order Details", color: AppColor.white, fontSize: 18, fontWeight: FontWeight.bold),
+                  const AppText(
+                    data: "Order Details",
+                    color: AppColor.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                   SizedBox(height: AppSize.height(value: 20)),
                   // These can be replaced with actual dropdowns and text fields later
                   _buildPlaceholderInput("Select Retailer"),
                   SizedBox(height: AppSize.height(value: 15)),
-                   _buildPlaceholderInput("Due on Receipt"),
+                  _buildPlaceholderInput("Due on Receipt"),
                   SizedBox(height: AppSize.height(value: 15)),
-                   _buildPlaceholderInput("Enter Notes", maxLines: 3),
+                  _buildPlaceholderInput("Enter Notes", maxLines: 3),
                   SizedBox(height: AppSize.height(value: 20)),
-                  const AppText(data: "Shopping Cart", color: AppColor.white, fontSize: 18, fontWeight: FontWeight.bold),
-                   SizedBox(height: AppSize.height(value: 15)),
-                  _buildSummaryRow("Total Box:", controller.totalBox.toString()),
+                  const AppText(
+                    data: "Shopping Cart",
+                    color: AppColor.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  SizedBox(height: AppSize.height(value: 15)),
+                  _buildSummaryRow(
+                    "Total Box:",
+                    controller.totalBox.toString(),
+                  ),
                   SizedBox(height: AppSize.height(value: 10)),
-                  _buildSummaryRow("Total Amount:", "\$${controller.totalAmount.toStringAsFixed(2)}"),
+                  _buildSummaryRow(
+                    "Total Amount:",
+                    "\$${controller.totalAmount.toStringAsFixed(2)}",
+                  ),
                   SizedBox(height: AppSize.height(value: 20)),
                   Row(
                     children: [
@@ -78,30 +97,44 @@ class SalesShoppingCartScreen extends StatelessWidget {
                         child: OutlinedButton(
                           onPressed: controller.removeAllItems,
                           style: OutlinedButton.styleFrom(
-                             side: const BorderSide(color: AppColor.white),
-                             padding: const EdgeInsets.symmetric(vertical: 16),
-                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                            side: const BorderSide(color: AppColor.white),
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
-                          child: const AppText(data: "Remove All", color: AppColor.white, fontWeight: FontWeight.bold),
+                          child: const AppText(
+                            data: "Remove All",
+                            color: AppColor.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       SizedBox(width: AppSize.width(value: 15)),
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () { /* Handle Place Order Later */ },
-                           style: ElevatedButton.styleFrom(
-                             backgroundColor: AppColor.white,
-                             padding: const EdgeInsets.symmetric(vertical: 16),
-                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                          onPressed: () {
+                            /* Handle Place Order Later */
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColor.white,
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                           ),
-                          child: AppText(data: "Place Order", color: AppColor.blue, fontWeight: FontWeight.bold),
+                          child: AppText(
+                            data: "Place Order",
+                            color: AppColor.blue,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         );
       }),
@@ -113,12 +146,17 @@ class SalesShoppingCartScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AppText(data: title, color: AppColor.white, fontSize: 16),
-        AppText(data: value, color: AppColor.white, fontSize: 18, fontWeight: FontWeight.bold),
+        AppText(
+          data: value,
+          color: AppColor.white,
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
       ],
     );
   }
 
-   Widget _buildPlaceholderInput(String hint, {int maxLines = 1}) {
+  Widget _buildPlaceholderInput(String hint, {int maxLines = 1}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
@@ -129,8 +167,8 @@ class SalesShoppingCartScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           AppText(data: hint, color: AppColor.white),
-          if(maxLines == 1)
-          const Icon(Icons.arrow_drop_down, color: AppColor.white),
+          if (maxLines == 1)
+            const Icon(Icons.arrow_drop_down, color: AppColor.white),
         ],
       ),
     );

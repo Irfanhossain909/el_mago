@@ -3,6 +3,7 @@ import 'package:el_mago/const/assets_icons_path.dart';
 import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/screens/sales_dash_board/controller/sales_dashboard_controller.dart';
 import 'package:el_mago/screens/sales_dash_board/widget/product_information_card.dart';
+import 'package:el_mago/screens/sales_shopping_cart/controller/sales_shopping_cart_controller.dart';
 import 'package:el_mago/widgets/app_input/app_input_widget_two.dart';
 import 'package:el_mago/widgets/app_text/custom_text.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
@@ -14,10 +15,11 @@ class SalesDashBoardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Safely find the controller instance that was initialized by AppBindings.
-    // This will throw an error if the controller isn't registered, which helps catch issues early.
     final SalesDashboardController controller =
         Get.find<SalesDashboardController>();
+
+    final SalesShoppingCartController cartController =
+        Get.find<SalesShoppingCartController>();
 
     return Scaffold(
       appBar: CustomAppbar(
@@ -91,6 +93,7 @@ class SalesDashBoardScreen extends StatelessWidget {
                       return ProductInformationCard(
                         product: product,
                         onTap: () {
+                          cartController.addProductToCart(product);
                           Get.snackbar(
                             duration: const Duration(seconds: 1),
                             snackPosition: SnackPosition.TOP,

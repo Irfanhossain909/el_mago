@@ -10,19 +10,6 @@ class SalesShoppingCartController extends GetxController {
   // Observable list to hold the items in the shopping cart
   var cartItems = <CartItemModel>[].obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    // For demonstration, let's add the first product from the global list to the cart if available.
-    // In a real app, you would add items based on user actions from the dashboard.
-    if (globalController.masterProductList.isNotEmpty) {
-      addProductToCart(globalController.masterProductList.first);
-      if (globalController.masterProductList.length > 1) {
-        addProductToCart(globalController.masterProductList[1]);
-      }
-    }
-  }
-
   // Method to add a product to the cart
   void addProductToCart(ProductModel product) {
     // Check if the product is already in the cart
