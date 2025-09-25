@@ -1,11 +1,8 @@
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/const/assets_icons_path.dart';
-import 'package:el_mago/screens/auth/verify_otp_screen/verify_otp_screen.dart';
-import 'package:el_mago/screens/chnage_pass_screen/change_pass_screen.dart';
 import 'package:el_mago/screens/profile_screen/profile_screen.dart';
-import 'package:el_mago/screens/retailer_my_order_screen/retailer_my_order_screen.dart';
 import 'package:el_mago/screens/sales_commision_breakdown/sales_commision_breakdown_screen.dart';
-import 'package:el_mago/screens/sales_dash_board/sales_dash_board.dart';
+import 'package:el_mago/screens/sales_dash_board/sales_dash_board_screen.dart';
 import 'package:el_mago/screens/sales_my_order/sales_my_order_screen.dart';
 import 'package:el_mago/screens/sales_navigation_screen/controller/sales_navigation_screen_controller.dart';
 import 'package:el_mago/screens/sales_retailer_management/controller/sales_retailer_management_screen.dart';
@@ -27,7 +24,7 @@ class SalesNavigationScreen extends StatelessWidget {
             () => IndexedStack(
               index: controller.selectedIndex.value,
               children: [
-                SalesDashBoard(),
+                SalesDashBoardScreen(),
                 SalesRetailerManagementScreen(),
                 SalesMyOrderScreen(),
                 SalesCommisionBreakdownScreen(),
