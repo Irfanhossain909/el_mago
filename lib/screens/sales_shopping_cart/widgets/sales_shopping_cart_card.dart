@@ -20,8 +20,10 @@ class ShoppingCartItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      //add elevation
       padding: EdgeInsets.symmetric(vertical: AppSize.height(value: 16)),
       decoration: BoxDecoration(
+        
         border: Border(
           bottom: BorderSide(color: Colors.grey.shade300, width: 1),
         ),
@@ -54,7 +56,11 @@ class ShoppingCartItemCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        AppText(data: title, color: AppColor.black),
+        AppText(
+          data: title,
+          color: AppColor.black,
+          fontWeight: FontWeight.w800,
+        ),
         AppText(
           data: value,
           color: AppColor.black,
@@ -68,7 +74,11 @@ class ShoppingCartItemCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        AppText(data: title, color: AppColor.black),
+        AppText(
+          data: title,
+          color: AppColor.black,
+          fontWeight: FontWeight.w800,
+        ),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
