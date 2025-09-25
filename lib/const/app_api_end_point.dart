@@ -9,6 +9,9 @@ class AppApiEndPoint {
   //app use base
   static final String domain = _getDomain();
   final String baseUrl = "$domain/api/v1";
+  ////////////////////// Product Dashboard
+  final String getProducts = "/retailer/dashboard/get-products";
+
   final String refreshToken = "/auth/refresh-token";
   final String user = "/user";
   final String privacyPolicy = "/others/privacy-policy";
@@ -25,16 +28,14 @@ class AppApiEndPoint {
   final String resetPassword = "/auth/reset-password";
   final String changePassword = "/auth/change-password";
   final String googleAuthLogin = "/user/google-auth";
-  
+
   /////////////////////App body
   final String profile = "/users/profile";
-  
 
   ///////////////////// payment related
   final String payment = "/payment/create-session";
   // final String paymentDashboard = "/payment/dashboard";
   ///////////////////// vendor
-  
 
   /////////////////////  message or conversion
   final String chatList = "/chat";
