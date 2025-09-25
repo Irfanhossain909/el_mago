@@ -12,6 +12,7 @@ import 'package:el_mago/screens/profile_screen/controller/profile_controller.dar
 import 'package:el_mago/screens/retailer_navigation_screen/controller/retailer_navigation_screen_controller.dart';
 import 'package:el_mago/screens/sales_dash_board/controller/sales_dashboard_controller.dart';
 import 'package:el_mago/screens/sales_navigation_screen/controller/sales_navigation_screen_controller.dart';
+import 'package:el_mago/screens/sales_shopping_cart/controller/sales_shopping_cart_controller.dart';
 import 'package:get/get.dart';
 
 class AppBinding extends Bindings {
@@ -36,6 +37,11 @@ class AppBinding extends Bindings {
     Get.lazyPut<GlobalController>(() => GlobalController());
     Get.lazyPut<SalesDashboardController>(
       () => SalesDashboardController(),
+      fenix: true,
+    );
+    //shopping cart
+    Get.lazyPut<SalesShoppingCartController>(
+      () => SalesShoppingCartController(),
       fenix: true,
     );
   }

@@ -1,5 +1,6 @@
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/const/assets_icons_path.dart';
+import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/screens/sales_dash_board/controller/sales_dashboard_controller.dart';
 import 'package:el_mago/screens/sales_dash_board/widget/product_information_card.dart';
 import 'package:el_mago/widgets/app_input/app_input_widget_two.dart';
@@ -15,7 +16,8 @@ class SalesDashBoardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // Safely find the controller instance that was initialized by AppBindings.
     // This will throw an error if the controller isn't registered, which helps catch issues early.
-    final SalesDashboardController controller = Get.find<SalesDashboardController>();
+    final SalesDashboardController controller =
+        Get.find<SalesDashboardController>();
 
     return Scaffold(
       appBar: CustomAppbar(
@@ -25,7 +27,8 @@ class SalesDashBoardScreen extends StatelessWidget {
           CircleAvatar(
             backgroundColor: AppColor.blue,
             child: IconButton(
-              onPressed: () {},
+              onPressed: () =>
+                  Get.toNamed(AppRoutes.instance.salesShoppingCartScreen),
               icon: Image.asset(
                 AssetsPath.cart,
                 color: AppColor.white,

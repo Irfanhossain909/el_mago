@@ -18,6 +18,7 @@ import 'package:el_mago/screens/retailer_order_details_screen/retailer_order_det
 import 'package:el_mago/screens/retailer_shopping_cart/retailer_shopping_cart.dart';
 import 'package:el_mago/screens/sales_dash_board/sales_dash_board_screen.dart';
 import 'package:el_mago/screens/sales_navigation_screen/sales_navigation_screen.dart';
+import 'package:el_mago/screens/sales_shopping_cart/sales_shopping_cart_screen.dart';
 import 'package:el_mago/screens/terms_screen/terms_screen.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
@@ -129,5 +130,10 @@ List<GetPage> appRootRoutesFile = <GetPage>[
     name: AppRoutes.instance.salesDashboardScreen,
     binding: AppBinding(),
     page: () => const SalesDashBoardScreen(),
+  ),
+  GetPage(
+    name: AppRoutes.instance.salesShoppingCartScreen,
+    binding: AppBinding(),
+    page: () => const SalesShoppingCartScreen(),
   ),
 ];
