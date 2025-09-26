@@ -1,4 +1,4 @@
-import 'package:el_mago/models/product_model/order_model/order_model.dart';
+import 'package:el_mago/models/order_model/order_model.dart';
 import 'package:el_mago/services/repository/sales_my_order_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

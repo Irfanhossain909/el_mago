@@ -1,6 +1,6 @@
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/const/assets_icons_path.dart';
-import 'package:el_mago/models/product_model/order_model/order_model.dart';
+import 'package:el_mago/models/order_model/order_model.dart';
 import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/screens/sales_my_order/controller/sales_my_order_controller.dart';
 import 'package:el_mago/utils/app_size.dart';
@@ -99,7 +99,7 @@ class SalesViewOrderCard extends StatelessWidget {
             Gap(height: AppSize.size.height * 0.01),
             buildOrderDetails(
               title: "Retailer Name",
-              value: "N/A",
+              value: order.userId.name,
             ), // Note: Retailer name not available in this API
             Gap(height: AppSize.size.height * 0.01),
             buildOrderDetails(title: "Address", value: order.shippingAddress),

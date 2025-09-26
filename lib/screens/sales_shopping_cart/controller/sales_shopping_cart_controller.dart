@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 class SalesShoppingCartController extends GetxController {
   final GlobalController globalController = Get.find<GlobalController>();
   final SalesRepository _salesRepository = Get.find<SalesRepository>();
-  final ProfileRepository _profileRepository = Get.find<ProfileRepository>();
   final OrderRepository _orderRepository = Get.find<OrderRepository>();
 
   // Observables for cart
@@ -45,7 +44,11 @@ class SalesShoppingCartController extends GetxController {
   // --- Place Order Logic ---
   Future<void> placeOrder() async {
     // Validation
-    if (selectedRetailerId.value == null) {
+    final selectedRetailer = retailers.firstWhereOrNull(
+      (r) => r.id == selectedRetailerId.value,
+    );
+
+    if (selectedRetailer == null) {
       Get.snackbar(
         "Error",
         "Please select a retailer.",
@@ -66,46 +69,37 @@ class SalesShoppingCartController extends GetxController {
 
     try {
       isPlacingOrder(true);
-      // 1. Get User Profile to find the User ID
-      final profile = await _profileRepository.getProfileData();
-      if (profile == null) {
-        Get.snackbar(
-          "Error",
-          "Could not retrieve user profile.",
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
-        isPlacingOrder(false); // Stop loading on failure
-        return;
-      }
 
-      // Use the 'id' field from the UserModel, which corresponds to '_id' in the JSON response
-      final userId = profile.id;
+      // --- FIX: Create the userId object with retailer info ---
+      final Map<String, dynamic> userIdPayload = {
+        "_id": selectedRetailer.id,
+        "name": selectedRetailer.name,
+      };
 
-      // 2. Construct the products list for the request body
+      // Construct the products list for the request body
       final List<Map<String, dynamic>> productsPayload = cartItems.map((item) {
         return {
           "productId": item.product.id,
           "name": item.product.name,
           "quantity": item.quantity.value,
-          // --- FIX: Corrected typo from "totalamout" to "totalAmount" ---
           "totalAmount": item.totalPrice,
           "price": item.product.price,
         };
       }).toList();
 
-      // 3. Construct the full request body
+      // Construct the full request body
       final Map<String, dynamic> orderBody = {
-        "userId": userId,
+        // --- FIX: Pass the new userId object instead of a string ---
+        "userId": selectedRetailer.id,
         "products": productsPayload,
-        "source": "Retailer",
+        "source": "SALES", // Assuming this should be SALES now
         "notes": notesController.text,
         "orderTerms": selectedTerm.value,
         "orderBoxs": totalBox,
         "totalAmount": totalAmount,
       };
 
-      // 4. Call the repository to create the order
+      // Call the repository to create the order
       final bool success = await _orderRepository.createOrder(body: orderBody);
 
       if (success) {

@@ -1,5 +1,5 @@
 import 'package:el_mago/const/app_api_end_point.dart';
-import 'package:el_mago/models/product_model/order_model/order_model.dart';
+import 'package:el_mago/models/order_model/order_model.dart';
 import 'package:el_mago/services/api/api_services.dart';
 import 'package:el_mago/widgets/app_log/error_log.dart';
 

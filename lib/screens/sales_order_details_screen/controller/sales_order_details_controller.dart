@@ -1,4 +1,4 @@
-import 'package:el_mago/models/product_model/order_model/order_model.dart';
+import 'package:el_mago/models/order_model/order_model.dart';
 import 'package:el_mago/screens/sales_my_order/controller/sales_my_order_controller.dart';
 import 'package:get/get.dart';
 

@@ -13,7 +13,7 @@ class AppApiEndPoint {
   final String getProducts = "/retailer/dashboard/get-products";
   final String getMyRetailers = "/sales/dashboard/my-retailers";
   final String createOrder = "/retailer/dashboard/create";
-  final String getMyOrders = "/retailer/dashboard/orders";
+  final String getMyOrders = "/sales/orders/my-order";
 
   final String refreshToken = "/auth/refresh-token";
   final String user = "/user";

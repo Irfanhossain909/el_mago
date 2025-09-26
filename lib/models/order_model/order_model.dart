@@ -7,7 +7,7 @@ List<OrderModel> orderModelFromJson(String str) =>
 
 class OrderModel {
   final String id;
-  final String userId;
+  final UserId userId;
   final String orderTerms;
   final List<Product> products;
   final String source;
@@ -42,7 +42,7 @@ class OrderModel {
 
   factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
     id: json["_id"],
-    userId: json["userId"],
+    userId: UserId.fromJson(json["userId"]),
     orderTerms: json["orderTerms"],
     products: List<Product>.from(
       json["products"].map((x) => Product.fromJson(x)),
@@ -56,6 +56,21 @@ class OrderModel {
     createdAt: DateTime.parse(json["createdAt"]),
     orderId: json["orderId"],
   );
+}
+
+class UserId {
+  final String id;
+  final String name;
+
+  UserId({
+    required this.id,
+    required this.name,
+  });
+
+  factory UserId.fromJson(Map<String, dynamic> json) => UserId(
+        id: json["_id"],
+        name: json["name"],
+      );
 }
 
 class Product {

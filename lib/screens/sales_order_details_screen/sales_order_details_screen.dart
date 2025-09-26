@@ -1,6 +1,6 @@
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/const/assets_icons_path.dart';
-import 'package:el_mago/models/product_model/order_model/order_model.dart';
+import 'package:el_mago/models/order_model/order_model.dart';
 import 'package:el_mago/screens/sales_order_details_screen/controller/sales_order_details_controller.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_image/app_image.dart';
@@ -110,8 +110,9 @@ class SalesOrderDetailsScreen extends StatelessWidget {
             child: SalesOrderDetailsRowCard(
               iconPath: AssetsPath.person,
               title: "Customer Name",
-              subTitle:
-                  "N/A", // Note: Customer name is not in the order API response
+              subTitle: order
+                  .userId
+                  .name, // Note: Customer name is not in the order API response
             ),
           ),
           Padding(
