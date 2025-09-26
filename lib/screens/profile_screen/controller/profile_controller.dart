@@ -6,7 +6,8 @@ import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
   //all repository
-  ProfileRepository profileRepository = ProfileRepository.instance;
+  final ProfileRepository profileRepository = Get.find<ProfileRepository>();
+
   GetStorageServices getStorageServices = GetStorageServices.instance;
 
   ///Model variables

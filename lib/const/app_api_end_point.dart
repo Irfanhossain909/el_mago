@@ -12,6 +12,7 @@ class AppApiEndPoint {
   ////////////////////// Sales Product Dashboard
   final String getProducts = "/retailer/dashboard/get-products";
   final String getMyRetailers = "/sales/dashboard/my-retailers";
+  final String createOrder = "/retailer/dashboard/create";
 
   final String refreshToken = "/auth/refresh-token";
   final String user = "/user";

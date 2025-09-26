@@ -13,6 +13,9 @@ import 'package:el_mago/screens/retailer_navigation_screen/controller/retailer_n
 import 'package:el_mago/screens/sales_dash_board/controller/sales_dashboard_controller.dart';
 import 'package:el_mago/screens/sales_navigation_screen/controller/sales_navigation_screen_controller.dart';
 import 'package:el_mago/screens/sales_shopping_cart/controller/sales_shopping_cart_controller.dart';
+import 'package:el_mago/services/repository/order_repository.dart';
+import 'package:el_mago/services/repository/profile_repository.dart';
+import 'package:el_mago/services/repository/sales_repository.dart';
 import 'package:get/get.dart';
 
 class AppBinding extends Bindings {
@@ -44,5 +47,8 @@ class AppBinding extends Bindings {
       () => SalesShoppingCartController(),
       fenix: true,
     );
+    Get.lazyPut(() => SalesRepository());
+    Get.lazyPut(() => ProfileRepository());
+    Get.lazyPut(() => OrderRepository());
   }
 }

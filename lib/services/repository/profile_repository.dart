@@ -9,52 +9,10 @@ import 'package:http_parser/http_parser.dart';
 import 'package:mime/mime.dart';
 
 class ProfileRepository {
-  ProfileRepository._();
-  static final ProfileRepository instance = ProfileRepository._();
+  // The private constructor and static instance have been removed.
+  // GetX will now handle the instantiation and singleton lifecycle.
 
   final ApiServices apiServices = ApiServices.instance;
-
-  // Future<UserReactionModelData?> getUserReaction ({required String id}) async{
-  //   try {
-  //     var response = await apiServices.apiGetServices(
-  //       "${AppApiEndPoint.instance.getUserReaction}/$id",
-  //     );
-  //     if (response != null) {
-  //       if (response["data"] != null && response["data"] is Map) {
-  //         return UserReactionModelData.fromJson(response["data"]);
-  //       }
-  //     } else {
-  //       AppPrint.appLog("getUserReaction response null");
-  //       return null;
-  //     }
-  //   } catch (e) {
-  //     AppPrint.appError(e, title: "getUserReaction");
-  //   }
-  //   return null;
-  // }
-
-  // Future<bool> userReaction({
-  //   required String uid,
-  //   required dynamic value,
-  // }) async {
-  //   try {
-  //     Map<String, dynamic> body = {"user": uid, "isLike": value};
-  //     var response = await apiServices.apiPostServices(
-  //       url: AppApiEndPoint.instance.userReaction,
-  //       body: body,
-  //     );
-
-  //     if (response != null) {
-  //       return value;
-  //     } else {
-  //       AppPrint.appError("response is null");
-  //     }
-  //   } catch (e) {
-  //     AppPrint.appError(e, title: "reactPost");
-  //   }
-
-  //   return false;
-  // }
 
   Future<bool> updateUserProfile({
     required String name,
@@ -67,16 +25,8 @@ class ProfileRepository {
         "data": jsonEncode({"name": name, "address": address, "phone": phone}),
       });
 
-      // FormData formDataMap = FormData.fromMap({
-      //   "name": name,
-      //   "address": address,
-      //   "phone": phone,
-      // });
-
-      // Image থাকলে এবং file path valid হলে MultipartFile যোগ করি
-      if (image != null && image.isNotEmpty) {
+      if (image.isNotEmpty) {
         try {
-          // Verify file exists
           final file = File(image);
           if (await file.exists()) {
             String fileName = file.path.split('/').last;

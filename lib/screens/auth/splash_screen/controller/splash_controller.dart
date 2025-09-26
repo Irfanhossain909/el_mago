@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 
 class SplashController extends GetxController {
   GetStorageServices storageServices = GetStorageServices.instance;
-  ProfileRepository profileRepository = ProfileRepository.instance;
+  final ProfileRepository profileRepository = Get.find<ProfileRepository>();
 
   RxDouble animation = 0.0.obs;
   RxDouble animation2 = 0.0.obs;

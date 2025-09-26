@@ -122,21 +122,32 @@ class SalesShoppingCartScreen extends StatelessWidget {
                       ),
                       SizedBox(width: AppSize.width(value: 15)),
                       Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            /* Handle Place Order Later */
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColor.white,
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
+                        child: Obx(
+                          () => ElevatedButton(
+                            onPressed: controller.isPlacingOrder.value
+                                ? null // Disable button when loading
+                                : controller.placeOrder,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColor.white,
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                             ),
-                          ),
-                          child: AppText(
-                            data: "Place Order",
-                            color: AppColor.blue,
-                            fontWeight: FontWeight.bold,
+                            child: controller.isPlacingOrder.value
+                                ? const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: AppColor.blue,
+                                    ),
+                                  )
+                                : AppText(
+                                    data: "Place Order",
+                                    color: AppColor.blue,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                           ),
                         ),
                       ),

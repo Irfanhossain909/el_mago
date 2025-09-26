@@ -15,7 +15,7 @@ class ChnageProfileController extends GetxController {
   TextEditingController phoneController = TextEditingController();
 
   //all repositories
-  ProfileRepository profileRepository = ProfileRepository.instance;
+  final ProfileRepository profileRepository = Get.find<ProfileRepository>();
   //loading state
   RxBool isLoading = false.obs;
   //profile update function
@@ -30,7 +30,7 @@ class ChnageProfileController extends GetxController {
       );
       if (response) {
         Get.snackbar("Success", "Profile updated successfully");
-        
+
         await profileController.fetchProfileData();
         Get.close(1);
       } else {

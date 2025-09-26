@@ -13,7 +13,8 @@ class SigninController extends GetxController {
   TextEditingController passwordController = TextEditingController();
   //all repository
   AuthRepository authRepository = AuthRepository.instance;
-  ProfileRepository profileRepository = ProfileRepository.instance;
+  final ProfileRepository profileRepository = Get.find<ProfileRepository>();
+
 
   ///Model variables
   Rxn<UserModelData> profileData = Rxn<UserModelData>();
