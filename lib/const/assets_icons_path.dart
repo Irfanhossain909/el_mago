@@ -45,6 +45,8 @@ class AssetsPath {
   static const String salesMyOrder = "assets/icons/sales_myorder.png";
   static const String commisionBreakdown =
       "assets/icons/commision_breakdown.png";
+  //person
+  static const String person = "assets/icons/person.png";
 
   //////////////////////Image//////////////////////////////////////
 

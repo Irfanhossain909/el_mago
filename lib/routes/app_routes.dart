@@ -23,4 +23,6 @@ class AppRoutes {
   final String retailerOrderDetailsScreen = "/retailer-order-details-screen";
   final String salesDashboardScreen = "/sales-dashboard-screen";
   final String salesShoppingCartScreen = "/sales-shopping-cart-screen";
+  final String salesMyOrderScreen = "/sales-my-order-screen";
+  final String salesOrderDetailsScreen = "/sales-order-details-screen";
 }
