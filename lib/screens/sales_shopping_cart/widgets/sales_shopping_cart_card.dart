@@ -20,13 +20,28 @@ class ShoppingCartItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //add elevation
-      padding: EdgeInsets.symmetric(vertical: AppSize.height(value: 16)),
+      margin: EdgeInsets.symmetric(
+        horizontal: AppSize.width(value: 8),
+        vertical: AppSize.height(value: 8),
+      ),
+      padding: EdgeInsets.all(AppSize.width(value: 16)),
       decoration: BoxDecoration(
-        
-        border: Border(
-          bottom: BorderSide(color: Colors.grey.shade300, width: 1),
-        ),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.05),
+            spreadRadius: 0,
+            blurRadius: 4,
+            offset: const Offset(0, 1),
+          ),
+        ],
       ),
       child: Column(
         children: [
