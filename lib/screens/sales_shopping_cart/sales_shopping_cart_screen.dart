@@ -78,7 +78,11 @@ class SalesShoppingCartScreen extends StatelessWidget {
                   SizedBox(height: AppSize.height(value: 10)),
                   _buildTermsDropdown(controller),
                   SizedBox(height: AppSize.height(value: 15)),
-                  _buildPlaceholderInput("Enter Notes", maxLines: 3),
+                  _buildPlaceholderInput(
+                    "Enter Notes",
+                    maxLines: 3,
+                    controller: controller.notesController,
+                  ),
                   SizedBox(height: AppSize.height(value: 20)),
                   const AppText(
                     data: "Shopping Cart",
@@ -226,20 +230,28 @@ class SalesShoppingCartScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildPlaceholderInput(String hint, {int maxLines = 1}) {
+  // --- MODIFIED: Added TextEditingController parameter ---
+  Widget _buildPlaceholderInput(
+    String hint, {
+    int maxLines = 1,
+    TextEditingController? controller,
+  }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       decoration: BoxDecoration(
         color: AppColor.white.withOpacity(0.2),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          AppText(data: hint, color: AppColor.white),
-          if (maxLines == 1)
-            const Icon(Icons.arrow_drop_down, color: AppColor.white),
-        ],
+      child: TextFormField(
+        controller: controller, // Assigned controller
+        minLines: maxLines,
+        maxLines: maxLines,
+        style: const TextStyle(color: AppColor.white),
+        decoration: InputDecoration(
+          hintText: hint,
+          hintStyle: const TextStyle(color: AppColor.white),
+          border: InputBorder.none,
+        ),
       ),
     );
   }

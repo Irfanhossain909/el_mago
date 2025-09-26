@@ -3,11 +3,14 @@ import 'package:el_mago/models/retailer_model/retailer_model.dart';
 import 'package:el_mago/screens/controller/global_controller.dart';
 import 'package:el_mago/screens/sales_shopping_cart/model/cart_item_model.dart';
 import 'package:el_mago/services/repository/sales_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SalesShoppingCartController extends GetxController {
   final GlobalController globalController = Get.find<GlobalController>();
   final SalesRepository _salesRepository = SalesRepository();
+  // Controller for the notes text field
+  late TextEditingController notesController;
 
   // Observables for cart
   var cartItems = <CartItemModel>[].obs;
@@ -25,6 +28,14 @@ class SalesShoppingCartController extends GetxController {
   void onInit() {
     super.onInit();
     fetchRetailers();
+    notesController = TextEditingController();
+  }
+
+  @override
+  void onClose() {
+    // Dispose the controller to prevent memory leaks
+    notesController.dispose();
+    super.onClose();
   }
 
   // --- Retailer Methods ---
