@@ -11,10 +11,13 @@ import 'package:el_mago/screens/controller/global_controller.dart';
 import 'package:el_mago/screens/profile_screen/controller/profile_controller.dart';
 import 'package:el_mago/screens/retailer_navigation_screen/controller/retailer_navigation_screen_controller.dart';
 import 'package:el_mago/screens/sales_dash_board/controller/sales_dashboard_controller.dart';
+import 'package:el_mago/screens/sales_my_order/controller/sales_my_order_controller.dart';
 import 'package:el_mago/screens/sales_navigation_screen/controller/sales_navigation_screen_controller.dart';
+import 'package:el_mago/screens/sales_order_details_screen/controller/sales_order_details_controller.dart';
 import 'package:el_mago/screens/sales_shopping_cart/controller/sales_shopping_cart_controller.dart';
 import 'package:el_mago/services/repository/order_repository.dart';
 import 'package:el_mago/services/repository/profile_repository.dart';
+import 'package:el_mago/services/repository/sales_my_order_repository.dart';
 import 'package:el_mago/services/repository/sales_repository.dart';
 import 'package:get/get.dart';
 
@@ -43,12 +46,16 @@ class AppBinding extends Bindings {
       fenix: true,
     );
     //shopping cart
-    Get.lazyPut<SalesShoppingCartController>(
-      () => SalesShoppingCartController(),
+    Get.lazyPut(() => SalesShoppingCartController(), fenix: true);
+    Get.lazyPut(() => SalesMyOrderController(), fenix: true); // New Controller
+    Get.lazyPut(
+      () => SalesOrderDetailsController(),
       fenix: true,
-    );
+    ); // New Controller
+
     Get.lazyPut(() => SalesRepository());
     Get.lazyPut(() => ProfileRepository());
     Get.lazyPut(() => OrderRepository());
+    Get.lazyPut(() => MyOrderRepository(), fenix: true);
   }
 }
