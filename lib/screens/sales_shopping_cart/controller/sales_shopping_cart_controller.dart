@@ -17,6 +17,10 @@ class SalesShoppingCartController extends GetxController {
   var isRetailerLoading = true.obs;
   var selectedRetailerId = Rx<String?>(null);
 
+  // --- NEW: Observables for Payment Terms Dropdown ---
+  final List<String> paymentTerms = ['Due on Receipt', 'Net 15', 'Net 30'];
+  var selectedTerm = 'Due on Receipt'.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -36,6 +40,13 @@ class SalesShoppingCartController extends GetxController {
 
   void selectRetailer(String? retailerId) {
     selectedRetailerId.value = retailerId;
+  }
+
+  // --- NEW: Payment Term Method ---
+  void selectTerm(String? term) {
+    if (term != null) {
+      selectedTerm.value = term;
+    }
   }
 
   // --- Cart Methods ---

@@ -67,10 +67,16 @@ class SalesShoppingCartScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                   SizedBox(height: AppSize.height(value: 20)),
-                  // These can be replaced with actual dropdowns and text fields later
                   _buildRetailerDropdown(controller),
                   SizedBox(height: AppSize.height(value: 15)),
-                  _buildPlaceholderInput("Due on Receipt"),
+                  AppText(
+                    data: "Terms",
+                    color: AppColor.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  SizedBox(height: AppSize.height(value: 10)),
+                  _buildTermsDropdown(controller),
                   SizedBox(height: AppSize.height(value: 15)),
                   _buildPlaceholderInput("Enter Notes", maxLines: 3),
                   SizedBox(height: AppSize.height(value: 20)),
@@ -188,6 +194,35 @@ class SalesShoppingCartScreen extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ],
+    );
+  }
+
+  Widget _buildTermsDropdown(SalesShoppingCartController controller) {
+    return Obx(
+      () => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(
+          color: AppColor.white.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<String>(
+            value: controller.selectedTerm.value,
+            isExpanded: true,
+            icon: const Icon(Icons.arrow_drop_down, color: AppColor.white),
+            dropdownColor: AppColor.blue,
+            items: controller.paymentTerms.map((term) {
+              return DropdownMenuItem<String>(
+                value: term,
+                child: AppText(data: term, color: AppColor.white),
+              );
+            }).toList(),
+            onChanged: (newValue) {
+              controller.selectTerm(newValue);
+            },
+          ),
+        ),
+      ),
     );
   }
 
