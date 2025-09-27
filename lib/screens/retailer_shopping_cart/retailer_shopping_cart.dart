@@ -71,141 +71,160 @@ class RetailerShoppingCart extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: SafeArea(
-        child: Container(
-          padding: EdgeInsets.all(AppSize.width(value: 16)),
-          // height: AppSize.size.height * 0.45,
-          color: AppColor.blue,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AppText(
-                data: "Shopping Cart",
-                fontSize: AppSize.width(value: 18),
-                fontWeight: FontWeight.w700,
-                color: AppColor.white,
-              ),
-              Gap(height: AppSize.size.height * 0.01),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AppText(
-                    data: "Total Box",
-                    fontSize: AppSize.width(value: 12),
-                    fontWeight: FontWeight.w600,
-                    color: AppColor.white,
-                  ),
-                  Obx(
-                    () => AppText(
-                      data: "${controller.totalBoxCount}",
-                      fontSize: AppSize.width(value: 16),
-                      fontWeight: FontWeight.w500,
-                      color: AppColor.white,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  AppText(
-                    data: "Original Amount:",
-                    fontSize: AppSize.width(value: 12),
-                    fontWeight: FontWeight.w600,
-                    color: AppColor.white,
-                  ),
-                  Obx(
-                    () => AppText(
-                      data: "\$${controller.totalAmount.toStringAsFixed(2)}",
-                      fontSize: AppSize.width(value: 16),
-                      fontWeight: FontWeight.w500,
-                      color: AppColor.white,
-                    ),
-                  ),
-                ],
-              ),
-              Gap(height: AppSize.size.height * 0.01),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(9),
-                  color: AppColor.blue500,
-                ),
-                padding: EdgeInsets.all(AppSize.width(value: 12)),
-                child: Row(
-                  spacing: AppSize.width(value: 4),
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    AppImage(
-                      path: AssetsPath.gift,
-                      width: AppSize.width(value: 12),
-                    ),
-                    AppText(
-                      data: "No rewards available at the moment",
-                      fontSize: AppSize.width(value: 12),
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.white,
-                    ),
-                  ],
-                ),
-              ),
-              Gap(height: AppSize.size.height * 0.01),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(9),
-                  color: AppColor.blue500,
-                ),
-                padding: EdgeInsets.all(AppSize.width(value: 12)),
-                child: Row(
-                  spacing: AppSize.width(value: 4),
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    AppText(
-                      data: "Final Amount:",
-                      fontSize: AppSize.width(value: 12),
-                      fontWeight: FontWeight.w400,
-                      color: AppColor.white,
-                    ),
-                    Obx(
-                      () => AppText(
-                        data: "\$${controller.totalAmount.toStringAsFixed(2)}",
-                        fontSize: AppSize.width(value: 12),
+      bottomNavigationBar: Obx(
+        () => controller.cartItems.isEmpty
+            ? const SizedBox.shrink()
+            : SafeArea(
+                child: Container(
+                  padding: EdgeInsets.all(AppSize.width(value: 16)),
+                  // height: AppSize.size.height * 0.45,
+                  color: AppColor.blue,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppText(
+                        data: "Shopping Cart",
+                        fontSize: AppSize.width(value: 18),
                         fontWeight: FontWeight.w700,
                         color: AppColor.white,
                       ),
-                    ),
-                  ],
+                      Gap(height: AppSize.size.height * 0.01),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AppText(
+                            data: "Total Box",
+                            fontSize: AppSize.width(value: 12),
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.white,
+                          ),
+                          Obx(
+                            () => AppText(
+                              data: "${controller.totalBoxCount}",
+                              fontSize: AppSize.width(value: 16),
+                              fontWeight: FontWeight.w500,
+                              color: AppColor.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AppText(
+                            data: "Original Amount:",
+                            fontSize: AppSize.width(value: 12),
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.white,
+                          ),
+                          Obx(
+                            () => AppText(
+                              data:
+                                  "\$${controller.totalAmount.toStringAsFixed(2)}",
+                              fontSize: AppSize.width(value: 16),
+                              fontWeight: FontWeight.w500,
+                              color: AppColor.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Gap(height: AppSize.size.height * 0.01),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(9),
+                          color: AppColor.blue500,
+                        ),
+                        padding: EdgeInsets.all(AppSize.width(value: 12)),
+                        child: Row(
+                          spacing: AppSize.width(value: 4),
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            AppImage(
+                              path: AssetsPath.gift,
+                              width: AppSize.width(value: 12),
+                            ),
+                            AppText(
+                              data: "No rewards available at the moment",
+                              fontSize: AppSize.width(value: 12),
+                              fontWeight: FontWeight.w400,
+                              color: AppColor.white,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Gap(height: AppSize.size.height * 0.01),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(9),
+                          color: AppColor.blue500,
+                        ),
+                        padding: EdgeInsets.all(AppSize.width(value: 12)),
+                        child: Row(
+                          spacing: AppSize.width(value: 4),
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            AppText(
+                              data: "Final Amount:",
+                              fontSize: AppSize.width(value: 12),
+                              fontWeight: FontWeight.w400,
+                              color: AppColor.white,
+                            ),
+                            Obx(
+                              () => AppText(
+                                data:
+                                    "\$${controller.totalAmount.toStringAsFixed(2)}",
+                                fontSize: AppSize.width(value: 12),
+                                fontWeight: FontWeight.w700,
+                                color: AppColor.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Gap(height: AppSize.size.height * 0.01),
+                      AppText(
+                        data:
+                            "Shipping and/or processing fees to be added on the final invoice",
+                        fontSize: AppSize.width(value: 12),
+                        fontWeight: FontWeight.w400,
+                        color: AppColor.white,
+                      ),
+                      Gap(height: AppSize.size.height * 0.01),
+                      AppText(
+                        data: "Terms",
+                        fontSize: AppSize.width(value: 18),
+                        fontWeight: FontWeight.w700,
+                        color: AppColor.white,
+                      ),
+                      Gap(height: AppSize.size.height * 0.01),
+                      Obx(
+                        () => CustomDropdown(
+                          items: controller.paymentTerms,
+                          selectedValue: controller.selectedTerm.value,
+                          hint: "Due on Receipt",
+                          onChanged: (value) =>
+                              controller.updateSelectedTerm(value),
+                        ),
+                      ),
+                      Gap(height: AppSize.size.height * 0.025),
+                      Obx(
+                        () => AppButton(
+                          title: controller.isPlacingOrder.value
+                              ? "Placing Order..."
+                              : "Place Order",
+                          filColor: Color(0xff03DAC5),
+                          onTap: controller.isPlacingOrder.value
+                              ? null
+                              : () => controller.placeOrder(),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              Gap(height: AppSize.size.height * 0.01),
-              AppText(
-                data:
-                    "Shipping and/or processing fees to be added on the final invoice",
-                fontSize: AppSize.width(value: 12),
-                fontWeight: FontWeight.w400,
-                color: AppColor.white,
-              ),
-              Gap(height: AppSize.size.height * 0.01),
-              AppText(
-                data: "Terms",
-                fontSize: AppSize.width(value: 18),
-                fontWeight: FontWeight.w700,
-                color: AppColor.white,
-              ),
-              Gap(height: AppSize.size.height * 0.01),
-              CustomDropdown(
-                items: ["Due on Receipt", "Net 30", "Net 15"],
-                selectedValue: "Due on Receipt",
-                hint: "Due on Receipt",
-                onChanged: (p0) {},
-              ),
-              Gap(height: AppSize.size.height * 0.025),
-              AppButton(title: "Place Order", filColor: Color(0xff03DAC5)),
-            ],
-          ),
-        ),
       ),
     );
   }
