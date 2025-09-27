@@ -11,6 +11,7 @@ import 'package:el_mago/screens/controller/global_controller.dart';
 import 'package:el_mago/screens/profile_screen/controller/profile_controller.dart';
 import 'package:el_mago/screens/retailer_dash_board/controller/retailer_dash_board_controller.dart';
 import 'package:el_mago/screens/retailer_navigation_screen/controller/retailer_navigation_screen_controller.dart';
+import 'package:el_mago/screens/sales_commision_breakdown/controller/sales_commition_breackdown_controller.dart';
 import 'package:el_mago/screens/sales_dash_board/controller/sales_dashboard_controller.dart';
 import 'package:el_mago/screens/sales_my_order/controller/sales_my_order_controller.dart';
 import 'package:el_mago/screens/sales_navigation_screen/controller/sales_navigation_screen_controller.dart';
@@ -33,6 +34,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => ForgetPasswordController());
     Get.lazyPut(() => ForgetPassVerifyOtpController());
     Get.lazyPut(() => CreateYourPasswordController());
+    Get.lazyPut(() => SalesCommitionBreackdownController());
     ///////////app
     Get.lazyPut(() => ProfileController());
     Get.lazyPut(() => ChnagePasswordController());
@@ -62,6 +64,6 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => SalesRepository());
     Get.lazyPut(() => ProfileRepository());
     Get.lazyPut(() => OrderRepository());
-    Get.lazyPut(() => MyOrderRepository(), fenix: true);
+    Get.lazyPut(() => MyOrderRepository());
   }
 }
