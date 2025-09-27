@@ -3,7 +3,6 @@ import 'package:el_mago/models/retailer_model/retailer_model.dart';
 import 'package:el_mago/screens/controller/global_controller.dart';
 import 'package:el_mago/screens/sales_shopping_cart/model/cart_item_model.dart';
 import 'package:el_mago/services/repository/order_repository.dart';
-import 'package:el_mago/services/repository/profile_repository.dart';
 import 'package:el_mago/services/repository/sales_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -71,10 +70,10 @@ class SalesShoppingCartController extends GetxController {
       isPlacingOrder(true);
 
       // --- FIX: Create the userId object with retailer info ---
-      final Map<String, dynamic> userIdPayload = {
-        "_id": selectedRetailer.id,
-        "name": selectedRetailer.name,
-      };
+      // final Map<String, dynamic> userIdPayload = {
+      //   "_id": selectedRetailer.id,
+      //   "name": selectedRetailer.name,
+      // };
 
       // Construct the products list for the request body
       final List<Map<String, dynamic>> productsPayload = cartItems.map((item) {

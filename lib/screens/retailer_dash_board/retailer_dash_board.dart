@@ -3,7 +3,6 @@ import 'package:el_mago/const/assets_icons_path.dart';
 import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/screens/retailer_dash_board/controller/retailer_dash_board_controller.dart';
 import 'package:el_mago/screens/retailer_shopping_cart/controller/retailer_shopping_cart_controller.dart';
-import 'package:el_mago/screens/retailer_shopping_cart/retailer_shopping_cart.dart';
 import 'package:el_mago/screens/sales_dash_board/widget/product_information_card.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_circle_card/circle_icon_with_bg.dart';
@@ -25,6 +24,7 @@ class RetailerDashBoard extends StatelessWidget {
         Get.find<RetailerShoppingCartController>();
     return Scaffold(
       appBar: CustomAppbar(
+        autoShowLeading: false,
         title: "Dashboard Overview",
         action: [
           CircleIconWithBg(
