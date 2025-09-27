@@ -3,7 +3,6 @@ import 'package:el_mago/screens/sales_shopping_cart/controller/sales_shopping_ca
 import 'package:el_mago/screens/sales_shopping_cart/widgets/sales_shopping_cart_card.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_text/app_text.dart';
-import 'package:el_mago/widgets/app_text/custom_text.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
