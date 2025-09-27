@@ -48,6 +48,12 @@ class ProductInformationCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                AppText(
+                  data: "Add to Cart",
+                  fontSize: AppSize.width(value: 16),
+                  fontWeight: FontWeight.w600,
+                  color: AppColor.black,
+                ),
                 const SizedBox(),
                 InkWell(
                   onTap: onTap,
