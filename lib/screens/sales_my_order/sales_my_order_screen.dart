@@ -50,20 +50,41 @@ class SalesMyOrderScreen extends StatelessWidget {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (controller.filteredOrderList.isEmpty) {
-                  return const Center(child: Text("No orders found."));
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      controller.fetchMyOrders();
+                    },
+                    child: const SingleChildScrollView(
+                      physics: AlwaysScrollableScrollPhysics(),
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 100),
+                          child: Text("No orders found."),
+                        ),
+                      ),
+                    ),
+                  );
                 }
-                return ListView.builder(
-                  itemCount: controller.filteredOrderList.length,
-                  itemBuilder: (context, index) {
-                    final order = controller.filteredOrderList[index];
-                    return SalesViewOrderCard(
-                      order: order,
-                      onTap: () {
-                        controller.viewOrderDetails(order);
-                        Get.toNamed(AppRoutes.instance.salesOrderDetailsScreen);
-                      },
-                    );
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    controller.fetchMyOrders();
                   },
+                  child: ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemCount: controller.filteredOrderList.length,
+                    itemBuilder: (context, index) {
+                      final order = controller.filteredOrderList[index];
+                      return SalesViewOrderCard(
+                        order: order,
+                        onTap: () {
+                          controller.viewOrderDetails(order);
+                          Get.toNamed(
+                            AppRoutes.instance.salesOrderDetailsScreen,
+                          );
+                        },
+                      );
+                    },
+                  ),
                 );
               }),
             ),
