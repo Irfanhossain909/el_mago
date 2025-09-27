@@ -1,5 +1,6 @@
 import 'package:el_mago/const/app_api_end_point.dart';
 import 'package:el_mago/models/retailer_order/retailer_order_model.dart';
+import 'package:el_mago/models/retailer_model/retailer_dashboard_summary_model.dart';
 import 'package:el_mago/services/api/api_services.dart';
 import 'package:el_mago/widgets/app_log/error_log.dart';
 
@@ -56,6 +57,29 @@ class RetailerOrderRepository {
       }
     } catch (e) {
       errorLog('Exception in getSingleRetailerOrder', e.toString());
+      return null;
+    }
+  }
+
+  // Fetches the dashboard summary data
+  Future<RetailerDashboardSummaryModel?> getRetailerDashboardSummary() async {
+    try {
+      final endpoint = AppApiEndPoint.instance.getRetailerDashboardSummary;
+      final response = await _apiServices.apiGetServices(endpoint);
+
+      if (response != null &&
+          response['success'] == true &&
+          response['data'] != null) {
+        return RetailerDashboardSummaryModel.fromJson(response['data']);
+      } else {
+        errorLog(
+          'Failed to fetch retailer dashboard summary or data is null',
+          '',
+        );
+        return null;
+      }
+    } catch (e) {
+      errorLog('Exception in getRetailerDashboardSummary', e.toString());
       return null;
     }
   }
