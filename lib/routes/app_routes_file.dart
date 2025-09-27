@@ -1,6 +1,8 @@
 import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/routes/bindings/app_binding.dart';
 import 'package:el_mago/screens/auth/forgetpass_verify_otp_screen/forgetpass_verify_otp_screen.dart';
+import 'package:el_mago/screens/retailer_loyelty_screen/retailer_loyelty_screen.dart';
+import 'package:el_mago/screens/retailer_my_subscription_screen/retailer_my_subscription_screen.dart';
 import 'package:el_mago/screens/retailer_navigation_screen/retailer_navigation_screen.dart';
 import 'package:el_mago/screens/auth/create_your_password_screen/create_your_password_screen.dart';
 import 'package:el_mago/screens/auth/forget_pass_screen/forget_pass_screen.dart';
@@ -147,5 +149,15 @@ List<GetPage> appRootRoutesFile = <GetPage>[
     name: AppRoutes.instance.salesOrderDetailsScreen,
     binding: AppBinding(),
     page: () => const SalesOrderDetailsScreen(),
+  ),
+  GetPage(
+    name: AppRoutes.instance.retailerSubscriptionScreen,
+    binding: AppBinding(),
+    page: () => const RetailerMySubscriptionScreen(),
+  ),
+  GetPage(
+    name: AppRoutes.instance.retailerLoyaltyScreen,
+    binding: AppBinding(),
+    page: () => const RetailerLoyeltyScreen(),
   ),
 ];

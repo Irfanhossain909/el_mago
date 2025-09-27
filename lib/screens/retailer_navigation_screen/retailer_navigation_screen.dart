@@ -1,8 +1,8 @@
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/const/assets_icons_path.dart';
+import 'package:el_mago/screens/retailer_loyelty_screen/retailer_loyelty_screen.dart';
+import 'package:el_mago/screens/retailer_my_subscription_screen/retailer_my_subscription_screen.dart';
 import 'package:el_mago/screens/retailer_navigation_screen/controller/retailer_navigation_screen_controller.dart';
-import 'package:el_mago/screens/auth/verify_otp_screen/verify_otp_screen.dart';
-import 'package:el_mago/screens/chnage_pass_screen/change_pass_screen.dart';
 import 'package:el_mago/screens/profile_screen/profile_screen.dart';
 import 'package:el_mago/screens/retailer_dash_board/retailer_dash_board.dart';
 import 'package:el_mago/screens/retailer_my_order_screen/retailer_my_order_screen.dart';
@@ -26,9 +26,9 @@ class RetailerNavigationScreen extends StatelessWidget {
               children: [
                 RetailerDashBoard(),
                 RetailerMyOrderScreen(),
-                VerifyOtpScreen(),
+                RetailerMySubscriptionScreen(),
 
-                ChangePassScreen(),
+               RetailerLoyeltyScreen(),
                 ProfileScreen(),
               ],
             ),
@@ -63,8 +63,9 @@ class RetailerNavigationScreen extends StatelessWidget {
                     final iconPaths = [
                       AssetsPath.nav1,
                       AssetsPath.nav5,
-                      AssetsPath.nav3,
                       AssetsPath.nav2,
+                      AssetsPath.nav3,
+
                       AssetsPath.nav4,
                     ];
 
