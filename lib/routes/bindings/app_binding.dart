@@ -9,6 +9,7 @@ import 'package:el_mago/screens/chnage_pass_screen/controller/chnage_password_co
 import 'package:el_mago/screens/chnage_profile_info/controller/chnage_profile_controller.dart';
 import 'package:el_mago/screens/controller/global_controller.dart';
 import 'package:el_mago/screens/profile_screen/controller/profile_controller.dart';
+import 'package:el_mago/screens/retailer_dash_board/controller/retailer_dash_board_controller.dart';
 import 'package:el_mago/screens/retailer_navigation_screen/controller/retailer_navigation_screen_controller.dart';
 import 'package:el_mago/screens/sales_dash_board/controller/sales_dashboard_controller.dart';
 import 'package:el_mago/screens/sales_my_order/controller/sales_my_order_controller.dart';
@@ -43,6 +44,11 @@ class AppBinding extends Bindings {
     Get.lazyPut<GlobalController>(() => GlobalController());
     Get.lazyPut<SalesDashboardController>(
       () => SalesDashboardController(),
+      fenix: true,
+    );
+    //Retailer dashboard
+    Get.lazyPut<RetailerDashBoardController>(
+      () => RetailerDashBoardController(),
       fenix: true,
     );
     //shopping cart
