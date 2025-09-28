@@ -11,141 +11,151 @@ class RetailerSelectExtraboxScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RetailerSelectExtraboxController>(
+    return GetX<RetailerSelectExtraboxController>(
       init: RetailerSelectExtraboxController(),
       builder: (controller) {
         return Scaffold(
           appBar: CustomAppbar(title: "Select Extra Boxes"),
-          body: Padding(
-            padding: EdgeInsets.all(AppSize.width(value: 12)),
-            child: Column(
-              spacing: AppSize.size.height * 0.01,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.blue.withValues(alpha: 0.1),
-                    border: Border.all(color: Colors.blue, width: 0.5),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: EdgeInsets.all(12),
-                  child: Column(
-                    spacing: AppSize.size.height * 0.007,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          AppText(
-                            data: "Current Tier:",
-                            fontSize: AppSize.width(value: 12),
-                            fontWeight: FontWeight.w700,
-                          ),
-                          AppText(
-                            data: " Platinum",
-                            fontSize: AppSize.width(value: 12),
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          AppText(
-                            data: "Minimum Boxes Required:",
-                            fontSize: AppSize.width(value: 12),
-                            fontWeight: FontWeight.w700,
-                          ),
-                          AppText(
-                            data: "  ${controller.minimumBoxes}",
-                            fontSize: AppSize.width(value: 12),
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          AppText(
-                            data: "Subscription: Platinum Tier:",
-                            fontSize: AppSize.width(value: 12),
-                            fontWeight: FontWeight.w700,
-                          ),
-                          AppText(
-                            data: "  6 boxes per month",
-                            fontSize: AppSize.width(value: 12),
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ],
-                      ),
-                      AppText(
-                        data:
-                            "Select products for your subscription and adjust quantities as needed.",
-                        fontSize: AppSize.width(value: 12),
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ],
-                  ),
-                ),
-                AppText(
-                  data: "Available Products",
-                  fontSize: AppSize.width(value: 16),
-                  fontWeight: FontWeight.w700,
-                ),
-
-                Obx(() {
-                  return GridView.builder(
-                    shrinkWrap: true, // Column এর মধ্যে রাখতে হলে দরকার
-                    physics:
-                        NeverScrollableScrollPhysics(), // Nested scroll issue fix
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // প্রতি row-তে কয়টা column থাকবে
-                      mainAxisSpacing: AppSize.width(value: 12), // row gap
-                      crossAxisSpacing: AppSize.width(value: 12), // column gap
-                      childAspectRatio:
-                          1.7, // card এর width-height ratio নিয়ন্ত্রণ করবে
+          // NEW: Added bottom navigation bar for the summary
+          bottomNavigationBar: controller.cart.isEmpty
+              ? const SizedBox.shrink() // Hide if cart is empty
+              : BottomSummaryBar(controller: controller),
+          body: SingleChildScrollView(
+            // NEW: Made the body scrollable
+            child: Padding(
+              padding: EdgeInsets.all(AppSize.width(value: 12)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // --- This is your existing code for the top section ---
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.blue.withOpacity(0.1),
+                      border: Border.all(color: Colors.blue, width: 0.5),
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    itemCount: controller
-                        .getAllProducts
-                        .length, // আপনার product list length দিন
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            AppText(
+                              data: "Current Tier:",
+                              fontSize: AppSize.width(value: 12),
+                              fontWeight: FontWeight.w700,
+                            ),
+                            AppText(
+                              data: " Platinum",
+                              fontSize: AppSize.width(value: 12),
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: AppSize.size.height * 0.007),
+                        Row(
+                          children: [
+                            AppText(
+                              data: "Minimum Boxes Required:",
+                              fontSize: AppSize.width(value: 12),
+                              fontWeight: FontWeight.w700,
+                            ),
+                            AppText(
+                              data: "  ${controller.minimumBoxes}",
+                              fontSize: AppSize.width(value: 12),
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: AppSize.size.height * 0.007),
+                        Row(
+                          children: [
+                            AppText(
+                              data: "Subscription: Platinum Tier:",
+                              fontSize: AppSize.width(value: 12),
+                              fontWeight: FontWeight.w700,
+                            ),
+                            AppText(
+                              data: "  6 boxes per month",
+                              fontSize: AppSize.width(value: 12),
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: AppSize.size.height * 0.007),
+                        AppText(
+                          data:
+                              "Select products for your subscription and adjust quantities as needed.",
+                          fontSize: AppSize.width(value: 12),
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: AppSize.size.height * 0.01),
+                  AppText(
+                    data: "Available Products",
+                    fontSize: AppSize.width(value: 16),
+                    fontWeight: FontWeight.w700,
+                  ),
+                  SizedBox(height: AppSize.size.height * 0.01),
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: AppSize.width(value: 12),
+                      crossAxisSpacing: AppSize.width(value: 12),
+                      childAspectRatio: 1.7,
+                    ),
+                    itemCount: controller.getAllProducts.length,
                     itemBuilder: (context, index) {
                       final product = controller.getAllProducts[index];
                       return ExtraBoxCard(
                         title: product.name,
                         title2: product.size,
                         price: product.price.toString(),
+                        // UPDATED: Linking card state to controller
+                        isSelected: controller.isProductInCart(product),
+                        onChanged: (value) {
+                          controller.toggleProductSelection(product);
+                        },
                       );
                     },
-                  );
-                }),
+                  ),
+                  SizedBox(height: AppSize.size.height * 0.02),
+                  AppText(
+                    data: "Selected Products",
+                    fontSize: AppSize.width(value: 20),
+                    fontWeight: FontWeight.w700,
+                    color: AppColor.black,
+                  ),
 
-                AppText(
-                  data: "Selected Products",
-                  fontSize: AppSize.width(value: 20),
-                  fontWeight: FontWeight.w700,
-                  color: AppColor.black,
-                ),
-                //  Obx(() {
-                //     return ListView.builder(
-                //       padding: EdgeInsets.only(top: AppSize.size.height * 0.02),
-                //       shrinkWrap: true,
-                //       physics: NeverScrollableScrollPhysics(),
-                //       itemCount: controller.getAllProducts.length,
-                //       itemBuilder: (context, index) {
-                //         final product = controller.getAllProducts[index];
-                //         return ProductInformationCard(
-                //           onTap: () {
-                //             // cartController.addProductToCart(product);
-                //             // Get.snackbar(
-                //             //   duration: const Duration(seconds: 1),
-                //             //   snackPosition: SnackPosition.TOP,
-                //             //   "Product Added",
-                //             //   "${product.name} has been added to cart",
-                //             // );
-                //           },
-                //           product: product,
-                //         );
-                //       },
-                //     );
-                //   }),
-              ],
+                  // --- NEW: SELECTED PRODUCTS LIST ---
+                  if (controller.cart.isEmpty)
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 24.0),
+                      child: Center(child: Text("No products selected yet.")),
+                    )
+                  else
+                    ListView.builder(
+                      padding: EdgeInsets.only(top: AppSize.size.height * 0.02),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: controller.cart.length,
+                      itemBuilder: (context, index) {
+                        final cartItem = controller.cart[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: SelectedProductCard(
+                            cartItem: cartItem,
+                            controller: controller,
+                          ),
+                        );
+                      },
+                    ),
+                ],
+              ),
             ),
           ),
         );
@@ -154,44 +164,44 @@ class RetailerSelectExtraboxScreen extends StatelessWidget {
   }
 }
 
+// SLIGHTLY MODIFIED: Changed the box to an interactive Checkbox
 class ExtraBoxCard extends StatelessWidget {
-  final bool isSelected;
   final String? title;
   final String? title2;
   final String? price;
+  final bool isSelected;
+  final ValueChanged<bool?>? onChanged; // Added callback
+
   const ExtraBoxCard({
     super.key,
     this.title,
     this.title2,
     this.price,
     this.isSelected = false,
+    this.onChanged, // Added to constructor
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: isSelected ? Colors.blue.withValues(alpha: 0.1) : Colors.white,
+        color: isSelected ? Colors.blue.withOpacity(0.1) : Colors.white,
         border: Border.all(
           color: isSelected ? Colors.blue : Colors.grey.shade300,
         ),
         borderRadius: BorderRadius.circular(8),
       ),
-      padding: EdgeInsets.all(AppSize.width(value: 8)),
+      padding: EdgeInsets.all(AppSize.width(value: 4)),
       child: Row(
-        spacing: AppSize.size.height * 0.01,
         children: [
-          Container(
-            width: 12,
-            height: 12,
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColor.black),
-            ),
+          Checkbox(
+            // Changed to a real checkbox
+            value: isSelected,
+            onChanged: onChanged,
+            activeColor: AppColor.blue,
           ),
-
           Expanded(
             child: Column(
-              spacing: AppSize.size.height * 0.007,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -218,6 +228,219 @@ class ExtraBoxCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+// --- NEW WIDGETS ---
+
+// NEW WIDGET: Card for a single selected product in the cart list.
+class SelectedProductCard extends StatelessWidget {
+  final CartItem cartItem;
+  final RetailerSelectExtraboxController controller;
+
+  const SelectedProductCard({
+    Key? key,
+    required this.cartItem,
+    required this.controller,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final product = cartItem.product;
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey.shade200),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          _buildInfoRow("Product", product.name),
+          _buildInfoRow("Size", product.size),
+          _buildInfoRow("Unit Price", "\$${product.price}"),
+          _buildQuantityRow(),
+          const Divider(height: 24),
+          Obx(
+            () => _buildInfoRow(
+              "Total Price",
+              "\$${(product.price * cartItem.quantity.value).toStringAsFixed(2)}",
+              isTotal: true,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value, {bool isTotal = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AppText(
+            data: label,
+            fontWeight: isTotal ? FontWeight.w700 : FontWeight.w500,
+            color: Colors.grey.shade600,
+          ),
+          AppText(
+            data: value,
+            fontWeight: isTotal ? FontWeight.w700 : FontWeight.w500,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildQuantityRow() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AppText(
+            data: "Quantity",
+            fontWeight: FontWeight.w500,
+            color: Colors.grey.shade600,
+          ),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey.shade300),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.remove, size: 16),
+                  onPressed: () => controller.decrementQuantity(cartItem),
+                  constraints: const BoxConstraints(),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                ),
+                Obx(
+                  () => AppText(
+                    data: "${cartItem.quantity.value}",
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.add, size: 16),
+                  onPressed: () => controller.incrementQuantity(cartItem),
+                  constraints: const BoxConstraints(),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// NEW WIDGET: The purple bottom summary bar.
+class BottomSummaryBar extends StatelessWidget {
+  final RetailerSelectExtraboxController controller;
+
+  const BottomSummaryBar({Key? key, required this.controller})
+    : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
+      decoration: const BoxDecoration(
+        color: Color(0xFF4B0082), // Indigo/Purple Color
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Obx(
+            () => _buildSummaryRow(
+              "Selected:",
+              "${controller.totalSelectedProducts} products",
+            ),
+          ),
+          const SizedBox(height: 8),
+          Obx(
+            () => _buildSummaryRow("Total Boxes:", "${controller.totalBoxes}"),
+          ),
+          const SizedBox(height: 8),
+          Obx(
+            () => _buildSummaryRow(
+              "Total Amount:",
+              "\$${controller.totalAmount.toStringAsFixed(2)}",
+            ),
+          ),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: () {
+                    // TODO: Handle cancel logic
+                  },
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    side: const BorderSide(color: Colors.white54),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text("Cancel"),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    // TODO: Handle save logic
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF00BFA5), // Teal Color
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text("Save Selection"),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSummaryRow(String label, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        AppText(data: label, color: Colors.white70),
+        AppText(data: value, color: Colors.white, fontWeight: FontWeight.bold),
+      ],
     );
   }
 }
