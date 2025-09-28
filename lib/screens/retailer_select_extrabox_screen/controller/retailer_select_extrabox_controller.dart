@@ -5,6 +5,7 @@ import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:get/get.dart';
 
 class RetailerSelectExtraboxController extends GetxController {
+  int minimumBoxes = 6;
   var getAllProducts = <ProductModel>[].obs;
   var dashboardSummary = Rx<RetailerDashboardSummaryModel?>(null);
   var isLoading = false.obs;

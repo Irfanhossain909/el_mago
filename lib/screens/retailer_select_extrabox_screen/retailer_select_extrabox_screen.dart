@@ -55,7 +55,7 @@ class RetailerSelectExtraboxScreen extends StatelessWidget {
                             fontWeight: FontWeight.w700,
                           ),
                           AppText(
-                            data: "  6",
+                            data: "  ${controller.minimumBoxes}",
                             fontSize: AppSize.width(value: 12),
                             fontWeight: FontWeight.w400,
                           ),
