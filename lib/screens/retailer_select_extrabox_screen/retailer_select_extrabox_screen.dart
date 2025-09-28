@@ -397,7 +397,13 @@ class BottomSummaryBar extends StatelessWidget {
               Expanded(
                 child: OutlinedButton(
                   onPressed: () {
-                    // TODO: Handle cancel logic
+                    // Clear the cart
+                    controller.cart.clear();
+                    Get.snackbar(
+                      "Cancelled",
+                      "Selection cleared",
+                      snackPosition: SnackPosition.BOTTOM,
+                    );
                   },
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.white,
@@ -412,19 +418,32 @@ class BottomSummaryBar extends StatelessWidget {
               ),
               const SizedBox(width: 16),
               Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    // TODO: Handle save logic
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF00BFA5), // Teal Color
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                child: Obx(
+                  () => ElevatedButton(
+                    onPressed: controller.isPlacingOrder.value
+                        ? null
+                        : () async {
+                            await controller.placeOrder();
+                          },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF00BFA5), // Teal Color
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
+                    child: controller.isPlacingOrder.value
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : const Text("Save Selection"),
                   ),
-                  child: const Text("Save Selection"),
                 ),
               ),
             ],
