@@ -59,6 +59,11 @@ class SalesRetailerManagementScreen extends StatelessWidget {
                             AppRoutes.instance.salesRepresentativeDetailsScreen,
                           );
                         },
+                        retailerEdit: () {
+                          Get.toNamed(
+                            AppRoutes.instance.salesEditNewRetailersScreen,
+                          );
+                        },
                       );
                     },
                   ),

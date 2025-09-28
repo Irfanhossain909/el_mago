@@ -31,10 +31,9 @@ class AppDescriptionTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final outlineBorder = OutlineInputBorder(
-      
       borderRadius: BorderRadius.circular(8),
       borderSide: BorderSide.none,
-       // No border color
+      // No border color
     );
 
     final errorOutlineBorder = OutlineInputBorder(
@@ -49,11 +48,14 @@ class AppDescriptionTextField extends StatelessWidget {
         // Show SizedBox if title is null or empty, otherwise show AppText
         (title == null || title!.isEmpty)
             ? const SizedBox()
-            : AppText(
-                data: title!,
-                fontWeight: FontWeight.w600,
-                color: titleColor ?? Colors.black,
-                fontSize: AppSize.width(value: 18),
+            : Padding(
+                padding: EdgeInsets.symmetric(vertical: 4.0),
+                child: AppText(
+                  data: title!,
+                  fontWeight: FontWeight.w600,
+                  color: titleColor ?? Colors.black,
+                  fontSize: AppSize.width(value: 16),
+                ),
               ),
 
         const Gap(height: 10),

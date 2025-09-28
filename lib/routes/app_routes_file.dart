@@ -6,6 +6,7 @@ import 'package:el_mago/screens/retailer_complate_subscription_screen/retailer_c
 import 'package:el_mago/screens/retailer_loyelty_screen/retailer_loyelty_screen.dart';
 import 'package:el_mago/screens/retailer_my_subscription_screen/retailer_my_subscription_screen.dart';
 import 'package:el_mago/screens/retailer_select_extrabox_screen/retailer_select_extrabox_screen.dart';
+import 'package:el_mago/screens/sales_edit_new_retailers_screen/sales_edit_new_retailers_screen.dart';
 import 'package:el_mago/screens/sales_my_sales_screen/sales_my_sales_screen.dart';
 import 'package:el_mago/screens/sales_reppesentative_details/sales_reppesentative_details.dart';
 import 'package:get/get.dart';
@@ -185,5 +186,10 @@ List<GetPage> appRootRoutesFile = <GetPage>[
     name: AppRoutes.instance.salesRepresentativeDetailsScreen,
     binding: AppBinding(),
     page: () => const SalesReppesentativeDetails(),
+  ),
+  GetPage(
+    name: AppRoutes.instance.salesEditNewRetailersScreen,
+    binding: AppBinding(),
+    page: () => const SalesEditNewRetailersScreen(),
   ),
 ];

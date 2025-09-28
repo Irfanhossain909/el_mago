@@ -32,4 +32,5 @@ class AppRoutes {
   final String retailerComplateSubscriptionScreen = "/retailer-complate-subscription-screen";
   final String retailerSelectExtraBoxScreen = "/retailer-select-extra-box-screen";
   final String salesRepresentativeDetailsScreen = "/sales-representative-screen";
+  final String salesEditNewRetailersScreen = "/sales-edit-new-retailers-screen";
 }
