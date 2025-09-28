@@ -45,6 +45,10 @@ class AssetsPath {
   static const String card2 = "assets/icons/card2.png";
   static const String card3 = "assets/icons/card3.png";
   static const String cvv = "assets/icons/cvc.png";
+  static const String deleteIcon = "assets/icons/ic_delete.png";
+  static const String editIcon = "assets/icons/ic_edit.png";
+  static const String eyeIcon = "assets/icons/ic_eye.png";
+  static const String reloadIcon = "assets/icons/ic_reload.png";
 
   //sales
   static const String retailerManagement =
