@@ -26,17 +26,17 @@ class CustomDropdown<T> extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         // Default border (when not focused or enabled)
         border: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColor.white.withValues(alpha: 0.3)),
+          borderSide: BorderSide(color: AppColor.black),
           borderRadius: BorderRadius.circular(AppSize.width(value: 12)),
         ),
         // Border when enabled but not focused
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColor.white.withValues(alpha: 0.3)),
+          borderSide: BorderSide(color: AppColor.black),
           borderRadius: BorderRadius.circular(AppSize.width(value: 12)),
         ),
         // Border when focused
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColor.white.withValues(alpha: 0.3)),
+          borderSide: BorderSide(color: AppColor.black),
           borderRadius: BorderRadius.circular(AppSize.width(value: 12)),
         ),
         // Border when there's an error
@@ -50,20 +50,19 @@ class CustomDropdown<T> extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppSize.width(value: 12)),
         ),
       ),
-      style: TextStyle(color: AppColor.white),
-      hint: Text(hint, style: TextStyle(color: AppColor.white)),
+      style: TextStyle(color: AppColor.black),
+      hint: Text(hint, style: TextStyle(color: AppColor.black)),
       items: items.map((T value) {
         return DropdownMenuItem<T>(value: value, child: Text(value.toString()));
       }).toList(),
       onChanged: onChanged,
-      dropdownColor: AppColor.blue500,
+      
+      dropdownColor: AppColor.white,
       icon: Icon(
         Icons.keyboard_arrow_down_rounded,
-        color: AppColor.white,
+        color: AppColor.black,
         size: AppSize.width(value: 18),
       ),
     );
   }
 }
-
-

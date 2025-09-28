@@ -34,4 +34,5 @@ class AppRoutes {
   final String salesRepresentativeDetailsScreen = "/sales-representative-screen";
   final String salesEditNewRetailersScreen = "/sales-edit-new-retailers-screen";
   final String salesAddRetailersScreen = "/sales-add-retailers-screen";
+  final String salesEditSubscriptionScreen = "/sales-edit-subscription-screen";
 }

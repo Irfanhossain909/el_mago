@@ -20,7 +20,7 @@ class SalesRetailerManagementScreen extends StatelessWidget {
         autoShowLeading: false,
       ),
       body: DefaultTabController(
-        initialIndex: 1,
+        initialIndex: 0,
         length: 2,
         child: Column(
           children: [
@@ -105,7 +105,13 @@ class SalesRetailerManagementScreen extends StatelessWidget {
                     padding: EdgeInsets.all(AppSize.width(value: 12)),
                     itemCount: 2,
                     itemBuilder: (context, index) {
-                      return SubManageCard();
+                      return SubManageCard(
+                        subEdit: () {
+                          Get.toNamed(
+                            AppRoutes.instance.salesEditSubscriptionScreen,
+                          );
+                        },
+                      );
                     },
                   ),
                 ],
