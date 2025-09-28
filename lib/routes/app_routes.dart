@@ -28,4 +28,6 @@ class AppRoutes {
   final String retailerSubscriptionScreen = "/retailer-subscription-screen";
   final String retailerLoyaltyScreen = "/retailer-loyalty-screen";
   final String notificationScreen = "/notification-screen";
+  final String retailerComplateSubscriptionScreen = "/retailer-complate-subscription-screen";
+  final String retailerSelectExtraBoxScreen = "/retailer-select-extra-box-screen";
 }

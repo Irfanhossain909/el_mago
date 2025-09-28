@@ -40,6 +40,11 @@ class AssetsPath {
   static const String box = "assets/icons/box.png";
   static const String addressCard = "assets/icons/address_card.png";
   static const String tag = "assets/icons/tag.png";
+  static const String editText = "assets/icons/edit_text.png";
+  static const String card1 = "assets/icons/card1.png";
+  static const String card2 = "assets/icons/card2.png";
+  static const String card3 = "assets/icons/card3.png";
+  static const String cvv = "assets/icons/cvc.png";
 
   //sales
   static const String retailerManagement =

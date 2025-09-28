@@ -1,8 +1,10 @@
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/const/assets_icons_path.dart';
+import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_button/app_button.dart';
 import 'package:el_mago/widgets/app_image/app_image.dart';
+import 'package:el_mago/widgets/app_input/app_input_widget_two.dart';
 import 'package:el_mago/widgets/app_log/gap.dart';
 import 'package:el_mago/widgets/app_text/app_text.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
@@ -57,6 +59,11 @@ class RetailerMySubscriptionScreen extends StatelessWidget {
                       ),
                       Expanded(
                         child: AppButton(
+                          onTap: () {
+                            Get.toNamed(
+                              AppRoutes.instance.retailerSelectExtraBoxScreen,
+                            );
+                          },
                           height: AppSize.width(value: 38),
                           width: AppSize.size.width * 0.4,
                           title: "Edit Selected Boxes",
@@ -100,6 +107,21 @@ class SubcriptionCard extends StatefulWidget {
 
 class _SubcriptionCardState extends State<SubcriptionCard> {
   bool isChecked = false;
+  String? selectedBoxValue;
+  int boxCount = 6; // Default value for boxes
+  final TextEditingController _boxController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _boxController.text = boxCount.toString();
+  }
+
+  @override
+  void dispose() {
+    _boxController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +174,123 @@ class _SubcriptionCardState extends State<SubcriptionCard> {
                               color: Colors.black,
                             ),
                             Gap(height: AppSize.size.height * 0.02),
-                            SubWidGetRow(text: "Advanced custom fieldsEdit"),
+                            Row(
+                              spacing: AppSize.width(value: 12),
+                              children: [
+                                Icon(
+                                  Icons.done_rounded,
+                                  color: AppColor.blue,
+                                  size: AppSize.width(value: 16),
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      AppText(
+                                        data:
+                                            "Platinum Tier : $boxCount boxes per month",
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black,
+                                      ),
+                                      Gap(width: 4),
+                                      InkWell(
+                                        onTap: () {
+                                          _boxController.text = boxCount
+                                              .toString();
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      // Validate and save the input
+                                                      String inputValue =
+                                                          _boxController.text
+                                                              .trim();
+                                                      if (inputValue
+                                                          .isNotEmpty) {
+                                                        int? newBoxCount =
+                                                            int.tryParse(
+                                                              inputValue,
+                                                            );
+                                                        if (newBoxCount !=
+                                                                null &&
+                                                            newBoxCount > 0) {
+                                                          setState(() {
+                                                            boxCount =
+                                                                newBoxCount;
+                                                          });
+                                                          Navigator.of(
+                                                            context,
+                                                          ).pop();
+                                                          Get.snackbar(
+                                                            "Updated",
+                                                            "Box count updated to $boxCount",
+                                                          );
+                                                        } else {
+                                                          Get.snackbar(
+                                                            "Invalid Input",
+                                                            "Please enter a valid number greater than 0",
+                                                          );
+                                                        }
+                                                      } else {
+                                                        Get.snackbar(
+                                                          "Empty Field",
+                                                          "Please enter a box number",
+                                                        );
+                                                      }
+                                                    },
+                                                    child: AppText(
+                                                      data: "Save",
+                                                      fontSize: AppSize.width(
+                                                        value: 16,
+                                                      ),
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: AppColor.blue,
+                                                    ),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.of(
+                                                        context,
+                                                      ).pop();
+                                                    },
+                                                    child: AppText(
+                                                      data: "Cancel",
+                                                      fontSize: AppSize.width(
+                                                        value: 16,
+                                                      ),
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                                ],
+                                                title: AppInputWidgetTwo(
+                                                  controller: _boxController,
+                                                  isOptional: true,
+                                                  keyboardType:
+                                                      TextInputType.number,
+                                                  title: "Edit Box",
+                                                  hintText: "Enter box number",
+                                                ),
+                                                backgroundColor: AppColor.white,
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: AppImage(
+                                          width: AppSize.width(value: 16),
+                                          path: AssetsPath.editText,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                             SubWidGetRow(text: "Audit log and data history"),
                             SubWidGetRow(text: "Unlimited individual users"),
                             SubWidGetRow(text: "Unlimited individual data"),
@@ -228,11 +366,10 @@ class _SubcriptionCardState extends State<SubcriptionCard> {
                               : AppColor.blue.withValues(alpha: 0.3),
                           onTap: () {
                             if (isChecked) {
-                              Get.snackbar(
-                                "Plan Selected",
-                                "Platinum plan has been selected!",
-                                backgroundColor: Colors.green,
-                                colorText: Colors.white,
+                              Get.toNamed(
+                                AppRoutes
+                                    .instance
+                                    .retailerComplateSubscriptionScreen,
                               );
                             } else {
                               Get.snackbar(
@@ -251,7 +388,6 @@ class _SubcriptionCardState extends State<SubcriptionCard> {
               ),
             ],
           ),
-
           Positioned(
             top: 10,
             right: 0,
@@ -273,17 +409,17 @@ class SubWidGetRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      spacing: AppSize.width(value: 24),
+      spacing: AppSize.width(value: 12),
       children: [
         Icon(
           Icons.done_rounded,
           color: AppColor.blue,
-          size: AppSize.width(value: 20),
+          size: AppSize.width(value: 16),
         ),
         Expanded(
           child: AppText(
             data: text ?? "No Text",
-            fontSize: AppSize.width(value: 16),
+            fontSize: 14,
             fontWeight: FontWeight.w400,
             color: Colors.black,
           ),
