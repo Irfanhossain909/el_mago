@@ -1,6 +1,5 @@
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/screens/auth/forgetpass_verify_otp_screen/controller/forgetpass_verify_otp_controller.dart';
-
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_button/app_button.dart';
 import 'package:el_mago/widgets/app_loading/app_loading.dart';

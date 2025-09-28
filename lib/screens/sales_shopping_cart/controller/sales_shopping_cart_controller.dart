@@ -70,10 +70,10 @@ class SalesShoppingCartController extends GetxController {
       isPlacingOrder(true);
 
       // --- FIX: Create the userId object with retailer info ---
-      final Map<String, dynamic> userIdPayload = {
-        "_id": selectedRetailer.id,
-        "name": selectedRetailer.name,
-      };
+      // final Map<String, dynamic> userIdPayload = {
+      //   "_id": selectedRetailer.id,
+      //   "name": selectedRetailer.name,
+      // };
 
       // Construct the products list for the request body
       final List<Map<String, dynamic>> productsPayload = cartItems.map((item) {

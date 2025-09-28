@@ -16,6 +16,12 @@ class AppApiEndPoint {
   final String getMyOrders = "/sales/orders/my-order";
   final String getTotalEarnCommision = "/sales/commission";
 
+  ////////////////////// Retailer Product Dashboard
+  final String getMyOrdersRetailer = "/retailer/dashboard/orders";
+  final String getRetailerDashboardSummary = "/retailer/dashboard/summary";
+  static String getSingleRetailerOrder(String orderId) =>
+      "/retailer/dashboard/orders/$orderId";
+
   final String refreshToken = "/auth/refresh-token";
   final String user = "/user";
   final String privacyPolicy = "/others/privacy-policy";
