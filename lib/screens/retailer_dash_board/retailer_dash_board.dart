@@ -34,7 +34,12 @@ class RetailerDashBoard extends StatelessWidget {
             path: AssetsPath.cart,
           ),
           Gap(width: AppSize.width(value: 8)),
-          CircleIconWithBg(path: AssetsPath.notification),
+          CircleIconWithBg(
+            onTap: () {
+              Get.toNamed(AppRoutes.instance.notificationScreen);
+            },
+            path: AssetsPath.notification,
+          ),
           Gap(width: AppSize.width(value: 8)),
         ],
       ),

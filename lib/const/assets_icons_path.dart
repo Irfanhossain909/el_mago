@@ -31,6 +31,8 @@ class AssetsPath {
   static const String cartColor = "assets/icons/cart_color.png";
   static const String dollerColor = "assets/icons/doller_color.png";
   static const String gift = "assets/icons/gift.png";
+  static const String subscriptionIcon = "assets/icons/subcription_icon.png";
+  static const String activeCard = "assets/images/active_card.png";
   static const String qualificationDocument =
       "assets/icons/qualification_doc.png";
   static const String currency = "assets/icons/currency.png";

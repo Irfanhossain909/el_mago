@@ -43,7 +43,9 @@ class SalesDashBoardScreen extends StatelessWidget {
           CircleAvatar(
             backgroundColor: AppColor.blue,
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed(AppRoutes.instance.notificationScreen);
+              },
               icon: Image.asset(
                 AssetsPath.notification,
                 color: AppColor.white,
