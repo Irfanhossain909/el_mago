@@ -1,82 +1,149 @@
+import 'package:el_mago/models/sales_model/sales_model.dart';
+import 'package:el_mago/services/repository/sales_repository.dart';
+import 'package:el_mago/widgets/app_log/error_log.dart';
 import 'package:get/get.dart';
 
 class SalesMySalesScreenController extends GetxController {
-  // --- Data Store ---
-  // A map holding all available sales data, keyed by year.
-  final Map<int, List<double>> yearlySalesData = {
-    2024: [
-      1500,
-      2000,
-      1800,
-      2500,
-      3000,
-      1200,
-      400,
-      2700,
-      700,
-      3200,
-      2500,
-      1300,
-    ],
-    2025: [
-      1800,
-      2500,
-      2200,
-      2800,
-      3200,
-      1000,
-      800,
-      3000,
-      1200,
-      3500,
-      2700,
-      1600,
-    ],
-    2026: [
-      2200,
-      2700,
-      2400,
-      3100,
-      3500,
-      1500,
-      900,
-      3300,
-      1400,
-      3800,
-      2900,
-      1900,
-    ], // New 2026 data
-  };
+  // --- Dependencies ---
+  final SalesRepository _salesRepository = SalesRepository();
 
-  // --- State for Year Selection ---
-  // This index tracks the starting year of the comparison pair.
-  // e.g., index 0 = (2024, 2025), index 1 = (2025, 2026)
+  // --- State Variables ---
+  var isLoading = false.obs;
+  var salesData = Rxn<SalesModel>();
+  var availableYears = <String>[].obs;
   var currentYearIndex = 0.obs;
 
   // --- Computed Properties for the UI ---
-  // These getters dynamically provide the correct data to the UI based on the currentYearIndex.
-
   // The first year in the current comparison pair.
-  int get displayYear1 =>
-      yearlySalesData.keys.elementAt(currentYearIndex.value);
+  String get displayYear1 {
+    if (availableYears.length > currentYearIndex.value) {
+      return availableYears[currentYearIndex.value];
+    }
+    return '2024'; // fallback
+  }
+
   // The second year in the current comparison pair.
-  int get displayYear2 =>
-      yearlySalesData.keys.elementAt(currentYearIndex.value + 1);
+  String get displayYear2 {
+    if (availableYears.length > currentYearIndex.value + 1) {
+      return availableYears[currentYearIndex.value + 1];
+    }
+    return '2025'; // fallback
+  }
 
   // The sales data for the first displayed year.
-  List<double> get displayData1 => yearlySalesData[displayYear1]!;
+  List<double> get displayData1 {
+    if (salesData.value != null) {
+      return salesData.value!.getSalesDataForYear(displayYear1);
+    }
+    return List.filled(12, 0.0);
+  }
+
   // The sales data for the second displayed year.
-  List<double> get displayData2 => yearlySalesData[displayYear2]!;
+  List<double> get displayData2 {
+    if (salesData.value != null) {
+      return salesData.value!.getSalesDataForYear(displayYear2);
+    }
+    return List.filled(12, 0.0);
+  }
 
   // The total sales for the first displayed year.
-  double get displayTotal1 => displayData1.reduce((a, b) => a + b);
+  double get displayTotal1 {
+    if (salesData.value != null) {
+      return salesData.value!.getTotalSalesForYear(displayYear1);
+    }
+    return 0.0;
+  }
+
   // The total sales for the second displayed year.
-  double get displayTotal2 => displayData2.reduce((a, b) => a + b);
+  double get displayTotal2 {
+    if (salesData.value != null) {
+      return salesData.value!.getTotalSalesForYear(displayYear2);
+    }
+    return 0.0;
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    _initializeSalesData();
+  }
+
+  // Initialize with default years and fetch data
+  void _initializeSalesData() {
+    // Set default years (you can modify this logic as needed)
+    final currentYear = DateTime.now().year;
+    final defaultYears = [
+      (currentYear - 1).toString(),
+      currentYear.toString(),
+      (currentYear + 1).toString(),
+      (currentYear + 2).toString(),
+    ];
+
+    fetchSalesData(defaultYears);
+  }
+
+  // Fetch sales data from API
+  Future<void> fetchSalesData(List<String> years) async {
+    try {
+      isLoading.value = true;
+
+      final result = await _salesRepository.getMySales(years);
+
+      if (result != null) {
+        salesData.value = result;
+        availableYears.value = result.getAvailableYears();
+        currentYearIndex.value = 0; // Reset to first comparison
+      } else {
+        errorLog('Failed to fetch sales data', 'API returned null');
+        // Set fallback data
+        _setFallbackData(years);
+      }
+    } catch (e) {
+      errorLog('Exception in fetchSalesData', e.toString());
+      // Set fallback data in case of error
+      _setFallbackData(years);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  // Set fallback data in case of API failure
+  void _setFallbackData(List<String> years) {
+    // Create empty sales data for fallback
+    Map<String, List<MonthlySales>> fallbackData = {};
+    for (String year in years) {
+      fallbackData[year] = List.generate(12, (index) {
+        const months = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+        return MonthlySales(month: months[index], sales: 0.0);
+      });
+    }
+
+    salesData.value = SalesModel(
+      success: false,
+      message: "Failed to load data",
+      data: fallbackData,
+    );
+    availableYears.value = years;
+    currentYearIndex.value = 0;
+  }
 
   // --- Methods to Change Years ---
   void nextYear() {
     // Prevent going out of bounds
-    if (currentYearIndex.value < yearlySalesData.length - 2) {
+    if (currentYearIndex.value < availableYears.length - 2) {
       currentYearIndex.value++;
     }
   }
@@ -86,5 +153,10 @@ class SalesMySalesScreenController extends GetxController {
     if (currentYearIndex.value > 0) {
       currentYearIndex.value--;
     }
+  }
+
+  // Method to refresh data
+  Future<void> refreshData() async {
+    await fetchSalesData(availableYears.toList());
   }
 }

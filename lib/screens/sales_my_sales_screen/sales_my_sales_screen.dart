@@ -17,41 +17,46 @@ class SalesMySalesScreen extends StatelessWidget {
     final controller = Get.find<SalesMySalesScreenController>();
     return Scaffold(
       appBar: CustomAppbar(title: "My Sales"),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-        child: Column(
-          children: [
-            // Top summary cards now display data based on the selected years
-            Obx(
-              () => Row(
-                children: [
-                  Expanded(
-                    child: _SalesSummaryCard(
-                      amount: controller.displayTotal2,
-                      year: "${controller.displayYear2} Total",
+      body: Obx(
+        () => controller.isLoading.value
+            ? const Center(child: CircularProgressIndicator())
+            : Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 10,
+                ),
+                child: Column(
+                  children: [
+                    // Top summary cards now display data based on the selected years
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _SalesSummaryCard(
+                            amount: controller.displayTotal2,
+                            year: "${controller.displayYear2} Total",
+                          ),
+                        ),
+                        SizedBox(width: AppSize.width(value: 16)),
+                        Expanded(
+                          child: _SalesSummaryCard(
+                            amount: controller.displayTotal1,
+                            year: "${controller.displayYear1} Total",
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  SizedBox(width: AppSize.width(value: 16)),
-                  Expanded(
-                    child: _SalesSummaryCard(
-                      amount: controller.displayTotal1,
-                      year: "${controller.displayYear1} Total",
+                    SizedBox(height: AppSize.height(value: 24)),
+                    // Chart section
+                    Expanded(
+                      flex: 3, // Give the chart card more vertical space
+                      child: _YearComparisonChartCard(controller: controller),
                     ),
-                  ),
-                ],
+                    const Spacer(
+                      flex: 4,
+                    ), // Add a spacer to create empty space at the bottom
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: AppSize.height(value: 24)),
-            // Chart section
-            Expanded(
-              flex: 3, // Give the chart card more vertical space
-              child: _YearComparisonChartCard(controller: controller),
-            ),
-            const Spacer(
-              flex: 4,
-            ), // Add a spacer to create empty space at the bottom
-          ],
-        ),
       ),
     );
   }
@@ -210,8 +215,8 @@ class _YearComparisonChartCard extends StatelessWidget {
 
 // The main Bar Chart widget, styled to match the image
 class _YearComparisonChart extends StatelessWidget {
-  final int year1;
-  final int year2;
+  final String year1;
+  final String year2;
   final List<double> data1;
   final List<double> data2;
 
@@ -228,9 +233,19 @@ class _YearComparisonChart extends StatelessWidget {
     const color2024 = Color(0xFF82A5E7);
     const color2025 = Color(0xFF86D5A2);
 
+    // Calculate dynamic max Y value based on the data
+    double maxValue = 0;
+    for (int i = 0; i < data1.length; i++) {
+      if (data1[i] > maxValue) maxValue = data1[i];
+      if (data2[i] > maxValue) maxValue = data2[i];
+    }
+    // Add some padding to the max value, minimum 1000
+    double maxY = maxValue > 0 ? (maxValue * 1.2).ceilToDouble() : 4000;
+    if (maxY < 1000) maxY = 4000;
+
     return BarChart(
       BarChartData(
-        maxY: 4000,
+        maxY: maxY,
         alignment: BarChartAlignment.spaceAround,
         borderData: FlBorderData(show: false),
         gridData: FlGridData(
@@ -250,7 +265,7 @@ class _YearComparisonChart extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               reservedSize: 40,
-              interval: 1000,
+              interval: maxY > 5000 ? 2000 : 1000,
               getTitlesWidget: (value, meta) {
                 return Text(
                   '${value.toInt()}',
