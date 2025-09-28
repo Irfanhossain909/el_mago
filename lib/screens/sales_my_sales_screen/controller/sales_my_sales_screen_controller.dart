@@ -70,13 +70,13 @@ class SalesMySalesScreenController extends GetxController {
 
   // Initialize with default years and fetch data
   void _initializeSalesData() {
-    // Set default years (you can modify this logic as needed)
+    // Set default years to include more previous years for navigation
     final currentYear = DateTime.now().year;
     final defaultYears = [
-      (currentYear - 1).toString(),
-      currentYear.toString(),
-      (currentYear + 1).toString(),
-      (currentYear + 2).toString(),
+      (currentYear - 3).toString(), // 3 years back
+      (currentYear - 2).toString(), // 2 years back
+      (currentYear - 1).toString(), // previous year
+      currentYear.toString(), // current year
     ];
 
     fetchSalesData(defaultYears);
@@ -92,7 +92,14 @@ class SalesMySalesScreenController extends GetxController {
       if (result != null) {
         salesData.value = result;
         availableYears.value = result.getAvailableYears();
-        currentYearIndex.value = 0; // Reset to first comparison
+        // Set default index to show (previous year, current year) comparison
+        // This will be index 2 in our array: [2022, 2023, 2024, 2025, 2026]
+        //                                            0     1     2     3     4
+        // So index 2 shows comparison between 2024 (previous) and 2025 (current)
+        final currentYear = DateTime.now().year;
+        final previousYearString = (currentYear - 1).toString();
+        final previousYearIndex = availableYears.indexOf(previousYearString);
+        currentYearIndex.value = previousYearIndex >= 0 ? previousYearIndex : 0;
       } else {
         errorLog('Failed to fetch sales data', 'API returned null');
         // Set fallback data
@@ -137,7 +144,11 @@ class SalesMySalesScreenController extends GetxController {
       data: fallbackData,
     );
     availableYears.value = years;
-    currentYearIndex.value = 0;
+    // Set default index to show (previous year, current year) comparison for fallback too
+    final currentYear = DateTime.now().year;
+    final previousYearString = (currentYear - 1).toString();
+    final previousYearIndex = years.indexOf(previousYearString);
+    currentYearIndex.value = previousYearIndex >= 0 ? previousYearIndex : 0;
   }
 
   // --- Methods to Change Years ---
