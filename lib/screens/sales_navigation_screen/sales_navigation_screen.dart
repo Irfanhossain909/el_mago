@@ -5,7 +5,7 @@ import 'package:el_mago/screens/sales_commision_breakdown/sales_commision_breakd
 import 'package:el_mago/screens/sales_dash_board/sales_dash_board_screen.dart';
 import 'package:el_mago/screens/sales_my_order/sales_my_order_screen.dart';
 import 'package:el_mago/screens/sales_navigation_screen/controller/sales_navigation_screen_controller.dart';
-import 'package:el_mago/screens/sales_retailer_management/controller/sales_retailer_management_screen.dart';
+import 'package:el_mago/screens/sales_retailer_management/sales_retailer_management_screen.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_image/app_image.dart';
 import 'package:flutter/material.dart';

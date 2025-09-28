@@ -45,10 +45,11 @@ class ProfileScreen extends StatelessWidget {
 
                           children: [
                             AppText(
+                              maxLines: 1,
                               data:
                                   controller.profileData.value?.name ??
                                   "Unknown",
-                              fontSize: AppSize.width(value: 18),
+                              fontSize: AppSize.width(value: 16),
                               fontWeight: FontWeight.w700,
                               color: AppColor.black,
                             ),

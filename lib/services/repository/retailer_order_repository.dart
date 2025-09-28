@@ -1,7 +1,9 @@
 import 'package:el_mago/const/app_api_end_point.dart';
+import 'package:el_mago/models/retailer_order/all_retailer_model.dart';
 import 'package:el_mago/models/retailer_order/retailer_order_model.dart';
 import 'package:el_mago/models/retailer_model/retailer_dashboard_summary_model.dart';
 import 'package:el_mago/services/api/api_services.dart';
+import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:el_mago/widgets/app_log/error_log.dart';
 
 class RetailerOrderRepository {
@@ -82,5 +84,27 @@ class RetailerOrderRepository {
       errorLog('Exception in getRetailerDashboardSummary', e.toString());
       return null;
     }
+  }
+
+  //Fetched All retailers
+  Future<List<AlLRetailerModelData>> getAllRetailers() async {
+    List<AlLRetailerModelData> allRetailerModel = <AlLRetailerModelData>[];
+    try {
+      var response = await _apiServices.apiGetServices(
+        AppApiEndPoint.instance.getMyRetailers,
+      );
+      if (response != null) {
+        if (response["data"] != null && response["data"] is List) {
+          for (var item in response["data"]) {
+            allRetailerModel.add(AlLRetailerModelData.fromJson(item));
+          }
+        }
+      } else {
+        AppPrint.appError("response is null");
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "getAllRetailers");
+    }
+    return allRetailerModel;
   }
 }

@@ -53,6 +53,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => RetailerNavigationScreenController());
     //sales dahboard
     Get.lazyPut<GlobalController>(() => GlobalController());
+    Get.lazyPut(() => SalesMySalesScreenController());
     Get.lazyPut<SalesDashboardController>(
       () => SalesDashboardController(),
       fenix: true,
