@@ -49,6 +49,11 @@ class AssetsPath {
   static const String editIcon = "assets/icons/ic_edit.png";
   static const String eyeIcon = "assets/icons/ic_eye.png";
   static const String reloadIcon = "assets/icons/ic_reload.png";
+  static const String boxColor = "assets/icons/box_color.png";
+  static const String icVerification = "assets/icons/ic_verification.png";
+  static const String icRole = "assets/icons/ic_role.png";
+  static const String icCalender = "assets/icons/ic_calender.png";
+  static const String icAddress = "assets/icons/ic_address.png";
 
   //sales
   static const String retailerManagement =

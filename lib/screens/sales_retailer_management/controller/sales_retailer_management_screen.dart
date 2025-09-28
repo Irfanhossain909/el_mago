@@ -1,9 +1,11 @@
 import 'package:el_mago/const/app_color.dart';
+import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/screens/sales_retailer_management/widget/sale_representative_card.dart';
 import 'package:el_mago/screens/sales_retailer_management/widget/sub_manage_card.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 class SalesRetailerManagementScreen extends StatelessWidget {
   const SalesRetailerManagementScreen({super.key});
@@ -51,7 +53,13 @@ class SalesRetailerManagementScreen extends StatelessWidget {
                     padding: EdgeInsets.all(AppSize.width(value: 12)),
                     itemCount: 2,
                     itemBuilder: (context, index) {
-                      return SalesRepresentativeCard();
+                      return SalesRepresentativeCard(
+                        retailerDetails: () {
+                          Get.toNamed(
+                            AppRoutes.instance.salesRepresentativeDetailsScreen,
+                          );
+                        },
+                      );
                     },
                   ),
                   //Tab 2
