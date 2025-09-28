@@ -3,6 +3,7 @@ import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/screens/sales_retailer_management/widget/sale_representative_card.dart';
 import 'package:el_mago/screens/sales_retailer_management/widget/sub_manage_card.dart';
 import 'package:el_mago/utils/app_size.dart';
+import 'package:el_mago/widgets/app_button/app_button.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
@@ -22,6 +23,23 @@ class SalesRetailerManagementScreen extends StatelessWidget {
         length: 2,
         child: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+              children: [
+                SizedBox(),
+                Padding(
+                  padding: EdgeInsets.only(right: 12.0),
+                  child: AppButton(
+                    onTap: () {
+                      Get.toNamed(AppRoutes.instance.salesAddRetailersScreen);
+                    },
+                    width: AppSize.size.width * 0.4,
+                    title: "Add Retailer +",
+                  ),
+                ),
+              ],
+            ),
             TabBar(
               indicatorPadding: EdgeInsets.symmetric(vertical: 20),
               dividerColor: Colors.transparent,
