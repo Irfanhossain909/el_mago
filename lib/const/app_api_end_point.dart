@@ -21,6 +21,7 @@ class AppApiEndPoint {
   ////////////////////// Retailer Product Dashboard
   final String getMyOrdersRetailer = "/retailer/dashboard/orders";
   final String getRetailerDashboardSummary = "/retailer/dashboard/summary";
+  final String getRetailerSubscription = "/retailer/subscription/";
   static String getSingleRetailerOrder(String orderId) =>
       "/retailer/dashboard/orders/$orderId";
 
