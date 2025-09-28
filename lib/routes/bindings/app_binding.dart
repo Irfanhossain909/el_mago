@@ -11,9 +11,11 @@ import 'package:el_mago/screens/controller/global_controller.dart';
 import 'package:el_mago/screens/profile_screen/controller/profile_controller.dart';
 import 'package:el_mago/screens/retailer_dash_board/controller/retailer_dash_board_controller.dart';
 import 'package:el_mago/screens/retailer_my_order_screen/controller/retailer_my_order_screen_controller.dart';
+import 'package:el_mago/screens/retailer_my_subscription_screen/controller/retailer_my_subscription_controller.dart';
 import 'package:el_mago/screens/retailer_navigation_screen/controller/retailer_navigation_screen_controller.dart';
 import 'package:el_mago/screens/retailer_order_details_screen/controller/retailer_order_details_screen_controller.dart';
 import 'package:el_mago/screens/retailer_shopping_cart/controller/retailer_shopping_cart_controller.dart';
+import 'package:el_mago/screens/sales_commision_breakdown/controller/sales_commition_breackdown_controller.dart';
 import 'package:el_mago/screens/sales_dash_board/controller/sales_dashboard_controller.dart';
 import 'package:el_mago/screens/sales_my_order/controller/sales_my_order_controller.dart';
 import 'package:el_mago/screens/sales_navigation_screen/controller/sales_navigation_screen_controller.dart';
@@ -37,6 +39,8 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => ForgetPasswordController());
     Get.lazyPut(() => ForgetPassVerifyOtpController());
     Get.lazyPut(() => CreateYourPasswordController());
+    Get.lazyPut(() => SalesCommitionBreackdownController());
+    Get.lazyPut(() => RetailerMySubscriptionController());
     ///////////app
     Get.lazyPut(() => ProfileController());
     Get.lazyPut(() => ChnagePasswordController());
