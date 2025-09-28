@@ -15,6 +15,8 @@ class AppApiEndPoint {
   final String createOrder = "/retailer/dashboard/create";
   final String getMyOrders = "/sales/orders/my-order";
   final String getTotalEarnCommision = "/sales/commission";
+  final String getCommissionOrders = "/sales/commission/order";
+  final String getMySales = "/sales/my-sales";
 
   ////////////////////// Retailer Product Dashboard
   final String getMyOrdersRetailer = "/retailer/dashboard/orders";

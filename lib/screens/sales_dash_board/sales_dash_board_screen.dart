@@ -24,7 +24,7 @@ class SalesDashBoardScreen extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppbar(
         title: 'Dashboard Overview',
-        autoShowLeading: true,
+        autoShowLeading: false,
         action: [
           CircleAvatar(
             backgroundColor: AppColor.blue,

@@ -23,7 +23,7 @@ class SalesMyOrderScreen extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppbar(
         title: 'My Order',
-        autoShowLeading: true,
+        autoShowLeading: false,
         action: [
           Padding(
             padding: const EdgeInsets.only(left: 8.0, right: 8.0),

@@ -1,5 +1,6 @@
 import 'package:el_mago/const/app_api_end_point.dart';
 import 'package:el_mago/models/retailer_model/retailer_model.dart';
+import 'package:el_mago/models/sales_model/sales_model.dart';
 import 'package:el_mago/services/api/api_services.dart';
 import 'package:el_mago/widgets/app_log/error_log.dart';
 
@@ -26,6 +27,31 @@ class SalesRepository {
     } catch (e) {
       errorLog('Exception in getMyRetailers', e.toString());
       return []; // Return an empty list on error
+    }
+  }
+
+  Future<SalesModel?> getMySales(List<String> years) async {
+    try {
+      final endpoint = _appApiEndPoint.getMySales;
+      final queryParameters = {'years': years.join(',')};
+
+      final response = await _apiServices.apiGetServices(
+        endpoint,
+        queryParameters: queryParameters,
+      );
+
+      if (response != null && response['success'] == true) {
+        return SalesModel.fromJson(response);
+      } else {
+        errorLog(
+          'Failed to fetch sales data or data is null',
+          response.toString(),
+        );
+        return null;
+      }
+    } catch (e) {
+      errorLog('Exception in getMySales', e.toString());
+      return null;
     }
   }
 }

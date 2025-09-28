@@ -9,7 +9,9 @@ import 'package:el_mago/widgets/app_log/gap.dart';
 import 'package:el_mago/widgets/app_text/app_text.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart'; // Add this import
 import 'package:get/get_state_manager/src/simple/get_state.dart';
+import 'package:get/get.dart';
 
 class SalesCommisionBreakdownScreen extends StatelessWidget {
   const SalesCommisionBreakdownScreen({super.key});
@@ -57,7 +59,6 @@ class SalesCommisionBreakdownScreen extends StatelessWidget {
                                     padding: EdgeInsets.all(12),
                                     child: AppImage(
                                       width: AppSize.width(value: 24),
-
                                       path: AssetsPath.dollerColor,
                                     ),
                                   ),
@@ -67,12 +68,15 @@ class SalesCommisionBreakdownScreen extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      AppText(
-                                        data:
-                                            "\$${controller.salesCommitionBreackdown.value}",
-                                        color: AppColor.white,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: AppSize.width(value: 16),
+                                      Obx(
+                                        () => AppText(
+                                          data: controller.isLoading.value
+                                              ? "Loading..."
+                                              : "\$${controller.salesCommitionBreackdown.value}",
+                                          color: AppColor.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: AppSize.width(value: 16),
+                                        ),
                                       ),
                                       AppText(
                                         data: "Total Commission Earned",
@@ -88,6 +92,9 @@ class SalesCommisionBreakdownScreen extends StatelessWidget {
                             AppInputWidgetTwo(
                               borderColor: AppColor.button,
                               hintText: "Search by invoice ID or Product Name",
+                              onChanged: (value) {
+                                controller.searchOrders(value);
+                              },
                             ),
                           ],
                         ),
@@ -105,19 +112,11 @@ class SalesCommisionBreakdownScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: AppColor.white,
                             borderRadius: BorderRadius.circular(8),
-                            // border: Border.all(
-                            //   color: AppColor.black.withValues(alpha: 0.1),
-                            // ),
                           ),
-
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              // border: Border.all(
-                              //   color: AppColor.black.withValues(alpha: 0.1),
-                              // ),
                             ),
-
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -130,7 +129,6 @@ class SalesCommisionBreakdownScreen extends StatelessWidget {
                                   data: "Quantity",
                                   fontSize: AppSize.width(value: 10),
                                   fontWeight: FontWeight.w600,
-
                                   textAlign: TextAlign.center,
                                 ),
                                 AppText(
@@ -168,76 +166,115 @@ class SalesCommisionBreakdownScreen extends StatelessWidget {
                     ),
                   ];
                 },
-                body: ListView.builder(
-                  itemCount: 10, // Example data
-                  itemBuilder: (context, index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        color: AppColor.blue,
-                        border: Border(
-                          bottom: BorderSide(
-                            color: AppColor.white.withValues(alpha: 0.3),
-                          ),
-                        ),
-                      ),
-                      padding: EdgeInsets.symmetric(
-                        vertical: AppSize.width(value: 16),
-                        horizontal: 16,
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: AppText(
-                              data: "INV#5022",
-                              fontSize: AppSize.width(value: 12),
-                              color: AppColor.white,
-                            ),
-                          ),
-                          Expanded(
-                            child: AppText(
-                              data: "14",
-                              fontSize: AppSize.width(value: 12),
-                              textAlign: TextAlign.center,
-                              color: AppColor.white,
-                            ),
-                          ),
-                          Expanded(
-                            child: AppText(
-                              data: r"$1104.00",
-                              fontSize: AppSize.width(value: 12),
-                              textAlign: TextAlign.end,
-                              color: AppColor.white,
-                            ),
-                          ),
-                          Expanded(
-                            child: AppText(
-                              data: r"$165.60",
-                              fontSize: AppSize.width(value: 12),
-                              textAlign: TextAlign.end,
-                              color: AppColor.white,
-                            ),
-                          ),
-                          Expanded(
-                            child: AppText(
-                              data: "08/09/25",
-                              fontSize: AppSize.width(value: 12),
-                              textAlign: TextAlign.end,
-                              color: AppColor.white,
-                            ),
-                          ),
-                          Expanded(
-                            child: AppText(
-                              data: "delivered",
-                              fontSize: AppSize.width(value: 12),
-                              textAlign: TextAlign.end,
-                              color: AppColor.white,
-                            ),
-                          ),
-                        ],
+                body: Obx(() {
+                  if (controller.isLoading.value) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (controller.filteredOrders.isEmpty) {
+                    return const Center(
+                      child: AppText(
+                        data: "No commission orders found",
+                        fontSize: 16,
+                        color: Colors.white,
                       ),
                     );
-                  },
-                ),
+                  }
+
+                  return ListView.builder(
+                    itemCount:
+                        controller.filteredOrders.length +
+                        (controller.hasMoreData.value ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index >= controller.filteredOrders.length) {
+                        // Load more indicator - Fixed version
+                        if (!controller.isLoadingOrders.value) {
+                          // Schedule the API call for after the current frame
+                          SchedulerBinding.instance.addPostFrameCallback((_) {
+                            controller.fetchCommissionOrders(loadMore: true);
+                          });
+                        }
+                        return Container(
+                          padding: EdgeInsets.all(16),
+                          child: const Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          ),
+                        );
+                      }
+
+                      final order = controller.filteredOrders[index];
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: AppColor.blue,
+                          border: Border(
+                            bottom: BorderSide(
+                              color: AppColor.white.withValues(alpha: 0.3),
+                            ),
+                          ),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          vertical: AppSize.width(value: 16),
+                          horizontal: 16,
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: AppText(
+                                data: order.orderId,
+                                fontSize: AppSize.width(value: 12),
+                                color: AppColor.white,
+                              ),
+                            ),
+                            Expanded(
+                              child: AppText(
+                                data: order.totalQuantity.toString(),
+                                fontSize: AppSize.width(value: 12),
+                                textAlign: TextAlign.center,
+                                color: AppColor.white,
+                              ),
+                            ),
+                            Expanded(
+                              child: AppText(
+                                data:
+                                    "\$${order.totalAmount.toStringAsFixed(2)}",
+                                fontSize: AppSize.width(value: 12),
+                                textAlign: TextAlign.end,
+                                color: AppColor.white,
+                              ),
+                            ),
+                            Expanded(
+                              child: AppText(
+                                data:
+                                    "\$${order.totalCommission.toStringAsFixed(2)}",
+                                fontSize: AppSize.width(value: 12),
+                                textAlign: TextAlign.end,
+                                color: AppColor.white,
+                              ),
+                            ),
+                            Expanded(
+                              child: AppText(
+                                data: order.formattedCreatedAt,
+                                fontSize: AppSize.width(value: 12),
+                                textAlign: TextAlign.end,
+                                color: AppColor.white,
+                              ),
+                            ),
+                            Expanded(
+                              child: AppText(
+                                data: order.orderStatus.toLowerCase(),
+                                fontSize: AppSize.width(value: 12),
+                                textAlign: TextAlign.end,
+                                color: AppColor.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                }),
               ),
             ),
           ),

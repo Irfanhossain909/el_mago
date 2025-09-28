@@ -4,6 +4,7 @@ import 'package:el_mago/screens/controller/global_controller.dart';
 import 'package:el_mago/screens/sales_shopping_cart/model/cart_item_model.dart';
 import 'package:el_mago/services/repository/order_repository.dart';
 import 'package:el_mago/services/repository/sales_repository.dart';
+import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -100,7 +101,7 @@ class SalesShoppingCartController extends GetxController {
 
       // Call the repository to create the order
       final bool success = await _orderRepository.createOrder(body: orderBody);
-
+      AppPrint.appPrint(success, title: "Order Success");
       if (success) {
         Get.snackbar(
           "Success",
@@ -112,7 +113,7 @@ class SalesShoppingCartController extends GetxController {
         notesController.clear();
         selectedRetailerId.value = null;
         selectedTerm.value = paymentTerms.first;
-        Get.back();
+        Get.close(1);
       } else {
         Get.snackbar(
           "Error",
