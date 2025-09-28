@@ -1,11 +1,10 @@
 import 'package:el_mago/const/app_api_end_point.dart';
 import 'package:el_mago/models/order_model/order_model.dart';
+import 'package:el_mago/models/order_model/commission_order_model.dart';
 import 'package:el_mago/services/api/api_services.dart';
 import 'package:el_mago/widgets/app_log/error_log.dart';
 
 class MyOrderRepository {
-  
-
   final ApiServices _apiServices = ApiServices.instance;
 
   Future<List<OrderModel>> getMyOrders() async {
@@ -45,6 +44,27 @@ class MyOrderRepository {
     } catch (e) {
       errorLog('Exception in getMyOrders', e.toString());
       return false;
+    }
+  }
+
+  Future<CommissionOrderResponse?> getCommissionOrders({
+    int page = 1,
+    int limit = 10,
+  }) async {
+    try {
+      final endpoint =
+          "${AppApiEndPoint.instance.getCommissionOrders}?page=$page&limit=$limit";
+      final response = await _apiServices.apiGetServices(endpoint);
+
+      if (response != null && response['success'] == true) {
+        return CommissionOrderResponse.fromJson(response);
+      } else {
+        errorLog('Failed to fetch commission orders or data is null', '');
+        return null;
+      }
+    } catch (e) {
+      errorLog('Exception in getCommissionOrders', e.toString());
+      return null;
     }
   }
 }
