@@ -1,5 +1,6 @@
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/const/assets_icons_path.dart';
+import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/screens/retailer_dash_board/retailer_dash_board.dart';
 import 'package:el_mago/screens/sales_reppesentative_details/widget/sales_representative_history.dart';
 import 'package:el_mago/utils/app_size.dart';
@@ -9,6 +10,7 @@ import 'package:el_mago/widgets/app_log/gap.dart';
 import 'package:el_mago/widgets/app_text/app_text.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 
 class SalesReppesentativeDetails extends StatelessWidget {
   const SalesReppesentativeDetails({super.key});
@@ -80,7 +82,13 @@ class SalesReppesentativeDetails extends StatelessWidget {
                         spacing: AppSize.width(value: 12),
                         children: [
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Get.toNamed(
+                                AppRoutes
+                                    .instance
+                                    .salesRetailerInformationScreen,
+                              );
+                            },
                             child: AppImage(
                               width: AppSize.width(value: 20),
                               path: AssetsPath.eyeIcon,

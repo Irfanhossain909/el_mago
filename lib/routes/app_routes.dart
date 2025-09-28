@@ -35,4 +35,5 @@ class AppRoutes {
   final String salesEditNewRetailersScreen = "/sales-edit-new-retailers-screen";
   final String salesAddRetailersScreen = "/sales-add-retailers-screen";
   final String salesEditSubscriptionScreen = "/sales-edit-subscription-screen";
+  final String salesRetailerInformationScreen = "/sales-retailer-information-screen";
 }

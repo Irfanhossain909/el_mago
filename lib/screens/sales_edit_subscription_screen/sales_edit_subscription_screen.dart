@@ -16,47 +16,46 @@ class SalesEditSubscriptionScreen extends StatelessWidget {
       appBar: CustomAppbar(title: "Edit Subscription"),
       body: Padding(
         padding: const EdgeInsets.all(12),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                child: AppText(
-                  data: "Retailer Information",
-                  fontSize: AppSize.width(value: 14),
-                  fontWeight: FontWeight.w600,
-                  color: AppColor.black,
-                ),
+        child: Column(
+          spacing: AppSize.size.height * 0.01,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 12),
+              child: AppText(
+                data: "Retailer Information",
+                fontSize: AppSize.width(value: 14),
+                fontWeight: FontWeight.w600,
+                color: AppColor.black,
               ),
-              CustomDropdown(
-                items: ["Basic", "Advence"],
-                hint: "Select",
-                selectedValue: "Basic",
-                onChanged: (value) {},
-              ),
-              AppInputWidgetTwo(
-                isOptional: true,
-                title: "Tier",
-                hintText: "Tier",
-              ),
-              AppInputWidgetTwo(
-                isOptional: true,
-                title: "No Credit Card Fee",
-                hintText: "No Credit Card Fee",
-              ),
-              AppInputWidgetTwo(
-                isOptional: true,
-                title: "Exclusive Products",
-                hintText: "Exclusive Products",
-              ),
-              AppInputWidgetTwo(
-                isOptional: true,
-                title: "Limited Releases",
-                hintText: "Limited Releases",
-              ),
-            ],
-          ),
+            ),
+            CustomDropdown(
+              items: ["Basic", "Advence"],
+              hint: "Select",
+              selectedValue: "Basic",
+              onChanged: (value) {},
+            ),
+            AppInputWidgetTwo(
+              isOptional: true,
+              title: "Tier",
+              hintText: "Tier",
+            ),
+            AppInputWidgetTwo(
+              isOptional: true,
+              title: "No Credit Card Fee",
+              hintText: "No Credit Card Fee",
+            ),
+            AppInputWidgetTwo(
+              isOptional: true,
+              title: "Exclusive Products",
+              hintText: "Exclusive Products",
+            ),
+            AppInputWidgetTwo(
+              isOptional: true,
+              title: "Limited Releases",
+              hintText: "Limited Releases",
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: SafeArea(
