@@ -9,7 +9,7 @@ import 'package:el_mago/screens/retailer_select_extrabox_screen/retailer_select_
 import 'package:el_mago/screens/sales_add_retailers_screen/sales_add_retailers_screen.dart';
 import 'package:el_mago/screens/sales_edit_new_retailers_screen/sales_edit_new_retailers_screen.dart';
 import 'package:el_mago/screens/sales_edit_subscription_screen/sales_edit_subscription_screen.dart';
-import 'package:el_mago/screens/sales_reppesentative_details/sales_reppesentative_details.dart';
+import 'package:el_mago/screens/sales_reppesentative_details/sales_repesentative_details.dart';
 import 'package:el_mago/screens/sales_retailer_information_screnn/sales_retailer_information_screen.dart';
 import 'package:get/get.dart';
 import 'package:el_mago/screens/retailer_navigation_screen/retailer_navigation_screen.dart';

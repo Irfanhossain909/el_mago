@@ -1,5 +1,4 @@
 import 'package:el_mago/const/app_color.dart';
-import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/screens/sales_retailer_management/controller/sales_retailer_management_controller.dart';
 import 'package:el_mago/screens/sales_retailer_management/widget/sale_representative_card.dart';
@@ -111,6 +110,7 @@ class SalesRetailerManagementScreen extends StatelessWidget {
                                         AppRoutes
                                             .instance
                                             .salesRepresentativeDetailsScreen,
+                                        arguments: retailar.id,
                                       );
                                     },
                                     retailerEdit: () {
@@ -122,7 +122,14 @@ class SalesRetailerManagementScreen extends StatelessWidget {
                                     },
                                     retailerDelete: () {
                                       Get.bottomSheet(
-                                        deleteConfirmationSheet(),
+                                        deleteConfirmationSheet(
+                                          onDelete: () {
+                                            controller.deleteRetailer(
+                                              retailerId: retailar.id ?? "",
+                                            );
+                                            Get.back();
+                                          },
+                                        ),
                                         isScrollControlled: true,
                                         backgroundColor: Colors.transparent,
                                       );
@@ -233,7 +240,7 @@ Widget updateStatusSheet() {
   );
 }
 
-Widget deleteConfirmationSheet() {
+Widget deleteConfirmationSheet({VoidCallback? onDelete}) {
   return Container(
     padding: const EdgeInsets.all(20),
     decoration: BoxDecoration(
@@ -277,10 +284,7 @@ Widget deleteConfirmationSheet() {
             const SizedBox(width: 16),
             Expanded(
               child: ElevatedButton(
-                onPressed: () {
-                  // delete action
-                  Get.back();
-                },
+                onPressed: onDelete,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColor.blue,
                   padding: const EdgeInsets.symmetric(vertical: 14),

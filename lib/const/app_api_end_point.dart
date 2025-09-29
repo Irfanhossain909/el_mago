@@ -17,6 +17,8 @@ class AppApiEndPoint {
   final String getTotalEarnCommision = "/sales/commission";
   final String getCommissionOrders = "/sales/commission/order";
   final String getMySales = "/sales/my-sales";
+  final String createRetailer = "/admin/retailer/managment/create";
+  final String deleteRetailer = "/admin/retailer/managment/delete/";
 
   ////////////////////// Retailer Product Dashboard
   final String getMyOrdersRetailer = "/retailer/dashboard/orders";

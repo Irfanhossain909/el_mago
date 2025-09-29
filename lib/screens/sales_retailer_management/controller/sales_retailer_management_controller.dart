@@ -1,4 +1,5 @@
 import 'package:el_mago/models/retailer_order/all_retailer_model.dart';
+import 'package:el_mago/screens/profile_screen/controller/profile_controller.dart';
 import 'package:el_mago/services/repository/retailer_order_repository.dart';
 import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:get/get.dart';
 class SalesRetailerManagementController extends GetxController {
   //repository
   RetailerOrderRepository repository = RetailerOrderRepository();
+
 
   //variables
   RxList<AlLRetailerModelData> retailerOrderList = <AlLRetailerModelData>[].obs;
@@ -27,6 +29,23 @@ class SalesRetailerManagementController extends GetxController {
     } finally {
       isLoading.value = false;
       update(); // Notify GetBuilder to rebuild
+    }
+  }
+
+  Future<void> deleteRetailer({required String retailerId}) async {
+    try {
+      var response = await repository.deleteRetailer(
+        retailerId: retailerId,
+      );
+      if (response) {
+        Get.snackbar("Success", "Retailer deleted successfully");
+        await fetchRetailerData();
+      } else {
+        AppPrint.appError("deleteRetailer - No data found");
+        // retailerOrderList = []; // Ensure list is empty when no data
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "deleteRetailer");
     }
   }
 
