@@ -12,6 +12,7 @@ import 'package:el_mago/screens/notification_screen/controller/notification_cont
 import 'package:el_mago/screens/profile_screen/controller/profile_controller.dart';
 import 'package:el_mago/screens/retailer_complate_subscription_screen/controller/retailer_complate_subscription_controller.dart';
 import 'package:el_mago/screens/retailer_dash_board/controller/retailer_dash_board_controller.dart';
+import 'package:el_mago/screens/retailer_loyelty_screen/controller/loyelty_controller.dart';
 import 'package:el_mago/screens/retailer_my_order_screen/controller/retailer_my_order_screen_controller.dart';
 import 'package:el_mago/screens/retailer_my_subscription_screen/controller/retailer_my_subscription_controller.dart';
 import 'package:el_mago/screens/retailer_navigation_screen/controller/retailer_navigation_screen_controller.dart';
@@ -72,6 +73,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => RetailerMyOrderController(), fenix: true);
     Get.lazyPut(() => RetailerOrderDetailsController(), fenix: true);
     Get.lazyPut(() => RetailerComplateSubscriptionController(), fenix: true);
+    Get.lazyPut(() => LoyeltyController(), fenix: true);
 
     Get.lazyPut(() => RetailerShoppingCartController(), fenix: true);
     Get.lazyPut(() => RetailerSelectExtraboxController(), fenix: true);
