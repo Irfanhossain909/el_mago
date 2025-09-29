@@ -40,6 +40,8 @@ import 'package:el_mago/screens/sales_shopping_cart/sales_shopping_cart_screen.d
 import 'package:el_mago/screens/terms_screen/terms_screen.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 
+import '../screens/sales_my_sales_screen/sales_my_sales_screen.dart';
+
 List<GetPage> appRootRoutesFile = <GetPage>[
   //   /////////////////  splash screen start
   GetPage(
