@@ -28,7 +28,7 @@ class SalesMyTerritory extends StatelessWidget {
                   children: [
                     Card(
                       elevation: 4,
-                      shadowColor: Colors.black.withOpacity(0.1),
+                      shadowColor: Colors.black.withOpacity(0.8),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),

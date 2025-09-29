@@ -1,5 +1,6 @@
 import 'package:el_mago/services/repository/profile_repository.dart';
 import 'package:el_mago/widgets/app_log/app_print.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SalesMyTerritoryController extends GetxController {
@@ -155,11 +156,13 @@ class SalesMyTerritoryController extends GetxController {
       );
 
       if (success) {
+        AppPrint.appLog("✅ Territories saved successfully");
         Get.snackbar(
+          duration: Duration(milliseconds: 800),
           "Success",
           "Your territories have been saved successfully.",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Get.theme.primaryColor,
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.blue,
           colorText: Get.theme.colorScheme.onPrimary,
         );
       } else {
