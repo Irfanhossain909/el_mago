@@ -284,15 +284,14 @@ class RetailerOrderRepository {
     return false;
   }
 
-  Future<List<RetailerSubscriptionModelData>> getRetailerSubscription({
-    required String retailerId,
-  }) async {
+  Future<List<RetailerSubscriptionModelData>> getRetailerSubscription() async {
     List<RetailerSubscriptionModelData> retailerSubsCription =
         <RetailerSubscriptionModelData>[];
-    var url =
-        "${AppApiEndPoint.instance.getSalesAllretailerSubcription}$retailerId";
+
     try {
-      var response = await _apiServices.apiGetServices(url);
+      var response = await _apiServices.apiGetServices(
+        AppApiEndPoint.instance.getSalesAllretailerSubcription,
+      );
       if (response != null) {
         if (response["data"] != null && response["data"] is List) {
           for (var item in response["data"]) {
