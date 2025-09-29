@@ -16,74 +16,105 @@ class SignUpController extends GetxController {
   TextEditingController addressController = TextEditingController();
   TextEditingController confirmpasswordController = TextEditingController();
   TextEditingController fullNameController = TextEditingController();
-  //validate function
-  bool validate() {
-    if (emailController.text.isEmpty) {
-      Get.snackbar("Error", "Please enter your email");
-      return false; // Return false if email is empty
-    } else if (passwordController.text.isEmpty) {
-      Get.snackbar("Error", "Please enter your password");
-      return false; // Return false if password is empty
-    } else if (addressController.text.isEmpty) {
-      Get.snackbar("Error", "Please enter your address");
-      return false; // Return false if address is empty
-    } else if (confirmpasswordController.text.isEmpty) {
-      Get.snackbar("Error", "Please confirm your password");
-      return false; // Return false if confirm password is empty
-    } else if (passwordController.text != confirmpasswordController.text) {
-      Get.snackbar("Error", "Passwords do not match");
-      return false; // Return false if passwords don't match
-    } else if (fullNameController.text.isEmpty) {
-      Get.snackbar("Error", "Please enter your full name");
-      return false; // Return false if full name is empty
-    } else if (userRole.value == null) {
-      Get.snackbar("Error", "Please select your role");
-      return false; // Return false if role is not selected
-    }
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-    return true; // Return true if all validations pass
+  //validate function
+
+  // Validate First Name
+  String? validateFirstName(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Enter Name";
+    } else if (value.length < 3) {
+      return "Name should be at least 3 characters long";
+    } else if (!RegExp(r"^[a-zA-Z\s]+$").hasMatch(value)) {
+      return "Enter a valid name (letters and spaces only)";
+    }
+    return null;
   }
+
+  // Validate Address
+  String? validateAddress(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Enter Address";
+    } else if (value.length < 5) {
+      return "Address should be at least 5 characters long";
+    }
+    return null;
+  }
+
+
+
+// Validate Email
+  String? validateEmail(String? value) {
+    bool emailValid =
+    RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+        .hasMatch(value ?? "");
+    if (value == null || value.isEmpty) {
+      return "Enter Email";
+    } else if (!emailValid) {
+      return "Enter a valid Email";
+    }
+    return null;
+  }
+
+
+  // Validate Password
+  String? validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Enter Password";
+    } else if (value.length < 8) {
+      return "Password length should be more than 8 characters";
+    }
+    return null;
+  }
+
+  String? validateRePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Enter Password";
+    } else if (value.length < 8) {
+      return "Password length should be more than 8 characters";
+    }
+    return null;
+  }
+
+
 
   //Loading state
   RxBool isLoading = false.obs;
 
   // Signup function
   Future<void> signUp() async {
-    try {
-      // Validate user input
-      bool isValid = validate(); // Call the validate function to check inputs
+   if(formKey.currentState!.validate() ) {
+      try {
+        // Show loading state
+        isLoading.value = true;
 
-      // If validation fails, exit early
-      if (!isValid) return;
-
-      // Show loading state
-      isLoading.value = true;
-
-      // Make the sign-up request to the repository
-      var response = await authRepository.signUp(
-        name: fullNameController.text,
-        email: emailController.text,
-        address: addressController.text,
-        password: passwordController.text,
-        role: userRole.value!.name,
-      );
-
-      if (response) {
-        Get.toNamed(
-          AppRoutes.instance.otpVerifyScreen,
-          arguments: emailController.text,
+        // Make the sign-up request to the repository
+        var response = await authRepository.signUp(
+          name: fullNameController.text,
+          email: emailController.text,
+          address: addressController.text,
+          password: passwordController.text,
+          role: userRole.value!.name,
         );
-      } else {
+
+        if (response) {
+          Get.toNamed(
+            AppRoutes.instance.otpVerifyScreen,
+            arguments: emailController.text,
+          );
+        } else {
+          isLoading.value = false;
+          Get.snackbar("Error", "Sign-up failed. Please try again.");
+        }
+      } catch (e) {
+        // Handle any errors that occur during the sign-up process
+        AppPrint.appError(e, title: "SignUpController");
+        Get.snackbar("Error", "An error occurred during sign-up.");
+      } finally {
+        // Hide loading state
         isLoading.value = false;
-        Get.snackbar("Error", "Sign-up failed. Please try again.");
       }
-    } catch (e) {
-      // Handle any errors that occur during the sign-up process
-      AppPrint.appError(e, title: "SignUpController");
-      Get.snackbar("Error", "An error occurred during sign-up.");
-    } finally {
-      // Hide loading state
-      isLoading.value = false;
     }
   }
 
