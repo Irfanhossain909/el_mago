@@ -77,7 +77,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => SalesShoppingCartController(), fenix: true);
     Get.lazyPut(() => SalesMyOrderController(), fenix: true);
     Get.lazyPut(() => SalesOrderDetailsController(), fenix: true);
-    Get.lazyPut(() => SalesMyTerritoryController());
+    Get.lazyPut(() => SalesMyTerritoryController(), fenix: true);
 
     Get.lazyPut(() => SalesRepository());
     Get.lazyPut(() => ProfileRepository());

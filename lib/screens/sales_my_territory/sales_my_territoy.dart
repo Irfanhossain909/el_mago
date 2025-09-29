@@ -1,6 +1,7 @@
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/screens/sales_my_territory/controller/sales_my_territoy_controller.dart';
 import 'package:el_mago/widgets/app_text/custom_text.dart';
+import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,14 +15,8 @@ class SalesMyTerritory extends StatelessWidget {
         Get.find<SalesMyTerritoryController>();
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const CustomText(
-          text: "My Territory",
-          fontSize: 18,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
+      appBar: CustomAppbar(title: "My Territory"),
+
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -62,30 +57,59 @@ class SalesMyTerritory extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 16),
-                            _MultiSelectDropdown(controller: controller),
+                            Obx(
+                              () => controller.isLoadingProfile.value
+                                  ? const Center(
+                                      child: Padding(
+                                        padding: EdgeInsets.all(20.0),
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    )
+                                  : _MultiSelectDropdown(
+                                      controller: controller,
+                                    ),
+                            ),
                             const SizedBox(height: 20),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                ElevatedButton(
-                                  onPressed: controller.saveTerritory,
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColor.blue,
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 12,
-                                      horizontal: 32,
+                                Obx(
+                                  () => ElevatedButton(
+                                    onPressed: controller.isLoading.value
+                                        ? null
+                                        : controller.saveTerritory,
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColor.blue,
+                                      disabledBackgroundColor: AppColor.blue
+                                          .withOpacity(0.6),
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 12,
+                                        horizontal: 32,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
                                     ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                  ),
-                                  child: const Text(
-                                    'Save Territory',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
+                                    child: controller.isLoading.value
+                                        ? const SizedBox(
+                                            width: 20,
+                                            height: 20,
+                                            child: CircularProgressIndicator(
+                                              strokeWidth: 2,
+                                              valueColor:
+                                                  AlwaysStoppedAnimation<Color>(
+                                                    Colors.white,
+                                                  ),
+                                            ),
+                                          )
+                                        : const Text(
+                                            'Save Territory',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ),
                                   ),
                                 ),
                               ],
