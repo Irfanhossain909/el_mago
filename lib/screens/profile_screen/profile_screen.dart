@@ -121,6 +121,16 @@ class ProfileScreen extends StatelessWidget {
                           },
                           text: "My Sales",
                         ),
+                      if (controller.profileData.value?.role == Role.SALES.name)
+                        ProfileRow(
+                          iconPath: AssetsPath.myTerritory,
+                          onTap: () {
+                            Get.toNamed(
+                              AppRoutes.instance.salesMyTerritoryScreen,
+                            );
+                          },
+                          text: "My Territory",
+                        ),
                       ProfileRow(
                         iconPath: AssetsPath.terms,
                         onTap: () {
