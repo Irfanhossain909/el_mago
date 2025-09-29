@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class AppImageCircular extends StatelessWidget {
   const AppImageCircular({
     super.key,
-    this.color = Colors.blue,
+    this.color = Colors.grey,
     this.fit = BoxFit.cover,
     this.height,
     this.path,

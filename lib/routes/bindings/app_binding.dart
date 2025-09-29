@@ -23,6 +23,8 @@ import 'package:el_mago/screens/sales_my_order/controller/sales_my_order_control
 import 'package:el_mago/screens/sales_my_sales_screen/controller/sales_my_sales_screen_controller.dart';
 import 'package:el_mago/screens/sales_navigation_screen/controller/sales_navigation_screen_controller.dart';
 import 'package:el_mago/screens/sales_order_details_screen/controller/sales_order_details_controller.dart';
+import 'package:el_mago/screens/sales_reppesentative_details/controller/sales_representative_details_controller.dart';
+import 'package:el_mago/screens/sales_retailer_information_screnn/controller/sales_retailer_info_controller.dart';
 import 'package:el_mago/screens/sales_shopping_cart/controller/sales_shopping_cart_controller.dart';
 import 'package:el_mago/services/repository/order_repository.dart';
 import 'package:el_mago/services/repository/profile_repository.dart';
@@ -53,6 +55,9 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => RetailerNavigationScreenController());
     //sales dahboard
     Get.lazyPut<GlobalController>(() => GlobalController());
+    Get.lazyPut(() => SalesMySalesScreenController());
+    Get.lazyPut(() => SalesRepresentativeDetailsController());
+    Get.lazyPut(() => SalesRetailerInfoController());
     Get.lazyPut<SalesDashboardController>(
       () => SalesDashboardController(),
       fenix: true,

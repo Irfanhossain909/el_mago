@@ -1,7 +1,12 @@
 import 'package:el_mago/const/app_api_end_point.dart';
+import 'package:el_mago/models/retailer_order/all_retailer_model.dart';
+import 'package:el_mago/models/retailer_order/retailer_analitics.dart';
+import 'package:el_mago/models/retailer_order/retailer_card_info_model.dart';
+import 'package:el_mago/models/retailer_order/retailer_details_model.dart';
 import 'package:el_mago/models/retailer_order/retailer_order_model.dart';
 import 'package:el_mago/models/retailer_model/retailer_dashboard_summary_model.dart';
 import 'package:el_mago/services/api/api_services.dart';
+import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:el_mago/widgets/app_log/error_log.dart';
 
 class RetailerOrderRepository {
@@ -82,5 +87,158 @@ class RetailerOrderRepository {
       errorLog('Exception in getRetailerDashboardSummary', e.toString());
       return null;
     }
+  }
+
+  //Fetched All retailers
+  Future<List<AlLRetailerModelData>> getAllRetailers() async {
+    List<AlLRetailerModelData> allRetailerModel = <AlLRetailerModelData>[];
+    try {
+      var response = await _apiServices.apiGetServices(
+        AppApiEndPoint.instance.getMyRetailers,
+      );
+      if (response != null) {
+        if (response["data"] != null && response["data"] is List) {
+          for (var item in response["data"]) {
+            allRetailerModel.add(AlLRetailerModelData.fromJson(item));
+          }
+        }
+      } else {
+        AppPrint.appError("response is null");
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "getAllRetailers");
+    }
+    return allRetailerModel;
+  }
+
+  Future<RetailerDetailsDataModel?> getSingleRetailer({
+    required String retailerId,
+  }) async {
+    var url = "${AppApiEndPoint.instance.getMyRetailers}$retailerId";
+    try {
+      var response = await _apiServices.apiGetServices(url);
+      if (response != null && response["data"] != null) {
+        // Handle both cases: when API returns a single object or a list
+        if (response["data"] is List) {
+          List<dynamic> dataList = response["data"];
+          if (dataList.isNotEmpty) {
+            return RetailerDetailsDataModel.fromJson(dataList.first);
+          } else {
+            AppPrint.appError("getSingleRetailer: Data list is empty");
+            return null;
+          }
+        } else if (response["data"] is Map<String, dynamic>) {
+          return RetailerDetailsDataModel.fromJson(response["data"]);
+        } else {
+          AppPrint.appError(
+            "getSingleRetailer: Unexpected data format - ${response["data"].runtimeType}",
+          );
+          return null;
+        }
+      } else {
+        AppPrint.appError("SingleUser response is null");
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "getSingleRetailer");
+    }
+    return null;
+  }
+
+  Future<bool> createRetailer({
+    required String salesRepId,
+    required String name,
+    required String email,
+    required String address,
+    required String cardHolderName,
+    required String cardNumber,
+    required String expiryDate,
+    required String cvv,
+    required String zipCode,
+  }) async {
+    Map<String, dynamic> card = {
+      "cardHolderName": cardHolderName,
+      "cardNumber": cardNumber,
+      "expiryDate": expiryDate,
+      "cvv": cvv,
+      "zipCode": zipCode,
+    };
+
+    Map<String, dynamic> body = {
+      "salesRepId": salesRepId,
+      "name": name,
+      "email": email,
+      "address": address,
+      "card": card,
+    };
+
+    try {
+      var response = await _apiServices.apiPostServices(
+        url: AppApiEndPoint.instance.createRetailer,
+        body: body,
+      );
+      if (response != null) {
+        return true;
+      } else {
+        AppPrint.appError("CreateRetailer null");
+        return false;
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "createRetailer");
+    }
+    return false;
+  }
+
+  Future<bool> deleteRetailer({required String retailerId}) async {
+    try {
+      var response = await _apiServices.apiDeleteServices(
+        url: "${AppApiEndPoint.instance.deleteRetailer}$retailerId",
+      );
+      if (response != null) {
+        return true;
+      } else {
+        AppPrint.appError("DeleteRetailer null");
+        return false;
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "deleteRetailer");
+    }
+    return false;
+  }
+
+  Future<RetailerAnaliticsData?> getSingleUserAnalatics({
+    required String retailerId,
+  }) async {
+    var url =
+        "${AppApiEndPoint.instance.getSingleRetailerDetailsAnalysis}$retailerId";
+    try {
+      var response = await _apiServices.apiGetServices(url);
+      if (response != null && response["data"] != null) {
+        return RetailerAnaliticsData.fromJson(response["data"]);
+      } else {
+        AppPrint.appError("SingleUser response is null");
+        return null;
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "getSingleUserAnalatics");
+    }
+    return null;
+  }
+
+  Future<RetailerCardInfoModelData?> getRetailerCardInfo({
+    required String retailerId,
+  }) async {
+    var url =
+        "${AppApiEndPoint.instance.getSingleRetailerCardDetails}$retailerId";
+    try {
+      var response = await _apiServices.apiGetServices(url);
+      if (response != null && response["data"] != null) {
+        return RetailerCardInfoModelData.fromJson(response["data"]);
+      } else {
+        AppPrint.appError("getRetailerCardInfo null");
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "getRetailerCardInfo");
+    }
+    return null;
   }
 }
