@@ -6,11 +6,16 @@ import 'package:el_mago/screens/retailer_complate_subscription_screen/retailer_c
 import 'package:el_mago/screens/retailer_loyelty_screen/retailer_loyelty_screen.dart';
 import 'package:el_mago/screens/retailer_my_subscription_screen/retailer_my_subscription_screen.dart';
 import 'package:el_mago/screens/retailer_select_extrabox_screen/retailer_select_extrabox_screen.dart';
-import 'package:el_mago/screens/sales_add_retailers_screen/sales_add_retailers_screen.dart';
-import 'package:el_mago/screens/sales_edit_new_retailers_screen/sales_edit_new_retailers_screen.dart';
-import 'package:el_mago/screens/sales_edit_subscription_screen/sales_edit_subscription_screen.dart';
-import 'package:el_mago/screens/sales_reppesentative_details/sales_repesentative_details.dart';
-import 'package:el_mago/screens/sales_retailer_information_screnn/sales_retailer_information_screen.dart';
+// <<<<<<< feature/sales-section
+// import 'package:el_mago/screens/sales_my_sales_screen/sales_my_sales_screen.dart';
+// import 'package:el_mago/screens/sales_my_territory/sales_my_territoy.dart';
+// =======
+// import 'package:el_mago/screens/sales_add_retailers_screen/sales_add_retailers_screen.dart';
+// import 'package:el_mago/screens/sales_edit_new_retailers_screen/sales_edit_new_retailers_screen.dart';
+// import 'package:el_mago/screens/sales_edit_subscription_screen/sales_edit_subscription_screen.dart';
+// import 'package:el_mago/screens/sales_reppesentative_details/sales_repesentative_details.dart';
+// import 'package:el_mago/screens/sales_retailer_information_screnn/sales_retailer_information_screen.dart';
+// >>>>>>> test-nahid
 import 'package:get/get.dart';
 import 'package:el_mago/screens/retailer_navigation_screen/retailer_navigation_screen.dart';
 import 'package:el_mago/screens/auth/create_your_password_screen/create_your_password_screen.dart';
@@ -160,6 +165,11 @@ List<GetPage> appRootRoutesFile = <GetPage>[
     page: () => const SalesOrderDetailsScreen(),
   ),
   GetPage(
+    name: AppRoutes.instance.sealesMySalesScreen,
+    binding: AppBinding(),
+    page: () => const SalesMySalesScreen(),
+  ),
+  GetPage(
     name: AppRoutes.instance.retailerSubscriptionScreen,
     binding: AppBinding(),
     page: () => const RetailerMySubscriptionScreen(),
@@ -185,28 +195,34 @@ List<GetPage> appRootRoutesFile = <GetPage>[
     page: () => const RetailerComplateSubscriptionScreen(),
   ),
   GetPage(
-    name: AppRoutes.instance.salesRepresentativeDetailsScreen,
-    binding: AppBinding(),
-    page: () => const SalesReppesentativeDetails(),
-  ),
-  GetPage(
-    name: AppRoutes.instance.salesEditNewRetailersScreen,
-    binding: AppBinding(),
-    page: () => const SalesEditNewRetailersScreen(),
-  ),
-  GetPage(
-    name: AppRoutes.instance.salesAddRetailersScreen,
-    binding: AppBinding(),
-    page: () => const SalesAddRetailersScreen(),
-  ),
-  GetPage(
-    name: AppRoutes.instance.salesEditSubscriptionScreen,
-    binding: AppBinding(),
-    page: () => const SalesEditSubscriptionScreen(),
-  ),
-  GetPage(
-    name: AppRoutes.instance.salesRetailerInformationScreen,
-    binding: AppBinding(),
-    page: () => const SalesRetailerInformationScreen(),
-  ),
+// <<<<<<< feature/sales-section
+//     name: AppRoutes.instance.salesMyTerritoryScreen,
+//     binding: AppBinding(),
+//     page: () => const SalesMyTerritory(),
+// =======
+//     name: AppRoutes.instance.salesRepresentativeDetailsScreen,
+//     binding: AppBinding(),
+//     page: () => const SalesReppesentativeDetails(),
+//   ),
+//   GetPage(
+//     name: AppRoutes.instance.salesEditNewRetailersScreen,
+//     binding: AppBinding(),
+//     page: () => const SalesEditNewRetailersScreen(),
+//   ),
+//   GetPage(
+//     name: AppRoutes.instance.salesAddRetailersScreen,
+//     binding: AppBinding(),
+//     page: () => const SalesAddRetailersScreen(),
+//   ),
+//   GetPage(
+//     name: AppRoutes.instance.salesEditSubscriptionScreen,
+//     binding: AppBinding(),
+//     page: () => const SalesEditSubscriptionScreen(),
+//   ),
+//   GetPage(
+//     name: AppRoutes.instance.salesRetailerInformationScreen,
+//     binding: AppBinding(),
+//     page: () => const SalesRetailerInformationScreen(),
+// >>>>>>> test-nahid
+//   ),
 ];

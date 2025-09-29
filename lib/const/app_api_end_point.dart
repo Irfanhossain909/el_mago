@@ -27,8 +27,12 @@ class AppApiEndPoint {
   final String getMyOrdersRetailer = "/retailer/dashboard/orders";
   final String getRetailerDashboardSummary = "/retailer/dashboard/summary";
   final String getRetailerSubscription = "/retailer/subscription/";
+  final String getCurrentSubscription = "/retailer/subscription/current";
+  final String getMyRewards = "/retailer/loyalty/my-reward";
   static String getSingleRetailerOrder(String orderId) =>
       "/retailer/dashboard/orders/$orderId";
+  static String updateExtraBoxes(String userId) =>
+      "/retailer/subscription/update-boxes/$userId";
 
   final String refreshToken = "/auth/refresh-token";
   final String user = "/user";
