@@ -64,6 +64,7 @@ class AssetsPath {
   //person
   static const String person = "assets/icons/person.png";
   static const String mySales = "assets/icons/my_sales.png";
+  static const String myTerritory = "assets/icons/my_territory.png";
 
   //////////////////////Image//////////////////////////////////////
 

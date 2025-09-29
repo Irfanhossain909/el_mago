@@ -1,28 +1,37 @@
 import 'package:el_mago/models/product_model/product_model.dart';
+import 'package:el_mago/models/reward_model/reward_model.dart';
 import 'package:el_mago/models/user_model/user_model.dart';
 import 'package:el_mago/screens/sales_shopping_cart/model/cart_item_model.dart';
 import 'package:el_mago/services/api/get_storage_services.dart';
 import 'package:el_mago/services/repository/order_repository.dart';
 import 'package:el_mago/services/repository/profile_repository.dart';
+import 'package:el_mago/services/repository/rewards_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RetailerShoppingCartController extends GetxController {
   var cartItems = <CartItemModel>[].obs;
   var isPlacingOrder = false.obs;
+  var isLoadingRewards = false.obs;
 
   // Dropdown management
   var paymentTerms = ["Due on Receipt", "Net 30", "Net 15"].obs;
   var selectedTerm = "Due on Receipt".obs;
 
+  // Rewards management
+  var availableRewards = <UserRewardModel>[].obs;
+  var selectedReward = Rxn<UserRewardModel>();
+
   // Services and repositories
   final GetStorageServices _storageServices = GetStorageServices.instance;
   final ProfileRepository _profileRepository = ProfileRepository();
   final OrderRepository _orderRepository = OrderRepository();
+  final RewardsRepository _rewardsRepository = RewardsRepository();
 
   @override
   void onInit() {
     super.onInit();
+    fetchRewards();
   }
 
   // Get current user ID from storage
@@ -34,6 +43,31 @@ class RetailerShoppingCartController extends GetxController {
   void updateSelectedTerm(String? newTerm) {
     if (newTerm != null) {
       selectedTerm.value = newTerm;
+    }
+  }
+
+  // Update selected reward
+  void updateSelectedReward(UserRewardModel? newReward) {
+    selectedReward.value = newReward;
+  }
+
+  // Fetch available rewards
+  Future<void> fetchRewards() async {
+    try {
+      isLoadingRewards(true);
+      final List<UserRewardModel>? rewards = await _rewardsRepository
+          .getMyRewards();
+
+      if (rewards != null) {
+        availableRewards.assignAll(rewards);
+      } else {
+        availableRewards.clear();
+      }
+    } catch (e) {
+      print('Error fetching rewards: $e');
+      availableRewards.clear();
+    } finally {
+      isLoadingRewards(false);
     }
   }
 
@@ -99,11 +133,28 @@ class RetailerShoppingCartController extends GetxController {
   double get totalAmount =>
       cartItems.fold(0.0, (sum, item) => sum + item.totalPrice);
 
+  double get originalTotalAmount => totalAmount;
+
+  double get finalTotalAmount {
+    if (selectedReward.value != null) {
+      return selectedReward.value!.calculateFinalAmount(totalAmount);
+    }
+    return totalAmount;
+  }
+
+  double get discountAmount {
+    if (selectedReward.value != null) {
+      return selectedReward.value!.calculateDiscount(totalAmount);
+    }
+    return 0.0;
+  }
+
   int get totalBoxCount =>
       cartItems.fold(0, (sum, item) => sum + item.quantity.value);
 
   void clearCart() {
     cartItems.clear();
+    selectedReward.value = null;
   }
 
   // --- Place Order Logic ---
@@ -155,8 +206,13 @@ class RetailerShoppingCartController extends GetxController {
         "source": "Retailer",
         "orderTerms": selectedTerm.value,
         "orderBoxs": totalBoxCount,
-        "totalAmount": totalAmount,
+        "totalAmount": finalTotalAmount,
       };
+
+      // Add reward ID if a reward is selected
+      if (selectedReward.value != null) {
+        orderBody["reward"] = selectedReward.value!.id;
+      }
 
       // Call the repository to create the order
       final bool success = await _orderRepository.createOrder(body: orderBody);
@@ -169,6 +225,7 @@ class RetailerShoppingCartController extends GetxController {
           colorText: Colors.white,
         );
         cartItems.clear();
+        selectedReward.value = null;
         selectedTerm.value = paymentTerms.first;
         Get.back();
       } else {

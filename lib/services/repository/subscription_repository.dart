@@ -1,5 +1,6 @@
 import 'package:el_mago/const/app_api_end_point.dart';
 import 'package:el_mago/models/sub_model/sub_model.dart';
+import 'package:el_mago/models/subscription_model/current_subscription_model.dart';
 import 'package:el_mago/services/api/api_services.dart';
 import 'package:el_mago/widgets/app_log/app_print.dart';
 
@@ -28,6 +29,25 @@ class SubscriptionRepository {
       AppPrint.appError(e, title: "getSubModels");
     }
     return subModelData;
+  }
+
+  Future<CurrentSubscriptionData?> getCurrentSubscription() async {
+    try {
+      var response = await apiServices.apiGetServices(
+        AppApiEndPoint.instance.getCurrentSubscription,
+      );
+
+      if (response != null && response['success'] == true) {
+        if (response["data"] != null) {
+          return CurrentSubscriptionData.fromJson(response["data"]);
+        }
+      } else {
+        AppPrint.appLog("getCurrentSubscription response null or unsuccessful");
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "getCurrentSubscription");
+    }
+    return null;
   }
 
   Future<bool> updateCardInfo({
@@ -68,7 +88,7 @@ class SubscriptionRepository {
     try {
       var response = await apiServices.apiPostServices(
         url: AppApiEndPoint.instance.getRetailerSubscription,
-        body: body
+        body: body,
       );
       if (response != null) {
         return true;

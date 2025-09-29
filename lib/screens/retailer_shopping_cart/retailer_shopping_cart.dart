@@ -130,31 +130,153 @@ class RetailerShoppingCart extends StatelessWidget {
                         ],
                       ),
                       Gap(height: AppSize.size.height * 0.01),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(9),
-                          color: AppColor.blue500,
-                        ),
-                        padding: EdgeInsets.all(AppSize.width(value: 12)),
-                        child: Row(
-                          spacing: AppSize.width(value: 4),
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            AppImage(
-                              path: AssetsPath.gift,
-                              width: AppSize.width(value: 12),
-                            ),
-                            AppText(
-                              data: "No rewards available at the moment",
-                              fontSize: AppSize.width(value: 12),
-                              fontWeight: FontWeight.w400,
-                              color: AppColor.white,
-                            ),
-                          ],
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppText(
+                            data: "Rewards",
+                            fontSize: AppSize.width(value: 16),
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.white,
+                          ),
+                          Gap(height: AppSize.size.height * 0.005),
+                          Obx(
+                            () => controller.isLoadingRewards.value
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(9),
+                                      color: AppColor.blue500,
+                                    ),
+                                    padding: EdgeInsets.all(
+                                      AppSize.width(value: 12),
+                                    ),
+                                    child: Row(
+                                      spacing: AppSize.width(value: 4),
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: AppSize.width(value: 12),
+                                          height: AppSize.width(value: 12),
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2,
+                                            valueColor:
+                                                AlwaysStoppedAnimation<Color>(
+                                                  AppColor.white,
+                                                ),
+                                          ),
+                                        ),
+                                        AppText(
+                                          data: "Loading rewards...",
+                                          fontSize: AppSize.width(value: 12),
+                                          fontWeight: FontWeight.w400,
+                                          color: AppColor.white,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : controller.availableRewards.isEmpty
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(9),
+                                      color: AppColor.blue500,
+                                    ),
+                                    padding: EdgeInsets.all(
+                                      AppSize.width(value: 12),
+                                    ),
+                                    child: Row(
+                                      spacing: AppSize.width(value: 4),
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        AppImage(
+                                          path: AssetsPath.gift,
+                                          width: AppSize.width(value: 12),
+                                        ),
+                                        AppText(
+                                          data:
+                                              "No rewards available at the moment",
+                                          fontSize: AppSize.width(value: 12),
+                                          fontWeight: FontWeight.w400,
+                                          color: AppColor.white,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : CustomDropdown<String>(
+                                    items: [
+                                      "No reward",
+                                      ...controller.availableRewards.map(
+                                        (reward) =>
+                                            "${reward.rewardsRedeemed.title} (${reward.rewardsRedeemed.type == 'discount' ? '${reward.rewardsRedeemed.value}%' : '\$${reward.rewardsRedeemed.value}'} off)",
+                                      ),
+                                    ],
+                                    selectedValue:
+                                        controller.selectedReward.value == null
+                                        ? "No reward"
+                                        : "${controller.selectedReward.value!.rewardsRedeemed.title} (${controller.selectedReward.value!.rewardsRedeemed.type == 'discount' ? '${controller.selectedReward.value!.rewardsRedeemed.value}%' : '\$${controller.selectedReward.value!.rewardsRedeemed.value}'} off)",
+                                    hint: "Select a reward",
+                                    onChanged: (value) {
+                                      if (value == "No reward") {
+                                        controller.updateSelectedReward(null);
+                                      } else {
+                                        final selectedReward = controller
+                                            .availableRewards
+                                            .firstWhere(
+                                              (reward) =>
+                                                  "${reward.rewardsRedeemed.title} (${reward.rewardsRedeemed.type == 'discount' ? '${reward.rewardsRedeemed.value}%' : '\$${reward.rewardsRedeemed.value}'} off)" ==
+                                                  value,
+                                            );
+                                        controller.updateSelectedReward(
+                                          selectedReward,
+                                        );
+                                      }
+                                    },
+                                  ),
+                          ),
+                        ],
                       ),
                       Gap(height: AppSize.size.height * 0.01),
+                      // Discount amount (only show if there's a discount)
+                      Obx(
+                        () =>
+                            controller.selectedReward.value != null &&
+                                controller.discountAmount > 0
+                            ? Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(9),
+                                      color: Colors.green.withOpacity(0.2),
+                                    ),
+                                    padding: EdgeInsets.all(
+                                      AppSize.width(value: 12),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        AppText(
+                                          data: "Discount Applied:",
+                                          fontSize: AppSize.width(value: 12),
+                                          fontWeight: FontWeight.w400,
+                                          color: AppColor.white,
+                                        ),
+                                        AppText(
+                                          data:
+                                              "-\$${controller.discountAmount.toStringAsFixed(2)}",
+                                          fontSize: AppSize.width(value: 12),
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.green,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Gap(height: AppSize.size.height * 0.01),
+                                ],
+                              )
+                            : const SizedBox.shrink(),
+                      ),
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(9),
@@ -175,7 +297,7 @@ class RetailerShoppingCart extends StatelessWidget {
                             Obx(
                               () => AppText(
                                 data:
-                                    "\$${controller.totalAmount.toStringAsFixed(2)}",
+                                    "\$${controller.finalTotalAmount.toStringAsFixed(2)}",
                                 fontSize: AppSize.width(value: 12),
                                 fontWeight: FontWeight.w700,
                                 color: AppColor.white,
