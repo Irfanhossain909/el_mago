@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:el_mago/models/notification_model/notification_model.dart';
 import 'package:el_mago/screens/profile_screen/controller/profile_controller.dart';
 import 'package:el_mago/services/repository/notification_repository.dart';
@@ -86,30 +85,10 @@ class NotificationController extends GetxController {
         event: eventName,
         handler: (data) {
           AppPrint.appLog("Received notification data: $data");
-          AppPrint.appLog("Data type: ${data.runtimeType}");
 
           try {
-            Map<String, dynamic> notificationData;
-
-            // Handle different data formats
-            if (data is String) {
-              // If data is a JSON string, parse it
-              AppPrint.appLog("Parsing JSON string data");
-              notificationData = json.decode(data);
-            } else if (data is Map<String, dynamic>) {
-              // If data is already a Map, use it directly
-              AppPrint.appLog("Using Map data directly");
-              notificationData = data;
-            } else {
-              // Handle other data types by converting to string first
-              AppPrint.appLog("Converting data to string then parsing");
-              notificationData = json.decode(data.toString());
-            }
-
-            AppPrint.appLog("Parsed notification data: $notificationData");
-
-            // Create new notification from parsed data
-            final newNotification = Result.fromJson(notificationData);
+            // New notification top e add hobe
+            final newNotification = Result.fromJson(data);
             notifications.insert(0, newNotification);
             notifications.refresh(); // Force UI update
             update();
@@ -120,10 +99,6 @@ class NotificationController extends GetxController {
           } catch (e) {
             AppPrint.appError(
               "Error parsing notification data: $e",
-              title: "readSocketMessage",
-            );
-            AppPrint.appError(
-              "Raw data received: $data",
               title: "readSocketMessage",
             );
           }
