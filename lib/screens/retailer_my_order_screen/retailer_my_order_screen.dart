@@ -137,9 +137,12 @@ class ViewOrderCard extends StatelessWidget {
               value: order.totalQuantity.toString(),
             ),
             Gap(height: AppSize.size.height * 0.01),
-            buildOrderDetails(title: "Reward Name", value: "N/A"),
+            buildOrderDetails(
+              title: "Reward Name",
+              value: order.rewardDisplayName,
+            ),
             Gap(height: AppSize.size.height * 0.01),
-            buildOrderDetails(title: "Reward", value: "N/A"),
+            buildOrderDetails(title: "Reward", value: order.rewardDisplayValue),
             Gap(height: AppSize.size.height * 0.01),
             buildOrderDetails(
               title: "Amount",

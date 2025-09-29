@@ -13,6 +13,8 @@ class RetailerOrderModel {
   final String orderTerms;
   final List<RetailerProduct> products;
   final String source;
+  final String? reward; // Added reward type field (discount/fixedAmount)
+  final int? rewardValue; // Added reward value field
   final int orderBoxs;
   final double totalAmount;
   final int commission;
@@ -27,6 +29,8 @@ class RetailerOrderModel {
     required this.orderTerms,
     required this.products,
     required this.source,
+    this.reward, // Optional reward type
+    this.rewardValue, // Optional reward value
     required this.orderBoxs,
     required this.totalAmount,
     required this.commission,
@@ -44,6 +48,17 @@ class RetailerOrderModel {
   // Getter to calculate the total quantity of items
   int get totalQuantity => products.fold(0, (sum, item) => sum + item.quantity);
 
+  // Getter to format reward display
+  String get rewardDisplayName {
+    if (reward == null) return "No Reward";
+    return reward == 'discount' ? 'Discount' : 'Fixed Amount';
+  }
+
+  String get rewardDisplayValue {
+    if (reward == null || rewardValue == null) return "N/A";
+    return reward == 'discount' ? '${rewardValue}%' : '\$${rewardValue}';
+  }
+
   factory RetailerOrderModel.fromJson(Map<String, dynamic> json) =>
       RetailerOrderModel(
         id: json["_id"],
@@ -55,6 +70,8 @@ class RetailerOrderModel {
           json["products"].map((x) => RetailerProduct.fromJson(x)),
         ),
         source: json["source"],
+        reward: json["reward"], // Parse reward type
+        rewardValue: json["rewardValue"], // Parse reward value
         orderBoxs: json["orderBoxs"],
         totalAmount: (json["totalAmount"] as num).toDouble(),
         commission: json["commission"],
