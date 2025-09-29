@@ -15,7 +15,19 @@ class NotificationScreen extends StatelessWidget {
       init: NotificationController(),
       builder: (controller) {
         return Scaffold(
-          appBar: CustomAppbar(title: "Notification"),
+          appBar: CustomAppbar(
+            title: "Notification",
+            action: [
+              // Test button for debugging
+              IconButton(
+                icon: Icon(Icons.add_alert),
+                onPressed: () {
+                  controller.addTestNotification();
+                },
+                tooltip: "Add Test Notification",
+              ),
+            ],
+          ),
           body: _buildBody(controller),
         );
       },
@@ -23,66 +35,70 @@ class NotificationScreen extends StatelessWidget {
   }
 
   Widget _buildBody(NotificationController controller) {
-    if (controller.notifications.isEmpty) {
-      if (controller.isNotificationMoreLode.value) {
-        return const Center(child: CircularProgressIndicator());
+    return Obx(() {
+      if (controller.notifications.isEmpty) {
+        if (controller.isNotificationMoreLode.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return Center(
+          child: AppText(
+            data: "No notifications available",
+            fontSize: AppSize.width(value: 16),
+            fontWeight: FontWeight.w500,
+            color: AppColor.black,
+          ),
+        );
       }
-      return Center(
-        child: AppText(
-          data: "No notifications available",
-          fontSize: AppSize.width(value: 16),
-          fontWeight: FontWeight.w500,
-          color: AppColor.black,
-        ),
-      );
-    }
 
-    return RefreshIndicator(
-      onRefresh: () async {
-        await controller.refreshNotification();
-      },
-      child: ListView.builder(
-        controller: controller.notificationScrollController,
-        padding: EdgeInsets.only(top: AppSize.width(value: 10)),
-        itemCount:
-            controller.notifications.length +
-            (controller.isNotificationMoreLode.value ? 1 : 0),
-        itemBuilder: (context, index) {
-          if (index < controller.notifications.length) {
-            final notification = controller.notifications[index];
-            return NotificationCard(
-              isRead: notification.read ?? false,
-              title: notification.title ?? "No Title",
-              message: notification.message ?? "No Message",
-              time: notification.createdAt != null
-                  ? _formatTime(notification.createdAt!)
-                  : "Unknown",
-            );
-          } else {
-            // Loading indicator for pagination
-            if (controller.isNotificationLastPage.value) {
+      return RefreshIndicator(
+        onRefresh: () async {
+          await controller.refreshNotification();
+        },
+        child: ListView.builder(
+          controller: controller.notificationScrollController,
+          padding: EdgeInsets.only(top: AppSize.width(value: 10)),
+          itemCount:
+              controller.notifications.length +
+              (controller.isNotificationMoreLode.value ? 1 : 0),
+          itemBuilder: (context, index) {
+            if (index < controller.notifications.length) {
+              final notification = controller.notifications[index];
+              return NotificationCard(
+                isRead: notification.read ?? false,
+                title: notification.title ?? "No Title",
+                message: notification.message ?? "No Message",
+                time: notification.createdAt != null
+                    ? _formatTime(notification.createdAt!)
+                    : "Unknown",
+              );
+            } else {
+              // Loading indicator for pagination
+              if (controller.isNotificationLastPage.value) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: AppSize.width(value: 16),
+                  ),
+                  child: Center(
+                    child: AppText(
+                      data: "No more notifications",
+                      fontSize: AppSize.width(value: 14),
+                      fontWeight: FontWeight.w400,
+                      color: AppColor.black,
+                    ),
+                  ),
+                );
+              }
               return Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: AppSize.width(value: 16),
                 ),
-                child: Center(
-                  child: AppText(
-                    data: "No more notifications",
-                    fontSize: AppSize.width(value: 14),
-                    fontWeight: FontWeight.w400,
-                    color: AppColor.black,
-                  ),
-                ),
+                child: const Center(child: CircularProgressIndicator()),
               );
             }
-            return Padding(
-              padding: EdgeInsets.symmetric(vertical: AppSize.width(value: 16)),
-              child: const Center(child: CircularProgressIndicator()),
-            );
-          }
-        },
-      ),
-    );
+          },
+        ),
+      );
+    });
   }
 
   String _formatTime(DateTime dateTime) {
