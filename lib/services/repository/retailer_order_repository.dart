@@ -1,5 +1,7 @@
 import 'package:el_mago/const/app_api_end_point.dart';
 import 'package:el_mago/models/retailer_order/all_retailer_model.dart';
+import 'package:el_mago/models/retailer_order/retailer_analitics.dart';
+import 'package:el_mago/models/retailer_order/retailer_card_info_model.dart';
 import 'package:el_mago/models/retailer_order/retailer_details_model.dart';
 import 'package:el_mago/models/retailer_order/retailer_order_model.dart';
 import 'package:el_mago/models/retailer_model/retailer_dashboard_summary_model.dart';
@@ -201,5 +203,42 @@ class RetailerOrderRepository {
       AppPrint.appError(e, title: "deleteRetailer");
     }
     return false;
+  }
+
+  Future<RetailerAnaliticsData?> getSingleUserAnalatics({
+    required String retailerId,
+  }) async {
+    var url =
+        "${AppApiEndPoint.instance.getSingleRetailerDetailsAnalysis}$retailerId";
+    try {
+      var response = await _apiServices.apiGetServices(url);
+      if (response != null && response["data"] != null) {
+        return RetailerAnaliticsData.fromJson(response["data"]);
+      } else {
+        AppPrint.appError("SingleUser response is null");
+        return null;
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "getSingleUserAnalatics");
+    }
+    return null;
+  }
+
+  Future<RetailerCardInfoModelData?> getRetailerCardInfo({
+    required String retailerId,
+  }) async {
+    var url =
+        "${AppApiEndPoint.instance.getSingleRetailerCardDetails}$retailerId";
+    try {
+      var response = await _apiServices.apiGetServices(url);
+      if (response != null && response["data"] != null) {
+        return RetailerCardInfoModelData.fromJson(response["data"]);
+      } else {
+        AppPrint.appError("getRetailerCardInfo null");
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "getRetailerCardInfo");
+    }
+    return null;
   }
 }
