@@ -291,7 +291,7 @@ class SelectedProductCard extends StatelessWidget {
           AppText(
             data: label,
             fontWeight: isTotal ? FontWeight.w700 : FontWeight.w500,
-            color: Colors.grey.shade600,
+            color: Colors.black,
           ),
           AppText(
             data: value,
@@ -311,11 +311,11 @@ class SelectedProductCard extends StatelessWidget {
           AppText(
             data: "Quantity",
             fontWeight: FontWeight.w500,
-            color: Colors.grey.shade600,
+            color: Colors.black,
           ),
           Container(
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade300),
+              border: Border.all(color: Colors.black),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
@@ -466,7 +466,7 @@ class BottomSummaryBar extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        AppText(data: label, color: Colors.white70),
+        AppText(data: label, color: Colors.white, fontWeight: FontWeight.w700),
         AppText(data: value, color: Colors.white, fontWeight: FontWeight.bold),
       ],
     );
