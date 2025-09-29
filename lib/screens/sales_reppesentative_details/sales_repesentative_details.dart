@@ -114,7 +114,14 @@ class SalesReppesentativeDetails extends StatelessWidget {
                                     ),
                                   ),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Get.toNamed(
+                                        AppRoutes
+                                            .instance
+                                            .salesEditNewRetailersScreen,
+                                        arguments: controller.retailerModel.value?.id,
+                                      );
+                                    },
                                     child: AppImage(
                                       width: AppSize.width(value: 20),
                                       path: AssetsPath.editIcon,
