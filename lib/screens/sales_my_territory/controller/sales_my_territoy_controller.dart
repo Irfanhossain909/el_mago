@@ -161,7 +161,7 @@ class SalesMyTerritoryController extends GetxController {
           duration: Duration(milliseconds: 800),
           "Success",
           "Your territories have been saved successfully.",
-          snackPosition: SnackPosition.TOP,
+          snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.blue,
           colorText: Get.theme.colorScheme.onPrimary,
         );
