@@ -63,6 +63,34 @@ class SalesMyTerritory extends StatelessWidget {
                             ),
                             const SizedBox(height: 16),
                             _MultiSelectDropdown(controller: controller),
+                            const SizedBox(height: 20),
+                            // Save Button - Right aligned inside the card
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: controller.saveTerritory,
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppColor.blue,
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 12,
+                                      horizontal: 32,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'Save',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -71,28 +99,7 @@ class SalesMyTerritory extends StatelessWidget {
                 ),
               ),
             ),
-            // Save Button
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: controller.saveTerritory,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColor.blue,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Text(
-                  'Save',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
+            // Remove the old save button section
           ],
         ),
       ),
