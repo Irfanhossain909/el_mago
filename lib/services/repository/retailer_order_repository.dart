@@ -115,9 +115,23 @@ class RetailerOrderRepository {
     var url = "${AppApiEndPoint.instance.getMyRetailers}$retailerId";
     try {
       var response = await _apiServices.apiGetServices(url);
-      if (response != null) {
-        if (response["data"] != null && response["data"] is Map) {
+      if (response != null && response["data"] != null) {
+        // Handle both cases: when API returns a single object or a list
+        if (response["data"] is List) {
+          List<dynamic> dataList = response["data"];
+          if (dataList.isNotEmpty) {
+            return RetailerDetailsDataModel.fromJson(dataList.first);
+          } else {
+            AppPrint.appError("getSingleRetailer: Data list is empty");
+            return null;
+          }
+        } else if (response["data"] is Map<String, dynamic>) {
           return RetailerDetailsDataModel.fromJson(response["data"]);
+        } else {
+          AppPrint.appError(
+            "getSingleRetailer: Unexpected data format - ${response["data"].runtimeType}",
+          );
+          return null;
         }
       } else {
         AppPrint.appError("SingleUser response is null");

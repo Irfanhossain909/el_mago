@@ -40,86 +40,88 @@ class SalesReppesentativeDetails extends StatelessWidget {
                       ),
                     ),
                     padding: EdgeInsets.all(8),
-                    child: Row(
-                      children: [
-                        AppImageCircular(
-                          width: 100,
-                          height: 100,
-                          url:
-                              controller.retailerModel.value?.image ??
-                              "https://cdn.pixabay.com/photo/2025/09/04/07/47/portrait-9814955_640.jpg",
-                        ),
-                        Gap(width: AppSize.width(value: 12)),
-                        Column(
-                          spacing: AppSize.size.height * 0.005,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AppText(
-                              data:
-                                  controller.retailerModel.value?.name ??
-                                  "no text",
-                              fontSize: AppSize.width(value: 14),
-                              fontWeight: FontWeight.w700,
-                              color: AppColor.black,
-                            ),
-                            AppText(
-                              data:
-                                  controller.retailerModel.value?.email ??
-                                  "no text",
-                              fontSize: AppSize.width(value: 10),
-                              fontWeight: FontWeight.w400,
-                              color: AppColor.black,
-                            ),
-                            AppText(
-                              data:
-                                  controller.retailerModel.value?.address ??
-                                  "no text",
-                              fontSize: AppSize.width(value: 10),
-                              fontWeight: FontWeight.w400,
-                              color: AppColor.black,
-                            ),
-                          ],
-                        ),
-
-                        Spacer(),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: AppSize.width(value: 8),
-                            vertical: AppSize.width(value: 6),
+                    child: Obx(() {
+                      return Row(
+                        children: [
+                          AppImageCircular(
+                            width: 88,
+                            height: 88,
+                            url:
+                                controller.retailerModel.value?.image ??
+                                "https://cdn.pixabay.com/photo/2025/09/04/07/47/portrait-9814955_640.jpg",
                           ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: AppColor.blue500),
-                          ),
-                          child: Row(
-                            spacing: AppSize.width(value: 12),
+                          Gap(width: AppSize.width(value: 12)),
+                          Column(
+                            spacing: AppSize.size.height * 0.005,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              InkWell(
-                                onTap: () {
-                                  Get.toNamed(
-                                    AppRoutes
-                                        .instance
-                                        .salesRetailerInformationScreen,
-                                  );
-                                },
-                                child: AppImage(
-                                  width: AppSize.width(value: 20),
-                                  path: AssetsPath.eyeIcon,
-                                ),
+                              AppText(
+                                data:
+                                    controller.retailerModel.value?.name ??
+                                    "no text",
+                                fontSize: AppSize.width(value: 14),
+                                fontWeight: FontWeight.w700,
+                                color: AppColor.black,
                               ),
-                              InkWell(
-                                onTap: () {},
-                                child: AppImage(
-                                  width: AppSize.width(value: 20),
-                                  path: AssetsPath.editIcon,
-                                  iconColor: Colors.blue,
-                                ),
+                              AppText(
+                                data:
+                                    controller.retailerModel.value?.email ??
+                                    "no text",
+                                fontSize: AppSize.width(value: 10),
+                                fontWeight: FontWeight.w400,
+                                color: AppColor.black,
+                              ),
+                              AppText(
+                                data:
+                                    controller.retailerModel.value?.address ??
+                                    "no text",
+                                fontSize: AppSize.width(value: 10),
+                                fontWeight: FontWeight.w400,
+                                color: AppColor.black,
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
+
+                          Spacer(),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: AppSize.width(value: 8),
+                              vertical: AppSize.width(value: 6),
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: AppColor.blue500),
+                            ),
+                            child: Row(
+                              spacing: AppSize.width(value: 12),
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Get.toNamed(
+                                      AppRoutes
+                                          .instance
+                                          .salesRetailerInformationScreen,
+                                    );
+                                  },
+                                  child: AppImage(
+                                    width: AppSize.width(value: 20),
+                                    path: AssetsPath.eyeIcon,
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {},
+                                  child: AppImage(
+                                    width: AppSize.width(value: 20),
+                                    path: AssetsPath.editIcon,
+                                    iconColor: Colors.blue,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    }),
                   ),
 
                   Row(
