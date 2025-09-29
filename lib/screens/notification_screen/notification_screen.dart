@@ -1,47 +1,103 @@
 import 'package:el_mago/const/app_color.dart';
+import 'package:el_mago/screens/notification_screen/controller/notification_controller.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_text/app_text.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Sample list of notifications
-    final List<Map<String, String>> notifications = [
-      {
-        "title": "OTP Verify!",
-        "message": "Your OTP is required to close the trip. Enter it now.",
-        "time": "2 h",
+    return GetBuilder<NotificationController>(
+      init: NotificationController(),
+      builder: (controller) {
+        return Scaffold(
+          appBar: CustomAppbar(title: "Notification"),
+          body: _buildBody(controller),
+        );
       },
-      {
-        "title": "New Trip Request",
-        "message": "You have a new trip request waiting for approval.",
-        "time": "1 d",
-      },
-      {
-        "title": "Promo Code",
-        "message": "Use promo code 'NEW20' for 20% off on your next ride.",
-        "time": "3 d",
-      },
-    ];
+    );
+  }
 
-    return Scaffold(
-      appBar: CustomAppbar(title: "Notification"),
-      body: ListView.builder(
+  Widget _buildBody(NotificationController controller) {
+    if (controller.notifications.isEmpty) {
+      if (controller.isNotificationMoreLode.value) {
+        return const Center(child: CircularProgressIndicator());
+      }
+      return Center(
+        child: AppText(
+          data: "No notifications available",
+          fontSize: AppSize.width(value: 16),
+          fontWeight: FontWeight.w500,
+          color: AppColor.black,
+        ),
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh: () async {
+        await controller.refreshNotification();
+      },
+      child: ListView.builder(
+        controller: controller.notificationScrollController,
         padding: EdgeInsets.only(top: AppSize.width(value: 10)),
-        itemCount: notifications.length,
+        itemCount:
+            controller.notifications.length +
+            (controller.isNotificationMoreLode.value ? 1 : 0),
         itemBuilder: (context, index) {
-          return NotificationCard(
-            title: notifications[index]['title']!,
-            message: notifications[index]['message']!,
-            time: notifications[index]['time']!,
-          );
+          if (index < controller.notifications.length) {
+            final notification = controller.notifications[index];
+            return NotificationCard(
+              isRead: notification.read ?? false,
+              title: notification.title ?? "No Title",
+              message: notification.message ?? "No Message",
+              time: notification.createdAt != null
+                  ? _formatTime(notification.createdAt!)
+                  : "Unknown",
+            );
+          } else {
+            // Loading indicator for pagination
+            if (controller.isNotificationLastPage.value) {
+              return Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: AppSize.width(value: 16),
+                ),
+                child: Center(
+                  child: AppText(
+                    data: "No more notifications",
+                    fontSize: AppSize.width(value: 14),
+                    fontWeight: FontWeight.w400,
+                    color: AppColor.black,
+                  ),
+                ),
+              );
+            }
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: AppSize.width(value: 16)),
+              child: const Center(child: CircularProgressIndicator()),
+            );
+          }
         },
       ),
     );
+  }
+
+  String _formatTime(DateTime dateTime) {
+    final now = DateTime.now();
+    final difference = now.difference(dateTime);
+
+    if (difference.inDays > 0) {
+      return '${difference.inDays} d';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours} h';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes} m';
+    } else {
+      return 'now';
+    }
   }
 }
 
@@ -49,7 +105,16 @@ class NotificationCard extends StatelessWidget {
   final String? title;
   final String? message;
   final String? time;
-  const NotificationCard({super.key, this.title, this.message, this.time});
+  final bool isRead;
+  final VoidCallback? onTap;
+  const NotificationCard({
+    super.key,
+    this.title,
+    this.message,
+    this.time,
+    this.isRead = false,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +135,9 @@ class NotificationCard extends StatelessWidget {
               offset: Offset(0, 3), // changes position of shadow
             ),
           ],
-          color: AppColor.white,
+          color: isRead
+              ? AppColor.blue500.withValues(alpha: 0.1)
+              : AppColor.white,
         ),
         child: Row(
           spacing: AppSize.width(value: 12),

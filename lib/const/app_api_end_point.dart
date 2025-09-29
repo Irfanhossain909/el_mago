@@ -9,6 +9,9 @@ class AppApiEndPoint {
   //app use base
   static final String domain = _getDomain();
   final String baseUrl = "$domain/api/v1";
+  ////////////////////// Notification
+  static String getNotification(var page, var limit) =>
+      "/notification/?page=$page&limit=$limit";
   ////////////////////// Sales Product Dashboard
   final String getProducts = "/retailer/dashboard/get-products";
   final String getMyRetailers = "/sales/dashboard/my-retailers";
