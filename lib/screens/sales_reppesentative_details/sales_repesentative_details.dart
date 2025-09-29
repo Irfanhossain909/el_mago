@@ -14,6 +14,7 @@ import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class SalesReppesentativeDetails extends StatelessWidget {
   const SalesReppesentativeDetails({super.key});
@@ -32,162 +33,185 @@ class SalesReppesentativeDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: AppSize.size.height * 0.015,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: AppColor.black.withValues(alpha: 0.1),
-                      ),
-                    ),
-                    padding: EdgeInsets.all(8),
-                    child: Obx(() {
-                      return Row(
-                        children: [
-                          AppImageCircular(
-                            width: 88,
-                            height: 88,
-                            url:
-                                controller.retailerModel.value?.image ??
-                                "https://cdn.pixabay.com/photo/2025/09/04/07/47/portrait-9814955_640.jpg",
+                  Obx(() {
+                    return Skeletonizer(
+                      enabled: controller.isLoading.value,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: AppColor.black.withValues(alpha: 0.1),
                           ),
-                          Gap(width: AppSize.width(value: 12)),
-                          Column(
-                            spacing: AppSize.size.height * 0.005,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AppText(
-                                data:
-                                    controller.retailerModel.value?.name ??
-                                    "no text",
-                                fontSize: AppSize.width(value: 14),
-                                fontWeight: FontWeight.w700,
-                                color: AppColor.black,
-                              ),
-                              AppText(
-                                data:
-                                    controller.retailerModel.value?.email ??
-                                    "no text",
-                                fontSize: AppSize.width(value: 10),
-                                fontWeight: FontWeight.w400,
-                                color: AppColor.black,
-                              ),
-                              AppText(
-                                data:
-                                    controller.retailerModel.value?.address ??
-                                    "no text",
-                                fontSize: AppSize.width(value: 10),
-                                fontWeight: FontWeight.w400,
-                                color: AppColor.black,
-                              ),
-                            ],
-                          ),
-
-                          Spacer(),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: AppSize.width(value: 8),
-                              vertical: AppSize.width(value: 6),
+                        ),
+                        padding: EdgeInsets.all(8),
+                        child: Row(
+                          children: [
+                            AppImageCircular(
+                              width: 88,
+                              height: 88,
+                              url:
+                                  controller.retailerModel.value?.image ??
+                                  "https://cdn.pixabay.com/photo/2025/09/04/07/47/portrait-9814955_640.jpg",
                             ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: AppColor.blue500),
-                            ),
-                            child: Row(
-                              spacing: AppSize.width(value: 12),
+                            Gap(width: AppSize.width(value: 12)),
+                            Column(
+                              spacing: AppSize.size.height * 0.005,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                InkWell(
-                                  onTap: () {
-                                    Get.toNamed(
-                                      AppRoutes
-                                          .instance
-                                          .salesRetailerInformationScreen,
-                                    );
-                                  },
-                                  child: AppImage(
-                                    width: AppSize.width(value: 20),
-                                    path: AssetsPath.eyeIcon,
-                                  ),
+                                AppText(
+                                  data:
+                                      controller.retailerModel.value?.name ??
+                                      "no text",
+                                  fontSize: AppSize.width(value: 14),
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColor.black,
                                 ),
-                                InkWell(
-                                  onTap: () {},
-                                  child: AppImage(
-                                    width: AppSize.width(value: 20),
-                                    path: AssetsPath.editIcon,
-                                    iconColor: Colors.blue,
-                                  ),
+                                AppText(
+                                  data:
+                                      controller.retailerModel.value?.email ??
+                                      "no text",
+                                  fontSize: AppSize.width(value: 10),
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColor.black,
+                                ),
+                                AppText(
+                                  data:
+                                      controller.retailerModel.value?.address ??
+                                      "no text",
+                                  fontSize: AppSize.width(value: 10),
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColor.black,
                                 ),
                               ],
                             ),
+
+                            Spacer(),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: AppSize.width(value: 8),
+                                vertical: AppSize.width(value: 6),
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: AppColor.blue500),
+                              ),
+                              child: Row(
+                                spacing: AppSize.width(value: 12),
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Get.toNamed(
+                                        AppRoutes
+                                            .instance
+                                            .salesRetailerInformationScreen,
+                                        arguments:
+                                            controller.retailerModel.value?.id,
+                                      );
+                                    },
+                                    child: AppImage(
+                                      width: AppSize.width(value: 20),
+                                      path: AssetsPath.eyeIcon,
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {},
+                                    child: AppImage(
+                                      width: AppSize.width(value: 20),
+                                      path: AssetsPath.editIcon,
+                                      iconColor: Colors.blue,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+
+                  Obx(() {
+                    return Row(
+                      spacing: AppSize.width(value: 12),
+                      children: [
+                        Expanded(
+                          child: RetailerDataCard(
+                            path: AssetsPath.dollerColor,
+                            title:
+                                controller
+                                    .retailerAnaliticsModel
+                                    .value
+                                    ?.totalRevenue
+                                    .toString() ??
+                                "0",
+                            subTitle: "Total Purchased",
                           ),
-                        ],
-                      );
-                    }),
-                  ),
-
-                  Row(
-                    spacing: AppSize.width(value: 12),
-                    children: [
-                      Expanded(
-                        child: RetailerDataCard(
-                          path: AssetsPath.dollerColor,
-                          title: "0",
-                          subTitle: "Total Orders Placed",
                         ),
-                      ),
-                      Expanded(
-                        child: RetailerDataCard(
-                          path: AssetsPath.boxColor,
-                          title: "0",
+                        Expanded(
+                          child: RetailerDataCard(
+                            path: AssetsPath.boxColor,
+                            title:
+                                controller
+                                    .retailerAnaliticsModel
+                                    .value
+                                    ?.totalOrders
+                                    .toString() ??
+                                "0",
 
-                          subTitle: "Total Orders Placed",
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  Row(
-                    spacing: AppSize.width(value: 12),
-                    children: [
-                      Expanded(
-                        child: ItemCard(
-                          text2: controller.retailerModel.value?.address,
-
-                          iconPath: AssetsPath.icLocation,
-                        ),
-                      ),
-                      Expanded(
-                        child: ItemCard(
-                          iconPath: AssetsPath.icCalender,
-                          text1: "Created On",
-                          text2: formatTo_ddMMyyyy(
-                            controller.retailerModel.value?.createdAt,
+                            subTitle: "Total Orders",
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    spacing: AppSize.width(value: 12),
-                    children: [
-                      Expanded(
-                        child: ItemCard(
-                          iconPath: AssetsPath.icVerification,
-                          text1: "Verification",
-                          text2:
-                              "Verification: ${controller.retailerModel.value?.status}",
+                      ],
+                    );
+                  }),
+
+                  Obx(() {
+                    return Row(
+                      spacing: AppSize.width(value: 12),
+                      children: [
+                        Expanded(
+                          child: ItemCard(
+                            text2: controller.retailerModel.value?.address,
+
+                            iconPath: AssetsPath.icLocation,
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: ItemCard(
-                          iconPath: AssetsPath.icRole,
-                          text1: "Role",
-                          text2:
-                              controller.retailerModel.value?.role ??
-                              "RETAILER",
+                        Expanded(
+                          child: ItemCard(
+                            iconPath: AssetsPath.icCalender,
+                            text1: "Created On",
+                            text2: formatTo_ddMMyyyy(
+                              controller.retailerModel.value?.createdAt,
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    );
+                  }),
+                  Obx(() {
+                    return Row(
+                      spacing: AppSize.width(value: 12),
+                      children: [
+                        Expanded(
+                          child: ItemCard(
+                            iconPath: AssetsPath.icVerification,
+                            text1: "Verification",
+                            text2:
+                                "Verification: ${controller.retailerModel.value?.status}",
+                          ),
+                        ),
+                        Expanded(
+                          child: ItemCard(
+                            iconPath: AssetsPath.icRole,
+                            text1: "Role",
+                            text2:
+                                controller.retailerModel.value?.role ??
+                                "RETAILER",
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
                   Gap(height: AppSize.width(value: 12)),
 
                   AppText(

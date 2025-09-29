@@ -20,6 +20,8 @@ class AppApiEndPoint {
   final String createRetailer = "/admin/retailer/managment/create";
   final String deleteRetailer = "/admin/retailer/managment/delete/";
   final String getSingleRetailerDetails = "/admin/retailer/managment/";
+  final String getSingleRetailerDetailsAnalysis = "/sales/dashboard/my-retailer/details/analysis/";
+  final String getSingleRetailerCardDetails = "/sales/dashboard/my-retailer/details/";
 
   ////////////////////// Retailer Product Dashboard
   final String getMyOrdersRetailer = "/retailer/dashboard/orders";
