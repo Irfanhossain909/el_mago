@@ -118,6 +118,7 @@ class SalesRetailerManagementScreen extends StatelessWidget {
                                         AppRoutes
                                             .instance
                                             .salesEditNewRetailersScreen,
+                                        arguments: retailar.id,
                                       );
                                     },
                                     retailerDelete: () {
