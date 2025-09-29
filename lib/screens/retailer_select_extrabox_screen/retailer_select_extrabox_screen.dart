@@ -28,69 +28,97 @@ class RetailerSelectExtraboxScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // --- This is your existing code for the top section ---
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blue.withOpacity(0.1),
-                      border: Border.all(color: Colors.blue, width: 0.5),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            AppText(
-                              data: "Current Tier:",
-                              fontSize: AppSize.width(value: 12),
-                              fontWeight: FontWeight.w700,
+                  Obx(
+                    () => controller.isLoadingSubscription.value
+                        ? Container(
+                            decoration: BoxDecoration(
+                              color: Colors.blue.withOpacity(0.1),
+                              border: Border.all(
+                                color: Colors.blue,
+                                width: 0.5,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                            AppText(
-                              data: " Platinum",
-                              fontSize: AppSize.width(value: 12),
-                              fontWeight: FontWeight.w400,
+                            padding: const EdgeInsets.all(12),
+                            child: const Center(
+                              child: CircularProgressIndicator(),
                             ),
-                          ],
-                        ),
-                        SizedBox(height: AppSize.size.height * 0.007),
-                        Row(
-                          children: [
-                            AppText(
-                              data: "Minimum Boxes Required:",
-                              fontSize: AppSize.width(value: 12),
-                              fontWeight: FontWeight.w700,
+                          )
+                        : Container(
+                            decoration: BoxDecoration(
+                              color: Colors.blue.withOpacity(0.1),
+                              border: Border.all(
+                                color: Colors.blue,
+                                width: 0.5,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                            AppText(
-                              data: "  ${controller.minimumBoxes}",
-                              fontSize: AppSize.width(value: 12),
-                              fontWeight: FontWeight.w400,
+                            padding: const EdgeInsets.all(12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    AppText(
+                                      data: "Current Tier:",
+                                      fontSize: AppSize.width(value: 12),
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    Obx(
+                                      () => AppText(
+                                        data: " ${controller.currentTier}",
+                                        fontSize: AppSize.width(value: 12),
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: AppSize.size.height * 0.007),
+                                Row(
+                                  children: [
+                                    AppText(
+                                      data: "Minimum Boxes Required:",
+                                      fontSize: AppSize.width(value: 12),
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    Obx(
+                                      () => AppText(
+                                        data: "  ${controller.minimumBoxes}",
+                                        fontSize: AppSize.width(value: 12),
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: AppSize.size.height * 0.007),
+                                Row(
+                                  children: [
+                                    AppText(
+                                      data:
+                                          "Subscription: ${controller.currentTier} Tier:",
+                                      fontSize: AppSize.width(value: 12),
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    Obx(
+                                      () => AppText(
+                                        data:
+                                            "  ${controller.subscriptionTier}",
+                                        fontSize: AppSize.width(value: 12),
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: AppSize.size.height * 0.007),
+                                AppText(
+                                  data:
+                                      "Select products for your subscription and adjust quantities as needed.",
+                                  fontSize: AppSize.width(value: 12),
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        SizedBox(height: AppSize.size.height * 0.007),
-                        Row(
-                          children: [
-                            AppText(
-                              data: "Subscription: Platinum Tier:",
-                              fontSize: AppSize.width(value: 12),
-                              fontWeight: FontWeight.w700,
-                            ),
-                            AppText(
-                              data: "  6 boxes per month",
-                              fontSize: AppSize.width(value: 12),
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: AppSize.size.height * 0.007),
-                        AppText(
-                          data:
-                              "Select products for your subscription and adjust quantities as needed.",
-                          fontSize: AppSize.width(value: 12),
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ],
-                    ),
+                          ),
                   ),
                   SizedBox(height: AppSize.size.height * 0.01),
                   AppText(

@@ -2,8 +2,10 @@ import 'package:el_mago/models/product_model/product_model.dart';
 import 'package:el_mago/models/retailer_model/retailer_dashboard_summary_model.dart';
 import 'package:el_mago/models/order_model/extra_box_request_model.dart';
 import 'package:el_mago/models/user_model/user_model.dart';
+import 'package:el_mago/models/subscription_model/current_subscription_model.dart';
 import 'package:el_mago/services/repository/sales_dashboard_repository.dart';
 import 'package:el_mago/services/repository/profile_repository.dart';
+import 'package:el_mago/services/repository/subscription_repository.dart';
 import 'package:el_mago/services/api/get_storage_services.dart';
 import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:get/get.dart';
@@ -17,7 +19,10 @@ class CartItem {
 }
 
 class RetailerSelectExtraboxController extends GetxController {
-  int minimumBoxes = 6;
+  // Dynamic subscription data
+  var currentSubscription = Rx<CurrentSubscriptionData?>(null);
+  var isLoadingSubscription = false.obs;
+
   var getAllProducts = <ProductModel>[].obs;
   var dashboardSummary = Rx<RetailerDashboardSummaryModel?>(null);
   var isLoading = false.obs;
@@ -27,6 +32,15 @@ class RetailerSelectExtraboxController extends GetxController {
       SalesDashboardRepository();
   GetStorageServices storageServices = GetStorageServices.instance;
   ProfileRepository profileRepository = ProfileRepository();
+  SubscriptionRepository subscriptionRepository =
+      SubscriptionRepository.instance;
+
+  // Dynamic getters for subscription data
+  int get minimumBoxes => currentSubscription.value?.boxRequired ?? 6;
+  String get currentTier =>
+      currentSubscription.value?.displayTier ?? "Platinum";
+  String get subscriptionTier =>
+      currentSubscription.value?.displayBoxRequired ?? "6 boxes per month";
 
   // --- NEW CART LOGIC ---
 
@@ -89,9 +103,31 @@ class RetailerSelectExtraboxController extends GetxController {
     }
   }
 
+  Future<void> fetchCurrentSubscription() async {
+    try {
+      isLoadingSubscription.value = true;
+      final subscriptionData = await subscriptionRepository
+          .getCurrentSubscription();
+
+      if (subscriptionData != null) {
+        currentSubscription.value = subscriptionData;
+        AppPrint.appPrint(
+          "Subscription loaded: ${subscriptionData.subscription}, Boxes required: ${subscriptionData.boxRequired}",
+        );
+      } else {
+        AppPrint.appError("Failed to fetch subscription data");
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "fetchCurrentSubscription");
+    } finally {
+      isLoadingSubscription.value = false;
+    }
+  }
+
   @override
   void onInit() {
     fetchAllProducts();
+    fetchCurrentSubscription();
     // Initialize user ID in background
     ensureUserIdIsSet();
     super.onInit();
