@@ -156,6 +156,11 @@ List<GetPage> appRootRoutesFile = <GetPage>[
     page: () => const SalesOrderDetailsScreen(),
   ),
   GetPage(
+    name: AppRoutes.instance.sealesMySalesScreen,
+    binding: AppBinding(),
+    page: () => const SalesMySalesScreen(),
+  ),
+  GetPage(
     name: AppRoutes.instance.retailerSubscriptionScreen,
     binding: AppBinding(),
     page: () => const RetailerMySubscriptionScreen(),

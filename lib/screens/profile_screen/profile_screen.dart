@@ -1,6 +1,7 @@
 import 'package:el_mago/const/app_api_end_point.dart';
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/const/assets_icons_path.dart';
+import 'package:el_mago/const/role.dart';
 import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/screens/profile_screen/controller/profile_controller.dart';
 import 'package:el_mago/utils/app_size.dart';
@@ -104,22 +105,22 @@ class ProfileScreen extends StatelessWidget {
                     spacing: AppSize.size.height * 0.04,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // ProfileRow(
-                      //   iconPath: AssetsPath.pass,
-                      //   onTap: () {
-                      //     Get.toNamed(AppRoutes.instance.changePasswordScreen);
-                      //   },
-                      //   text: "Password",
-                      // ),
-                      // // Add the My Sales section for SALES role users
-                      // if (controller.profileData.value?.role == Role.SALES.name)
-                      //   ProfileRow(
-                      //     iconPath: AssetsPath.mySales,
-                      //     onTap: () {
-                      //       Get.toNamed(AppRoutes.instance.sealesMySalesScreen);
-                      //     },
-                      //     text: "My Sales",
-                      //   ),
+                      ProfileRow(
+                        iconPath: AssetsPath.pass,
+                        onTap: () {
+                          Get.toNamed(AppRoutes.instance.changePasswordScreen);
+                        },
+                        text: "Password",
+                      ),
+                      // Add the My Sales section for SALES role users
+                      if (controller.profileData.value?.role == Role.SALES.name)
+                        ProfileRow(
+                          iconPath: AssetsPath.mySales,
+                          onTap: () {
+                            Get.toNamed(AppRoutes.instance.sealesMySalesScreen);
+                          },
+                          text: "My Sales",
+                        ),
                       ProfileRow(
                         iconPath: AssetsPath.terms,
                         onTap: () {
