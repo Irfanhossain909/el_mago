@@ -4,7 +4,7 @@ import 'package:el_mago/screens/retailer_shopping_cart/controller/retailer_shopp
 import 'package:el_mago/screens/sales_shopping_cart/model/cart_item_model.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_button/app_button.dart';
-import 'package:el_mago/widgets/app_dropdown/custom_sdropdown.dart';
+import 'package:el_mago/widgets/app_dropdown/custom_dropdown.dart';
 import 'package:el_mago/widgets/app_image/app_image.dart';
 import 'package:el_mago/widgets/app_log/gap.dart';
 import 'package:el_mago/widgets/app_text/app_text.dart';
