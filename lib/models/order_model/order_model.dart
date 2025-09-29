@@ -1,5 +1,3 @@
-
-
 // Helper function to decode a list of orders from a JSON string
 import 'dart:convert';
 
@@ -14,6 +12,7 @@ class OrderModel {
   final String orderTerms;
   final List<Product> products;
   final String source;
+  final String? reward; // Added reward field as optional
   final int orderBoxs;
   final double totalAmount;
   final int commission;
@@ -28,6 +27,7 @@ class OrderModel {
     required this.orderTerms,
     required this.products,
     required this.source,
+    this.reward, // Made optional since existing orders might not have it
     required this.orderBoxs,
     required this.totalAmount,
     required this.commission,
@@ -51,6 +51,7 @@ class OrderModel {
       json["products"].map((x) => Product.fromJson(x)),
     ),
     source: json["source"],
+    reward: json["reward"], // Added reward field parsing
     orderBoxs: json["orderBoxs"],
     totalAmount: (json["totalAmount"] as num).toDouble(),
     commission: json["commission"],
@@ -65,15 +66,10 @@ class UserId {
   final String id;
   final String name;
 
-  UserId({
-    required this.id,
-    required this.name,
-  });
+  UserId({required this.id, required this.name});
 
-  factory UserId.fromJson(Map<String, dynamic> json) => UserId(
-        id: json["_id"],
-        name: json["name"],
-      );
+  factory UserId.fromJson(Map<String, dynamic> json) =>
+      UserId(id: json["_id"], name: json["name"]);
 }
 
 class Product {
