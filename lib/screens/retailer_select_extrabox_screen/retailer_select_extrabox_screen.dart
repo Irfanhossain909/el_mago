@@ -365,11 +365,7 @@ class BottomSummaryBar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
       decoration: const BoxDecoration(
-        color: Color(0xFF4B0082), // Indigo/Purple Color
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(24),
-          topRight: Radius.circular(24),
-        ),
+        color: Colors.deepPurpleAccent, // Indigo/Purple Color
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -406,14 +402,21 @@ class BottomSummaryBar extends StatelessWidget {
                     );
                   },
                   style: OutlinedButton.styleFrom(
+                    backgroundColor: Color(0xff721af0),
                     foregroundColor: Colors.white,
-                    side: const BorderSide(color: Colors.white54),
+                    side: const BorderSide(color: Colors.white),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: const Text("Cancel"),
+                  child: const Text(
+                    "Cancel",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(width: 16),
@@ -426,7 +429,7 @@ class BottomSummaryBar extends StatelessWidget {
                             await controller.placeOrder();
                           },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF00BFA5), // Teal Color
+                      backgroundColor: const Color(0xff03dac5), // Teal Color
                       foregroundColor: Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
@@ -442,7 +445,13 @@ class BottomSummaryBar extends StatelessWidget {
                               strokeWidth: 2,
                             ),
                           )
-                        : const Text("Save Selection"),
+                        : const Text(
+                            "Save Selection",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                   ),
                 ),
               ),
