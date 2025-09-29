@@ -21,6 +21,7 @@ import 'package:el_mago/screens/sales_commision_breakdown/controller/sales_commi
 import 'package:el_mago/screens/sales_dash_board/controller/sales_dashboard_controller.dart';
 import 'package:el_mago/screens/sales_my_order/controller/sales_my_order_controller.dart';
 import 'package:el_mago/screens/sales_my_sales_screen/controller/sales_my_sales_screen_controller.dart';
+import 'package:el_mago/screens/sales_my_territory/controller/sales_my_territoy_controller.dart';
 import 'package:el_mago/screens/sales_navigation_screen/controller/sales_navigation_screen_controller.dart';
 import 'package:el_mago/screens/sales_order_details_screen/controller/sales_order_details_controller.dart';
 import 'package:el_mago/screens/sales_shopping_cart/controller/sales_shopping_cart_controller.dart';
@@ -70,10 +71,8 @@ class AppBinding extends Bindings {
     //shopping cart
     Get.lazyPut(() => SalesShoppingCartController(), fenix: true);
     Get.lazyPut(() => SalesMyOrderController(), fenix: true);
-    Get.lazyPut(
-      () => SalesOrderDetailsController(),
-      fenix: true,
-    ); // New Controller
+    Get.lazyPut(() => SalesOrderDetailsController(), fenix: true);
+    Get.lazyPut(() => SalesMyTerritoryController());
 
     Get.lazyPut(() => SalesRepository());
     Get.lazyPut(() => ProfileRepository());
