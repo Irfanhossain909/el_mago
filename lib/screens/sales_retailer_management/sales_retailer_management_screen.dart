@@ -167,6 +167,9 @@ class SalesRetailerManagementScreen extends StatelessWidget {
                                       .salesEditSubscriptionScreen,
                                 );
                               },
+                              subCart: (){
+                                
+                              },
                             );
                           },
                         );
