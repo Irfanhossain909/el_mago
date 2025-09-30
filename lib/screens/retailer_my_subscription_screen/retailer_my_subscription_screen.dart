@@ -35,9 +35,15 @@ class RetailerMySubscriptionScreen extends StatelessWidget {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          border: Border.all(color: Colors.blue),
+                          border: Border.all(
+                            color: controller.status.value
+                                ? Colors.blue
+                                : Colors.red,
+                          ),
                           borderRadius: BorderRadius.circular(8),
-                          color: Colors.blue.withValues(alpha: 0.3),
+                          color: controller.status.value
+                              ? Colors.blue.withValues(alpha: 0.3)
+                              : Colors.red.withValues(alpha: 0.3),
                         ),
                         padding: EdgeInsets.all(AppSize.width(value: 12)),
                         child: Row(
@@ -45,29 +51,44 @@ class RetailerMySubscriptionScreen extends StatelessWidget {
                           children: [
                             Icon(
                               Icons.watch_later_outlined,
-                              color: Colors.blue,
+                              color: controller.status.value
+                                  ? Colors.blue
+                                  : Colors.red,
                               size: 16,
                             ),
                             Gap(width: AppSize.width(value: 8)),
                             AppText(
-                              data: "Next window opens in: 12 days",
+                              data:
+                                  controller.message.value ??
+                                  "Next window opens in: 12 days",
                               fontSize: AppSize.width(value: 12),
-                              color: Colors.blue,
+                              color: controller.status.value
+                                  ? Colors.blue
+                                  : Colors.red,
                             ),
                           ],
                         ),
                       ),
                       Expanded(
-                        child: AppButton(
-                          onTap: () {
-                            Get.toNamed(
-                              AppRoutes.instance.retailerSelectExtraBoxScreen,
-                            );
-                          },
-                          height: AppSize.width(value: 38),
-                          width: AppSize.size.width * 0.4,
-                          title: "Edit Selected Boxes",
-                        ),
+                        child: controller.status.value
+                            ? AppButton(
+                                onTap: () {
+                                  Get.toNamed(
+                                    AppRoutes
+                                        .instance
+                                        .retailerSelectExtraBoxScreen,
+                                  );
+                                },
+                                height: AppSize.width(value: 38),
+                                width: AppSize.size.width * 0.4,
+                                title: "Edit Selected Boxes",
+                              )
+                            : AppButton(
+                                height: AppSize.width(value: 38),
+                                width: AppSize.size.width * 0.4,
+                                filColor: Colors.grey.withValues(alpha: .7),
+                                title: "Selected Boxes",
+                              ),
                       ),
                     ],
                   ),
