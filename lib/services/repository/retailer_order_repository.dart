@@ -1,4 +1,6 @@
 import 'package:el_mago/const/app_api_end_point.dart';
+import 'package:el_mago/models/order_model/order_history_model.dart';
+import 'package:el_mago/models/retailer_model/retailer_subscription_model.dart';
 import 'package:el_mago/models/retailer_order/all_retailer_model.dart';
 import 'package:el_mago/models/retailer_order/retailer_analitics.dart';
 import 'package:el_mago/models/retailer_order/retailer_card_info_model.dart';
@@ -114,29 +116,18 @@ class RetailerOrderRepository {
   Future<RetailerDetailsDataModel?> getSingleRetailer({
     required String retailerId,
   }) async {
-    var url = "${AppApiEndPoint.instance.getMyRetailers}$retailerId";
+    var url = "${AppApiEndPoint.instance.getMyRetailer}/$retailerId";
+
+    AppPrint.appLog("getSingleRetailer: retailerId: $url");
     try {
       var response = await _apiServices.apiGetServices(url);
       if (response != null && response["data"] != null) {
-        // Handle both cases: when API returns a single object or a list
-        if (response["data"] is List) {
-          List<dynamic> dataList = response["data"];
-          if (dataList.isNotEmpty) {
-            return RetailerDetailsDataModel.fromJson(dataList.first);
-          } else {
-            AppPrint.appError("getSingleRetailer: Data list is empty");
-            return null;
-          }
-        } else if (response["data"] is Map<String, dynamic>) {
-          return RetailerDetailsDataModel.fromJson(response["data"]);
-        } else {
-          AppPrint.appError(
-            "getSingleRetailer: Unexpected data format - ${response["data"].runtimeType}",
-          );
-          return null;
-        }
+        // ✅ Directly parse object
+        return RetailerDetailsDataModel.fromJson(response["data"]);
       } else {
-        AppPrint.appError("SingleUser response is null");
+        AppPrint.appError(
+          "getSingleRetailer: response is null or data missing",
+        );
       }
     } catch (e) {
       AppPrint.appError(e, title: "getSingleRetailer");
@@ -208,6 +199,7 @@ class RetailerOrderRepository {
   Future<RetailerAnaliticsData?> getSingleUserAnalatics({
     required String retailerId,
   }) async {
+    print("retailerId : $retailerId");
     var url =
         "${AppApiEndPoint.instance.getSingleRetailerDetailsAnalysis}$retailerId";
     try {
@@ -240,5 +232,100 @@ class RetailerOrderRepository {
       AppPrint.appError(e, title: "getRetailerCardInfo");
     }
     return null;
+  }
+
+  Future<bool> updateRetailer({
+    required String retailerId,
+    required String name,
+    required String phone,
+    required String address,
+    required String cardHolderName,
+    required String cardNumber,
+    required String expiryDate,
+    required String cvv,
+    required String zipCode,
+  }) async {
+    Map<String, dynamic> card = {
+      "cardHolderName": cardHolderName,
+      "cardNumber": cardNumber,
+      "expiryDate": expiryDate,
+      "cvv": cvv,
+      "zipCode": zipCode,
+    };
+
+    Map<String, dynamic> body = {
+      "name": name,
+      "phone": phone,
+      "address": address,
+      "card": card,
+    };
+    var url =
+        "${AppApiEndPoint.instance.updateSingleRetailerCardDetails}$retailerId";
+    try {
+      var response = await _apiServices.apiPatchServices(url: url, body: body);
+      if (response != null) {
+        return true;
+      } else {
+        AppPrint.appError("CreateRetailer null");
+        return false;
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "createRetailer");
+    }
+    return false;
+  }
+
+  Future<List<RetailerSubscriptionModelData>> getRetailerSubscription() async {
+    List<RetailerSubscriptionModelData> retailerSubsCription =
+        <RetailerSubscriptionModelData>[];
+
+    try {
+      var response = await _apiServices.apiGetServices(
+        AppApiEndPoint.instance.getSalesAllretailerSubcription,
+      );
+      if (response != null) {
+        if (response["data"] != null && response["data"] is List) {
+          for (var item in response["data"]) {
+            retailerSubsCription.add(
+              RetailerSubscriptionModelData.fromJson(item),
+            );
+          }
+        }
+      } else {
+        AppPrint.appError("getRetailerSubscription null");
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "getRetailerSubscription");
+    }
+    return retailerSubsCription;
+  }
+
+  // Fetches order history for a specific retailer
+  Future<OrderHistoryResponse?> getRetailerOrderHistory({
+    required String userId,
+    int page = 1,
+    int limit = 10,
+  }) async {
+    try {
+      final endpoint = AppApiEndPoint.getSalesRetailerOrderHistory(userId);
+      final response = await _apiServices.apiGetServices(
+        endpoint,
+        queryParameters: {'page': page, 'limit': limit},
+      );
+
+      if (response != null &&
+          response['success'] == true &&
+          response['data'] != null) {
+        return OrderHistoryResponse.fromJson(response);
+      } else {
+        AppPrint.appError(
+          "getRetailerOrderHistory: response is null or data missing",
+        );
+        return null;
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "getRetailerOrderHistory");
+      return null;
+    }
   }
 }

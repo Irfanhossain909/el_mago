@@ -8,9 +8,11 @@ import 'package:el_mago/screens/auth/verify_otp_screen/controller/verify_otp_con
 import 'package:el_mago/screens/chnage_pass_screen/controller/chnage_password_controller.dart';
 import 'package:el_mago/screens/chnage_profile_info/controller/chnage_profile_controller.dart';
 import 'package:el_mago/screens/controller/global_controller.dart';
+import 'package:el_mago/screens/notification_screen/controller/notification_controller.dart';
 import 'package:el_mago/screens/profile_screen/controller/profile_controller.dart';
 import 'package:el_mago/screens/retailer_complate_subscription_screen/controller/retailer_complate_subscription_controller.dart';
 import 'package:el_mago/screens/retailer_dash_board/controller/retailer_dash_board_controller.dart';
+import 'package:el_mago/screens/retailer_loyelty_screen/controller/loyelty_controller.dart';
 import 'package:el_mago/screens/retailer_my_order_screen/controller/retailer_my_order_screen_controller.dart';
 import 'package:el_mago/screens/retailer_my_subscription_screen/controller/retailer_my_subscription_controller.dart';
 import 'package:el_mago/screens/retailer_navigation_screen/controller/retailer_navigation_screen_controller.dart';
@@ -19,8 +21,10 @@ import 'package:el_mago/screens/retailer_select_extrabox_screen/controller/retai
 import 'package:el_mago/screens/retailer_shopping_cart/controller/retailer_shopping_cart_controller.dart';
 import 'package:el_mago/screens/sales_commision_breakdown/controller/sales_commition_breackdown_controller.dart';
 import 'package:el_mago/screens/sales_dash_board/controller/sales_dashboard_controller.dart';
+import 'package:el_mago/screens/sales_edit_new_retailers_screen/controller/sales_edit_new_retailas_controller.dart';
 import 'package:el_mago/screens/sales_my_order/controller/sales_my_order_controller.dart';
 import 'package:el_mago/screens/sales_my_sales_screen/controller/sales_my_sales_screen_controller.dart';
+import 'package:el_mago/screens/sales_my_territory/controller/sales_my_territoy_controller.dart';
 import 'package:el_mago/screens/sales_navigation_screen/controller/sales_navigation_screen_controller.dart';
 import 'package:el_mago/screens/sales_order_details_screen/controller/sales_order_details_controller.dart';
 import 'package:el_mago/screens/sales_reppesentative_details/controller/sales_representative_details_controller.dart';
@@ -46,6 +50,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => CreateYourPasswordController());
     Get.lazyPut(() => SalesCommitionBreackdownController());
     Get.lazyPut(() => RetailerMySubscriptionController());
+    Get.lazyPut(() => NotificationController());
     ///////////app
     Get.lazyPut(() => ProfileController());
     Get.lazyPut(() => ChnagePasswordController());
@@ -58,6 +63,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => SalesMySalesScreenController());
     Get.lazyPut(() => SalesRepresentativeDetailsController());
     Get.lazyPut(() => SalesRetailerInfoController());
+    Get.lazyPut(() => SalesEditNewRetailasController());
     Get.lazyPut<SalesDashboardController>(
       () => SalesDashboardController(),
       fenix: true,
@@ -68,6 +74,7 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => RetailerMyOrderController(), fenix: true);
     Get.lazyPut(() => RetailerOrderDetailsController(), fenix: true);
     Get.lazyPut(() => RetailerComplateSubscriptionController(), fenix: true);
+    Get.lazyPut(() => LoyeltyController(), fenix: true);
 
     Get.lazyPut(() => RetailerShoppingCartController(), fenix: true);
     Get.lazyPut(() => RetailerSelectExtraboxController(), fenix: true);
@@ -75,10 +82,8 @@ class AppBinding extends Bindings {
     //shopping cart
     Get.lazyPut(() => SalesShoppingCartController(), fenix: true);
     Get.lazyPut(() => SalesMyOrderController(), fenix: true);
-    Get.lazyPut(
-      () => SalesOrderDetailsController(),
-      fenix: true,
-    ); // New Controller
+    Get.lazyPut(() => SalesOrderDetailsController(), fenix: true);
+    Get.lazyPut(() => SalesMyTerritoryController(), fenix: true);
 
     Get.lazyPut(() => SalesRepository());
     Get.lazyPut(() => ProfileRepository());

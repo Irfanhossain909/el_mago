@@ -1,51 +1,45 @@
 import 'package:el_mago/models/product_model/product_model.dart';
-import 'package:el_mago/models/retailer_model/retailer_dashboard_summary_model.dart';
+import 'package:el_mago/models/sales_model/sales_subscription_model.dart';
 import 'package:el_mago/models/order_model/extra_box_request_model.dart';
-import 'package:el_mago/models/user_model/user_model.dart';
-import 'package:el_mago/models/subscription_model/current_subscription_model.dart';
 import 'package:el_mago/services/repository/sales_dashboard_repository.dart';
-import 'package:el_mago/services/repository/profile_repository.dart';
-import 'package:el_mago/services/repository/subscription_repository.dart';
 import 'package:el_mago/services/api/get_storage_services.dart';
 import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:get/get.dart';
 
 // NEW: A model to hold a product and its quantity in the cart.
-class CartItem {
+class SalesCartItem {
   final ProductModel product;
   var quantity = 1.obs;
 
-  CartItem({required this.product});
+  SalesCartItem({required this.product});
 }
 
-class RetailerSelectExtraboxController extends GetxController {
+class SalesSelectExtraboxScreenController extends GetxController {
   // Dynamic subscription data
-  var currentSubscription = Rx<CurrentSubscriptionData?>(null);
+  var currentSubscription = Rx<SalesSubscriptionData?>(null);
   var isLoadingSubscription = false.obs;
 
   var getAllProducts = <ProductModel>[].obs;
-  var dashboardSummary = Rx<RetailerDashboardSummaryModel?>(null);
   var isLoading = false.obs;
   var isPlacingOrder = false.obs;
+
+  // ID of the subscription passed from previous screen
+  String subscriptionUserId = '';
 
   SalesDashboardRepository salesDashboardRepository =
       SalesDashboardRepository();
   GetStorageServices storageServices = GetStorageServices.instance;
-  ProfileRepository profileRepository = ProfileRepository();
-  SubscriptionRepository subscriptionRepository =
-      SubscriptionRepository.instance;
 
   // Dynamic getters for subscription data
-  int get minimumBoxes => currentSubscription.value?.boxRequired ?? 6;
-  String get currentTier =>
-      currentSubscription.value?.displayTier ?? "Platinum";
+  int get minimumBoxes => currentSubscription.value?.boxRequired ?? 0;
+  String get currentTier => currentSubscription.value?.displayTier ?? "Unknown";
   String get subscriptionTier =>
-      currentSubscription.value?.displayBoxRequired ?? "6 boxes per month";
+      currentSubscription.value?.displayBoxRequired ?? "Unknown boxes";
 
   // --- NEW CART LOGIC ---
 
   // List to hold selected products (the cart)
-  var cart = <CartItem>[].obs;
+  var cart = <SalesCartItem>[].obs;
 
   // Check if a product is already in the cart
   bool isProductInCart(ProductModel product) {
@@ -57,17 +51,17 @@ class RetailerSelectExtraboxController extends GetxController {
     if (isProductInCart(product)) {
       cart.removeWhere((item) => item.product.id == product.id);
     } else {
-      cart.add(CartItem(product: product));
+      cart.add(SalesCartItem(product: product));
     }
   }
 
   // Increase quantity of a cart item
-  void incrementQuantity(CartItem cartItem) {
+  void incrementQuantity(SalesCartItem cartItem) {
     cartItem.quantity.value++;
   }
 
   // Decrease quantity or remove item if quantity is 1
-  void decrementQuantity(CartItem cartItem) {
+  void decrementQuantity(SalesCartItem cartItem) {
     if (cartItem.quantity.value > 1) {
       cartItem.quantity.value--;
     } else {
@@ -103,73 +97,53 @@ class RetailerSelectExtraboxController extends GetxController {
     }
   }
 
-  Future<void> fetchCurrentSubscription() async {
+  Future<void> fetchSalesSubscription() async {
     try {
       isLoadingSubscription.value = true;
-      final subscriptionData = await subscriptionRepository
-          .getCurrentSubscription();
+      if (subscriptionUserId.isEmpty) {
+        AppPrint.appError("Subscription User ID is empty");
+        return;
+      }
+
+      final subscriptionData = await salesDashboardRepository
+          .getSalesSubscription(subscriptionUserId);
 
       if (subscriptionData != null) {
         currentSubscription.value = subscriptionData;
         AppPrint.appPrint(
-          "Subscription loaded: ${subscriptionData.subscription}, Boxes required: ${subscriptionData.boxRequired}",
+          "Sales subscription loaded: ${subscriptionData.subscription}, Boxes required: ${subscriptionData.boxRequired}",
         );
       } else {
-        AppPrint.appError("Failed to fetch subscription data");
+        AppPrint.appError("Failed to fetch sales subscription data");
       }
     } catch (e) {
-      AppPrint.appError(e, title: "fetchCurrentSubscription");
+      AppPrint.appError(e, title: "fetchSalesSubscription");
     } finally {
       isLoadingSubscription.value = false;
     }
   }
 
+  // Set the subscription user ID (called from previous screen)
+  void setSubscriptionUserId(String userId) {
+    subscriptionUserId = userId;
+    AppPrint.appPrint("Subscription User ID set to: $userId");
+  }
+
   @override
   void onInit() {
     fetchAllProducts();
-    fetchCurrentSubscription();
-    // Initialize user ID in background
-    ensureUserIdIsSet();
+
+    // Get the userId from arguments if passed
+    final arguments = Get.arguments;
+    if (arguments != null && arguments is Map<String, dynamic>) {
+      final userId = arguments['userId'] as String?;
+      if (userId != null) {
+        setSubscriptionUserId(userId);
+        fetchSalesSubscription();
+      }
+    }
+
     super.onInit();
-  }
-
-  // --- USER PROFILE AND ID MANAGEMENT ---
-
-  /// Fetch user profile and set userId in storage
-  Future<void> fetchAndSetUserProfile() async {
-    try {
-      final UserModelData? profileData = await profileRepository
-          .getProfileData();
-
-      if (profileData != null && profileData.id != null) {
-        await storageServices.setUID(profileData.id!);
-        AppPrint.appPrint("User ID set in storage: ${profileData.id}");
-      } else {
-        AppPrint.appError("Failed to get user profile data");
-      }
-    } catch (e) {
-      AppPrint.appError(e, title: "fetchAndSetUserProfile");
-    }
-  }
-
-  /// Ensure userId is set before placing order
-  Future<bool> ensureUserIdIsSet() async {
-    String userId = storageServices.getUID();
-
-    if (userId.isEmpty) {
-      // Try to fetch profile if userId is not in storage
-      AppPrint.appPrint("User ID is empty, fetching from profile...");
-      await fetchAndSetUserProfile();
-      userId = storageServices.getUID();
-
-      if (userId.isEmpty) {
-        AppPrint.appError("Failed to get user ID even after fetching profile");
-        return false;
-      }
-    }
-
-    AppPrint.appPrint("User ID confirmed: $userId");
-    return true;
   }
 
   // --- NEW ORDER PLACEMENT LOGIC ---
@@ -188,7 +162,7 @@ class RetailerSelectExtraboxController extends GetxController {
       }
 
       // Validation: Check if total boxes meet minimum requirement
-      if (totalBoxes < minimumBoxes) {
+      if (minimumBoxes > 0 && totalBoxes < minimumBoxes) {
         Get.snackbar(
           "Error",
           "Minimum $minimumBoxes boxes required. Currently selected: $totalBoxes boxes.",
@@ -200,19 +174,15 @@ class RetailerSelectExtraboxController extends GetxController {
       // Set loading state
       isPlacingOrder.value = true;
 
-      // Ensure user ID is set (fetch from profile if needed)
-      bool userIdSet = await ensureUserIdIsSet();
-      if (!userIdSet) {
+      // Check if subscription user ID is set
+      if (subscriptionUserId.isEmpty) {
         Get.snackbar(
           "Error",
-          "Unable to get user information. Please login again.",
+          "Subscription information is missing. Please try again.",
           snackPosition: SnackPosition.BOTTOM,
         );
         return false;
       }
-
-      // Get user ID from storage (now guaranteed to be set)
-      String userId = storageServices.getUID();
 
       // Convert cart items to ExtraBoxRequest format
       List<ExtraBoxItem> extraBoxItems = cart.map((cartItem) {
@@ -228,8 +198,8 @@ class RetailerSelectExtraboxController extends GetxController {
       ExtraBoxRequest request = ExtraBoxRequest(extraBoxes: extraBoxItems);
 
       // Place the order via API
-      var response = await salesDashboardRepository.placeExtraBoxOrder(
-        userId,
+      var response = await salesDashboardRepository.updateSalesExtraBoxes(
+        subscriptionUserId,
         request,
       );
 
@@ -237,20 +207,25 @@ class RetailerSelectExtraboxController extends GetxController {
         // Success
         Get.snackbar(
           "Success",
-          response['message'] ?? "Extra boxes ordered successfully!",
+          response['message'] ?? "Extra boxes updated successfully!",
           snackPosition: SnackPosition.BOTTOM,
         );
 
         // Clear the cart after successful order
         cart.clear();
 
-        AppPrint.appPrint("Order placed successfully: ${response['data']}");
+        AppPrint.appPrint(
+          "Sales order placed successfully: ${response['data']}",
+        );
+
+        // Navigate back to previous screen
+        Get.back();
         return true;
       } else {
         // Failure
         Get.snackbar(
           "Error",
-          "Failed to place order. Please try again.",
+          "Failed to update extra boxes. Please try again.",
           snackPosition: SnackPosition.BOTTOM,
         );
         return false;
@@ -258,7 +233,7 @@ class RetailerSelectExtraboxController extends GetxController {
     } catch (e) {
       Get.snackbar(
         "Error",
-        "An error occurred while placing the order.",
+        "An error occurred while updating the extra boxes.",
         snackPosition: SnackPosition.BOTTOM,
       );
       AppPrint.appError(e, title: "placeOrder");

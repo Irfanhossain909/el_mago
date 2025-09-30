@@ -70,17 +70,58 @@ class ProfileRepository {
     }
   }
 
+  Future<bool> updateTerritory({required List<String> territory}) async {
+    try {
+      AppPrint.appLog("🔄 Updating territory with data: $territory");
+
+      FormData formDataMap = FormData.fromMap({
+        "data": jsonEncode({"territory": territory}),
+      });
+
+      AppPrint.appLog(
+        "📤 Sending FormData with encoded JSON: ${jsonEncode({"territory": territory})}",
+      );
+
+      var response = await apiServices.apiPatchServices(
+        url: AppApiEndPoint.instance.profile,
+        body: formDataMap,
+      );
+
+      if (response != null) {
+        AppPrint.appLog("✅ Territory updated successfully: $response");
+        return true;
+      } else {
+        AppPrint.appLog("❌ Territory update failed: Response is null");
+        return false;
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "updateTerritory");
+      return false;
+    }
+  }
+
   Future<UserModelData?> getProfileData() async {
     try {
+      AppPrint.appLog("🔄 Making API call to get profile data...");
       var response = await apiServices.apiGetServices(
         AppApiEndPoint.instance.profile,
       );
+
+      AppPrint.appLog("📥 Raw API response: $response");
+
       if (response != null) {
         if (response["data"] != null && response["data"] is Map) {
-          return UserModelData.fromJson(response["data"]);
+          AppPrint.appLog("✅ Valid profile data found, parsing...");
+          final userData = UserModelData.fromJson(response["data"]);
+          AppPrint.appLog(
+            "🎯 Parsed territory from API: ${userData.territory}",
+          );
+          return userData;
+        } else {
+          AppPrint.appLog("❌ Invalid data structure in response");
         }
       } else {
-        AppPrint.appLog("getProfileData response null");
+        AppPrint.appLog("❌ getProfileData response null");
         return null;
       }
     } catch (e) {

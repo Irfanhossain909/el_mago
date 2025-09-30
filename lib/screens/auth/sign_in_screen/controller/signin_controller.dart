@@ -1,6 +1,7 @@
 import 'package:el_mago/const/role.dart';
 import 'package:el_mago/models/user_model/user_model.dart';
 import 'package:el_mago/routes/app_routes.dart';
+import 'package:el_mago/services/api/get_storage_services.dart';
 import 'package:el_mago/services/repository/auth_repository.dart';
 import 'package:el_mago/services/repository/profile_repository.dart';
 import 'package:el_mago/widgets/app_log/app_print.dart';
@@ -14,7 +15,6 @@ class SigninController extends GetxController {
   //all repository
   AuthRepository authRepository = AuthRepository.instance;
   final ProfileRepository profileRepository = Get.find<ProfileRepository>();
-
 
   ///Model variables
   Rxn<UserModelData> profileData = Rxn<UserModelData>();
@@ -64,42 +64,67 @@ class SigninController extends GetxController {
     }
   }
 
+  GetStorageServices getStorageServices = GetStorageServices.instance;
   //Signin function
-  Future<void> signin() async {
-    if (formKey.currentState!.validate()) {
-      try {
-        loading.value = true;
-        var response = await authRepository.login(
-          email: emailController.text,
-          password: passwordController.text,
-        );
-        if (response) {
-          await fetchProfileData();
+//   Future<void> signin() async {
+// <<<<<<< test-nahid
+//     if (formKey.currentState!.validate()) {
+//       try {
+//         loading.value = true;
+//         var response = await authRepository.login(
+//           email: emailController.text,
+//           password: passwordController.text,
+//         );
+//         if (response) {
+//           await fetchProfileData();
 
-          if (profileData.value != null) {
-            if (profileData.value?.role == Role.RETAILER.name) {
-              Get.offAllNamed(AppRoutes.instance.retailerNavigationScreen);
-            }
-            if (profileData.value?.role == Role.SALES.name) {
-              Get.offAllNamed(AppRoutes.instance.salesNavigationScreen);
-            }
-          } else {
-            Get.snackbar("Error", "Profile data is empty");
-          }
+//           if (profileData.value != null) {
+//             if (profileData.value?.role == Role.RETAILER.name) {
+//               Get.offAllNamed(AppRoutes.instance.retailerNavigationScreen);
+//             }
+//             if (profileData.value?.role == Role.SALES.name) {
+//               Get.offAllNamed(AppRoutes.instance.salesNavigationScreen);
+//             }
+//           } else {
+//             Get.snackbar("Error", "Profile data is empty");
+// =======
+//     try {
+//       bool valid = validation();
+//       if (!valid) return;
 
-          Get.snackbar("Success", "You have successfully logged in!");
-        } else {
-          loading.value = false;
-        }
-      } catch (e) {
-        AppPrint.appError(e, title: "signin");
-      }
+//       loading.value = true;
+//       var response = await authRepository.login(
+//         email: emailController.text,
+//         password: passwordController.text,
+//       );
+//       if (response) {
+//         await fetchProfileData();
 
-      finally {
-        loading.value = false;
-      }
-    }
-  }
+//         getStorageServices.setUID(profileData.value?.id ?? "");
+//         AppPrint.apiResponse(getStorageServices.getUID());
+
+//         if (profileData.value != null) {
+//           if (profileData.value?.role == Role.RETAILER.name) {
+//             Get.offAllNamed(AppRoutes.instance.retailerNavigationScreen);
+//           }
+//           if (profileData.value?.role == Role.SALES.name) {
+//             Get.offAllNamed(AppRoutes.instance.salesNavigationScreen);
+// >>>>>>> test-merge
+//           }
+
+//           Get.snackbar("Success", "You have successfully logged in!");
+//         } else {
+//           loading.value = false;
+//         }
+//       } catch (e) {
+//         AppPrint.appError(e, title: "signin");
+//       }
+
+//       finally {
+//         loading.value = false;
+//       }
+//     }
+//   }
 
   //valisation
   bool validation() {

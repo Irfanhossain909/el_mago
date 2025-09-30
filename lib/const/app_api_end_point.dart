@@ -9,8 +9,13 @@ class AppApiEndPoint {
   //app use base
   static final String domain = _getDomain();
   final String baseUrl = "$domain/api/v1";
+  ////////////////////// Notification
+  static String getNotification(var page, var limit) =>
+      "/notification/?page=$page&limit=$limit";
   ////////////////////// Sales Product Dashboard
   final String getProducts = "/retailer/dashboard/get-products";
+  final String redeemProducts = "/retailer/redeem/";
+  final String getMyRetailer = "/sales/dashboard/my-retailer";
   final String getMyRetailers = "/sales/dashboard/my-retailers";
   final String createOrder = "/retailer/dashboard/create";
   final String getMyOrders = "/sales/orders/my-order";
@@ -20,8 +25,24 @@ class AppApiEndPoint {
   final String createRetailer = "/admin/retailer/managment/create";
   final String deleteRetailer = "/admin/retailer/managment/delete/";
   final String getSingleRetailerDetails = "/admin/retailer/managment/";
-  final String getSingleRetailerDetailsAnalysis = "/sales/dashboard/my-retailer/details/analysis/";
-  final String getSingleRetailerCardDetails = "/sales/dashboard/my-retailer/details/";
+  final String getSingleRetailerDetailsAnalysis =
+      "/sales/dashboard/my-retailer/details/analysis/";
+  final String getSingleRetailerCardDetails =
+      "/sales/dashboard/my-retailer/details/";
+  final String updateSingleRetailerCardDetails =
+      "/sales/dashboard/my-retailer/update/";
+  final String getSalesAllretailerSubcription =
+      "/sales/dashboard/my-retailers-details";
+
+  ////////////////////// Sales Order History
+  static String getSalesRetailerOrderHistory(String userId) =>
+      "/sales/dashboard/my-retailer/details/orders/$userId";
+
+  ////////////////////// Sales Subscription
+  static String getSalesSubscription(String userId) =>
+      "/retailer/subscription/subscription/$userId";
+  static String updateSalesExtraBoxes(String userId) =>
+      "/retailer/subscription/update-boxes/$userId";
 
   ////////////////////// Retailer Product Dashboard
   final String getMyOrdersRetailer = "/retailer/dashboard/orders";
@@ -29,6 +50,7 @@ class AppApiEndPoint {
   final String getRetailerSubscription = "/retailer/subscription/";
   final String getCurrentSubscription = "/retailer/subscription/current";
   final String getMyRewards = "/retailer/loyalty/my-reward";
+  final String loyelty = "/retailer/loyalty";
   static String getSingleRetailerOrder(String orderId) =>
       "/retailer/dashboard/orders/$orderId";
   static String updateExtraBoxes(String userId) =>
