@@ -221,6 +221,7 @@ class RetailerSelectExtraboxController extends GetxController {
           name: cartItem.product.name,
           size: cartItem.product.size,
           price: cartItem.product.price,
+          quantity: cartItem.quantity.value,
         );
       }).toList();
 

@@ -6,6 +6,7 @@ import 'package:el_mago/screens/retailer_complate_subscription_screen/retailer_c
 import 'package:el_mago/screens/retailer_loyelty_screen/retailer_loyelty_screen.dart';
 import 'package:el_mago/screens/retailer_my_subscription_screen/retailer_my_subscription_screen.dart';
 import 'package:el_mago/screens/retailer_select_extrabox_screen/retailer_select_extrabox_screen.dart';
+import 'package:el_mago/screens/sales_select_extrabox_screen/sales_select_extrabox_screen.dart';
 
 import 'package:el_mago/screens/sales_my_sales_screen/sales_my_sales_screen.dart';
 import 'package:el_mago/screens/sales_my_territory/sales_my_territoy.dart';
@@ -187,6 +188,11 @@ List<GetPage> appRootRoutesFile = <GetPage>[
     name: AppRoutes.instance.retailerSelectExtraBoxScreen,
     binding: AppBinding(),
     page: () => const RetailerSelectExtraboxScreen(),
+  ),
+  GetPage(
+    name: AppRoutes.instance.salesSelectExtraBoxScreen,
+    binding: AppBinding(),
+    page: () => const SalesSelectExtraboxScreen(),
   ),
   GetPage(
     name: AppRoutes.instance.retailerComplateSubscriptionScreen,
