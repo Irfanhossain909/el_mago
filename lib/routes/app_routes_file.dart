@@ -207,28 +207,28 @@ List<GetPage> appRootRoutesFile = <GetPage>[
     page: () => const SalesMyTerritory(),
   ),
   GetPage(
-      name: AppRoutes.instance.salesRepresentativeDetailsScreen,
-      binding: AppBinding(),
-      page: () => const SalesReppesentativeDetails(),
-    ),
-    GetPage(
-      name: AppRoutes.instance.salesEditNewRetailersScreen,
-      binding: AppBinding(),
-      page: () => const SalesEditNewRetailersScreen(),
-    ),
-    GetPage(
-      name: AppRoutes.instance.salesAddRetailersScreen,
-      binding: AppBinding(),
-      page: () => const SalesAddRetailersScreen(),
-    ),
-    GetPage(
-      name: AppRoutes.instance.salesEditSubscriptionScreen,
-      binding: AppBinding(),
-      page: () => const SalesEditSubscriptionScreen(),
-    ),
-    GetPage(
-      name: AppRoutes.instance.salesRetailerInformationScreen,
-      binding: AppBinding(),
-      page: () => const SalesRetailerInformationScreen(),
-    ),
+    name: AppRoutes.instance.salesRepresentativeDetailsScreen,
+    binding: AppBinding(),
+    page: () => const SalesReppesentativeDetails(),
+  ),
+  GetPage(
+    name: AppRoutes.instance.salesEditNewRetailersScreen,
+    binding: AppBinding(),
+    page: () => const SalesEditNewRetailersScreen(),
+  ),
+  GetPage(
+    name: AppRoutes.instance.salesAddRetailersScreen,
+    binding: AppBinding(),
+    page: () => const SalesAddRetailersScreen(),
+  ),
+  GetPage(
+    name: AppRoutes.instance.salesEditSubscriptionScreen,
+    binding: AppBinding(),
+    page: () => const SalesEditSubscriptionScreen(),
+  ),
+  GetPage(
+    name: AppRoutes.instance.salesRetailerInformationScreen,
+    binding: AppBinding(),
+    page: () => const SalesRetailerInformationScreen(),
+  ),
 ];
