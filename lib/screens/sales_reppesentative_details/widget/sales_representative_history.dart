@@ -1,12 +1,18 @@
 import 'package:el_mago/const/app_color.dart';
+import 'package:el_mago/models/order_model/order_history_model.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_text/app_text.dart';
 import 'package:flutter/material.dart';
 
 class SalesRepresentativeHistory extends StatelessWidget {
+  final OrderHistoryItem order;
   final VoidCallback? onTap;
 
-  const SalesRepresentativeHistory({super.key, this.onTap});
+  const SalesRepresentativeHistory({
+    super.key,
+    required this.order,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,22 +30,39 @@ class SalesRepresentativeHistory extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildOrderDetails(title: "Order ID", value: "Product Name"),
+            buildOrderDetails(title: "Order ID", value: order.orderId),
             SizedBox(height: AppSize.size.height * 0.01),
-            buildOrderDetails(title: "Retailer Name", value: "Product Name"),
+            buildOrderDetails(title: "Retailer Name", value: order.userId.name),
             SizedBox(height: AppSize.size.height * 0.01),
-            buildOrderDetails(title: "Retailer Email", value: "Product Name"),
+            buildOrderDetails(
+              title: "Retailer Email",
+              value: order.userId.email,
+            ),
             SizedBox(height: AppSize.size.height * 0.01),
-            buildOrderDetails(title: "Sales Rep Name", value: "Product Name"),
+            buildOrderDetails(
+              title: "Sales Rep Name",
+              value: order.userId.assignedSalesRep.name,
+            ),
             SizedBox(height: AppSize.size.height * 0.01),
             buildOrderDetails(
               title: "Total Boxes Ordered",
-              value: "Product Name",
+              value: order.orderBoxs.toString(),
             ),
             SizedBox(height: AppSize.size.height * 0.01),
-            buildOrderDetails(title: "Amount", value: "Product Name"),
+            buildOrderDetails(
+              title: "Amount",
+              value: "\$${order.totalAmount.toStringAsFixed(2)}",
+            ),
             SizedBox(height: AppSize.size.height * 0.01),
-            buildOrderDetails(title: "Status", value: "Product Name"),
+            buildOrderDetails(
+              title: "Status",
+              value: order.orderStatus.toUpperCase(),
+            ),
+            SizedBox(height: AppSize.size.height * 0.01),
+            buildOrderDetails(
+              title: "Order Date",
+              value: order.formattedCreatedAt,
+            ),
             SizedBox(height: AppSize.size.height * 0.01),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

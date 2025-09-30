@@ -31,6 +31,10 @@ class _SalesReppesentativeDetailsState
   void initState() {
     controller.retailerId = Get.arguments;
     controller.fetchRetailerData();
+    // Fetch order history if retailerId is available
+    if (controller.retailerId != null) {
+      controller.fetchOrderHistory(userId: controller.retailerId!);
+    }
     super.initState();
   }
 
@@ -235,7 +239,53 @@ class _SalesReppesentativeDetailsState
                 fontWeight: FontWeight.w700,
                 color: AppColor.black,
               ),
-              SalesRepresentativeHistory(),
+
+              // Order History List
+              Obx(() {
+                if (controller.isOrderHistoryLoading.value) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                final orderHistory = controller.orderHistoryResponse.value;
+                if (orderHistory == null || orderHistory.data.orders.isEmpty) {
+                  return Container(
+                    padding: EdgeInsets.all(AppSize.width(value: 20)),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        AppSize.width(value: 16),
+                      ),
+                      border: Border.all(
+                        color: AppColor.black.withValues(alpha: 0.1),
+                      ),
+                    ),
+                    child: Center(
+                      child: AppText(
+                        data: "No order history found",
+                        fontSize: AppSize.width(value: 16),
+                        color: AppColor.black.withValues(alpha: 0.6),
+                      ),
+                    ),
+                  );
+                }
+
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: orderHistory.data.orders.length,
+                  itemBuilder: (context, index) {
+                    final order = orderHistory.data.orders[index];
+                    return SalesRepresentativeHistory(
+                      order: order,
+                      onTap: () {
+                        Get.toNamed(
+                          AppRoutes.instance.retailerOrderDetailsScreen,
+                          arguments: order.id,
+                        );
+                      },
+                    );
+                  },
+                );
+              }),
             ],
           ),
         ),
