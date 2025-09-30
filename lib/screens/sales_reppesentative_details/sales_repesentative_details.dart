@@ -31,8 +31,9 @@ class _SalesReppesentativeDetailsState
   void initState() {
     controller.retailerId = Get.arguments;
     controller.fetchRetailerData();
-    // Fetch order history if retailerId is available
+    // Fetch analytics and order history if retailerId is available
     if (controller.retailerId != null) {
+      controller.fetchRetailerAnalatics(retailerId: controller.retailerId!);
       controller.fetchOrderHistory(userId: controller.retailerId!);
     }
     super.initState();
