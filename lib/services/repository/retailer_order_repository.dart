@@ -1,4 +1,5 @@
 import 'package:el_mago/const/app_api_end_point.dart';
+import 'package:el_mago/models/retailer_model/retailer_subscription_model.dart';
 import 'package:el_mago/models/retailer_order/all_retailer_model.dart';
 import 'package:el_mago/models/retailer_order/retailer_analitics.dart';
 import 'package:el_mago/models/retailer_order/retailer_card_info_model.dart';
@@ -240,5 +241,71 @@ class RetailerOrderRepository {
       AppPrint.appError(e, title: "getRetailerCardInfo");
     }
     return null;
+  }
+
+  Future<bool> updateRetailer({
+    required String retailerId,
+    required String name,
+    required String phone,
+    required String address,
+    required String cardHolderName,
+    required String cardNumber,
+    required String expiryDate,
+    required String cvv,
+    required String zipCode,
+  }) async {
+    Map<String, dynamic> card = {
+      "cardHolderName": cardHolderName,
+      "cardNumber": cardNumber,
+      "expiryDate": expiryDate,
+      "cvv": cvv,
+      "zipCode": zipCode,
+    };
+
+    Map<String, dynamic> body = {
+      "name": name,
+      "phone": phone,
+      "address": address,
+      "card": card,
+    };
+    var url =
+        "${AppApiEndPoint.instance.updateSingleRetailerCardDetails}$retailerId";
+    try {
+      var response = await _apiServices.apiPatchServices(url: url, body: body);
+      if (response != null) {
+        return true;
+      } else {
+        AppPrint.appError("CreateRetailer null");
+        return false;
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "createRetailer");
+    }
+    return false;
+  }
+
+  Future<List<RetailerSubscriptionModelData>> getRetailerSubscription() async {
+    List<RetailerSubscriptionModelData> retailerSubsCription =
+        <RetailerSubscriptionModelData>[];
+
+    try {
+      var response = await _apiServices.apiGetServices(
+        AppApiEndPoint.instance.getSalesAllretailerSubcription,
+      );
+      if (response != null) {
+        if (response["data"] != null && response["data"] is List) {
+          for (var item in response["data"]) {
+            retailerSubsCription.add(
+              RetailerSubscriptionModelData.fromJson(item),
+            );
+          }
+        }
+      } else {
+        AppPrint.appError("getRetailerSubscription null");
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "getRetailerSubscription");
+    }
+    return retailerSubsCription;
   }
 }

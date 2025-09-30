@@ -56,7 +56,7 @@ class RetailerOrderModel {
 
   String get rewardDisplayValue {
     if (reward == null || rewardValue == null) return "N/A";
-    return reward == 'discount' ? '${rewardValue}%' : '\$${rewardValue}';
+    return reward == 'discount' ? '$rewardValue%' : '\$$rewardValue';
   }
 
   factory RetailerOrderModel.fromJson(Map<String, dynamic> json) =>

@@ -118,6 +118,7 @@ class SalesRetailerManagementScreen extends StatelessWidget {
                                         AppRoutes
                                             .instance
                                             .salesEditNewRetailersScreen,
+                                        arguments: retailar.id,
                                       );
                                     },
                                     retailerDelete: () {
@@ -134,31 +135,42 @@ class SalesRetailerManagementScreen extends StatelessWidget {
                                         backgroundColor: Colors.transparent,
                                       );
                                     },
-                                    retailerupdate: () {
-                                      Get.bottomSheet(
-                                        updateStatusSheet(),
-                                        isScrollControlled: true,
-                                        backgroundColor: Colors.transparent,
-                                      );
-                                    },
+                                    // retailerupdate: () {
+                                    //   Get.bottomSheet(
+                                    //     updateStatusSheet(),
+                                    //     isScrollControlled: true,
+                                    //     backgroundColor: Colors.transparent,
+                                    //   );
+                                    // },
                                   );
                                 },
                               ),
                       ),
                       //Tab 2
-                      ListView.builder(
-                        padding: EdgeInsets.all(AppSize.width(value: 12)),
-                        itemCount: 2,
-                        itemBuilder: (context, index) {
-                          return SubManageCard(
-                            subEdit: () {
-                              Get.toNamed(
-                                AppRoutes.instance.salesEditSubscriptionScreen,
-                              );
-                            },
-                          );
-                        },
-                      ),
+                      Obx(() {
+                        return ListView.builder(
+                          padding: EdgeInsets.all(AppSize.width(value: 12)),
+                          itemCount: controller.retailerSubModelData.length,
+                          itemBuilder: (context, index) {
+                            final subData =
+                                controller.retailerSubModelData[index];
+                            return SubManageCard(
+                              name: subData.name,
+                              email: subData.email,
+                              address: subData.address,
+                              text: subData.phone,
+
+                              subEdit: () {
+                                Get.toNamed(
+                                  AppRoutes
+                                      .instance
+                                      .salesEditSubscriptionScreen,
+                                );
+                              },
+                            );
+                          },
+                        );
+                      }),
                     ],
                   ),
                 ),

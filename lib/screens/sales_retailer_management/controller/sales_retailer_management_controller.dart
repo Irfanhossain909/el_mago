@@ -1,5 +1,5 @@
+import 'package:el_mago/models/retailer_model/retailer_subscription_model.dart';
 import 'package:el_mago/models/retailer_order/all_retailer_model.dart';
-import 'package:el_mago/screens/profile_screen/controller/profile_controller.dart';
 import 'package:el_mago/services/repository/retailer_order_repository.dart';
 import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:get/get.dart';
@@ -8,9 +8,10 @@ class SalesRetailerManagementController extends GetxController {
   //repository
   RetailerOrderRepository repository = RetailerOrderRepository();
 
-
   //variables
   RxList<AlLRetailerModelData> retailerOrderList = <AlLRetailerModelData>[].obs;
+  RxList<RetailerSubscriptionModelData> retailerSubModelData =
+      <RetailerSubscriptionModelData>[].obs;
   var isLoading = false.obs;
 
   Future<void> fetchRetailerData() async {
@@ -34,9 +35,7 @@ class SalesRetailerManagementController extends GetxController {
 
   Future<void> deleteRetailer({required String retailerId}) async {
     try {
-      var response = await repository.deleteRetailer(
-        retailerId: retailerId,
-      );
+      var response = await repository.deleteRetailer(retailerId: retailerId);
       if (response) {
         Get.snackbar("Success", "Retailer deleted successfully");
         await fetchRetailerData();
@@ -49,8 +48,22 @@ class SalesRetailerManagementController extends GetxController {
     }
   }
 
+  Future<void> fetchSubscriptionList() async {
+    try {
+      var response = await repository.getRetailerSubscription();
+      if (response.isNotEmpty) {
+        retailerSubModelData.assignAll(response);
+      } else {
+        AppPrint.appError("fetchSubscriptionList - No data found");
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "fetchSubscriptionList");
+    }
+  }
+
   @override
   void onInit() {
+    fetchSubscriptionList();
     fetchRetailerData();
     super.onInit();
   }
