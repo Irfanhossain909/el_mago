@@ -56,9 +56,26 @@ class LoyeltyRepository {
     var url = "${AppApiEndPoint.instance.redeemProducts}/$retailerId";
     try {
       var response = await apiServices.apiPostServices(url: url);
-      if (response.status == 200 && response != null) {
-        return true;
+      if (response != null) {
+        // Check if response is a Map and has success field
+        if (response is Map<String, dynamic>) {
+          // Look for success field in the response
+          if (response['success'] == true) {
+            return true;
+          } else {
+            AppPrint.appError(
+              "Redeem failed: ${response['message'] ?? 'Unknown error'}",
+            );
+            return false;
+          }
+        } else {
+          AppPrint.appError(
+            "Unexpected response format: ${response.runtimeType}",
+          );
+          return false;
+        }
       } else {
+        AppPrint.appError("Response is null");
         return false;
       }
     } catch (e) {
