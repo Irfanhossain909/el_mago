@@ -6,12 +6,14 @@ class ExtraBoxItem {
   final String name;
   final String size;
   final int price;
+  final int quantity;
 
   ExtraBoxItem({
     required this.productId,
     required this.name,
     required this.size,
     required this.price,
+    this.quantity = 1,
   });
 
   Map<String, dynamic> toJson() => {
@@ -19,6 +21,7 @@ class ExtraBoxItem {
     "name": name,
     "size": size,
     "price": price,
+    "quantity": quantity,
   };
 
   factory ExtraBoxItem.fromJson(Map<String, dynamic> json) => ExtraBoxItem(
@@ -26,6 +29,7 @@ class ExtraBoxItem {
     name: json["name"] ?? '',
     size: json["size"] ?? '',
     price: json["price"] ?? 0,
+    quantity: json["quantity"] ?? 1,
   );
 }
 

@@ -34,6 +34,16 @@ class AppApiEndPoint {
   final String getSalesAllretailerSubcription =
       "/sales/dashboard/my-retailers-details";
 
+  ////////////////////// Sales Order History
+  static String getSalesRetailerOrderHistory(String userId) =>
+      "/sales/dashboard/my-retailer/details/orders/$userId";
+
+  ////////////////////// Sales Subscription
+  static String getSalesSubscription(String userId) =>
+      "/retailer/subscription/subscription/$userId";
+  static String updateSalesExtraBoxes(String userId) =>
+      "/retailer/subscription/update-boxes/$userId";
+
   ////////////////////// Retailer Product Dashboard
   final String getMyOrdersRetailer = "/retailer/dashboard/orders";
   final String getRetailerDashboardSummary = "/retailer/dashboard/summary";

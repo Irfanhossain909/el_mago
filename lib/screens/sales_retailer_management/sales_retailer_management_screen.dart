@@ -167,6 +167,12 @@ class SalesRetailerManagementScreen extends StatelessWidget {
                                       .salesEditSubscriptionScreen,
                                 );
                               },
+                              subCart: () {
+                                Get.toNamed(
+                                  AppRoutes.instance.salesSelectExtraBoxScreen,
+                                  arguments: {'userId': subData.id},
+                                );
+                              },
                             );
                           },
                         );
