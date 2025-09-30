@@ -165,6 +165,8 @@ class SalesRetailerManagementScreen extends StatelessWidget {
                                   AppRoutes
                                       .instance
                                       .salesEditSubscriptionScreen,
+
+                                      arguments: subData.id
                                 );
                               },
                               subCart: () {

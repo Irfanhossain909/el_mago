@@ -168,6 +168,8 @@ class SalesShoppingCartController extends GetxController {
     }
   }
 
+  
+
   void incrementQuantity(CartItemModel item) {
     item.quantity.value++;
   }

@@ -1,4 +1,5 @@
 import 'package:el_mago/screens/sales_retailer_information_screnn/controller/sales_retailer_info_controller.dart';
+import 'package:el_mago/screens/sales_shopping_cart/controller/sales_shopping_cart_controller.dart';
 import 'package:el_mago/services/repository/retailer_order_repository.dart';
 import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,8 @@ class SalesEditNewRetailasController extends GetxController {
   RetailerOrderRepository retailerOrderRepository = RetailerOrderRepository();
 
   //controllers
-  // SalesRetailerManagementController salesRetailerManagementController =
-  //     Get.find();
+  SalesShoppingCartController salesShoppingCartController = Get.find();
+  // SalesRetailerManagementController salesRetailerManagementController = Get.find();
   SalesRetailerInfoController salesRetailerInfoController = Get.find();
 
   //variables
@@ -63,9 +64,8 @@ class SalesEditNewRetailasController extends GetxController {
 
   // functions
   Future<void> updateRetailer() async {
-
     try {
-       bool isValid = isValidation();
+      bool isValid = isValidation();
       if (!isValid) return;
       isLoading.value = true;
       var response = await retailerOrderRepository.updateRetailer(
@@ -81,6 +81,8 @@ class SalesEditNewRetailasController extends GetxController {
       );
       if (response) {
         Get.snackbar("Success", "Update Retailer Successfully");
+
+         salesShoppingCartController.fetchRetailers();
 
         Get.close(1);
 
@@ -108,8 +110,6 @@ class SalesEditNewRetailasController extends GetxController {
     cvcController.dispose();
     zipController.dispose();
   }
-
- 
 
   void controllerInisialiezed() {
     retailerNameController = TextEditingController();

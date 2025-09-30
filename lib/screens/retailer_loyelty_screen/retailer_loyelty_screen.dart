@@ -1,5 +1,6 @@
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/const/assets_icons_path.dart';
+import 'package:el_mago/models/loyelty_model/loyelty_model.dart';
 import 'package:el_mago/screens/retailer_loyelty_screen/controller/loyelty_controller.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_image/app_image.dart';
@@ -206,6 +207,21 @@ class RetailerLoyeltyScreen extends StatelessWidget {
                                     bottom: AppSize.size.height * 0.01,
                                   ),
                                   child: LoyeltyCardOne(
+                                    isLocked: isLocked(
+                                      index: index,
+                                      target: reward.target ?? 0,
+                                      totalSpend:
+                                          controller
+                                              .loyeltyModelData
+                                              .value
+                                              ?.loyalty
+                                              ?.totalSpent ??
+                                          0,
+                                      availableRewards: controller
+                                          .loyeltyModelData
+                                          .value!
+                                          .availableRewards,
+                                    ),
                                     status: controller.getStatus(
                                       target: reward.target ?? 0,
                                       totalSpend:
@@ -268,6 +284,19 @@ class RetailerLoyeltyScreen extends StatelessWidget {
       },
     );
   }
+
+  bool isLocked({
+    required int index,
+    required int target,
+    required int totalSpend,
+    List<AvailableReward>? availableRewards,
+  }) {
+    int minimumTarget = 0;
+    if (index > 0) {
+      minimumTarget = availableRewards?[index - 1].target ?? 0;
+    }
+    return totalSpend < minimumTarget && target > totalSpend;
+  }
 }
 
 String formatMonthYear(DateTime dateTime) {
@@ -286,6 +315,8 @@ class LoyeltyCardOne extends StatelessWidget {
   final String? currentValue;
   final VoidCallback? onTap;
   final bool isRedemed;
+  final bool isLocked;
+
   final String? percentage;
   const LoyeltyCardOne({
     super.key,
@@ -301,6 +332,7 @@ class LoyeltyCardOne extends StatelessWidget {
     this.percentage,
     required this.status,
     this.targetLeft,
+    this.isLocked = false,
   });
 
   @override
@@ -309,12 +341,16 @@ class LoyeltyCardOne extends StatelessWidget {
       padding: EdgeInsets.all(AppSize.width(value: 16)),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(8)),
-        border: status == "Available"
-            ? Border.all(color: AppColor.blue)
-            : Border.all(color: Colors.orange),
-        color: status == "Available"
-            ? AppColor.blue.withValues(alpha: 0.2)
-            : AppColor.orange.withValues(alpha: 0.2),
+        border: isLocked
+            ? Border.all(color: Colors.grey)
+            : (status == "Available"
+                  ? Border.all(color: AppColor.blue)
+                  : Border.all(color: Colors.orange)),
+        color: isLocked
+            ? Colors.grey.withValues(alpha: 0.2)
+            : (status == "Available"
+                  ? AppColor.blue.withValues(alpha: 0.2)
+                  : AppColor.orange.withValues(alpha: 0.2)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -326,9 +362,11 @@ class LoyeltyCardOne extends StatelessWidget {
               padding: EdgeInsets.all(AppSize.width(value: 12)),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: status == "Available"
-                    ? AppColor.blueLight
-                    : Colors.orange.withValues(alpha: .4),
+                color: isLocked
+                    ? Colors.grey.withValues(alpha: 0.2)
+                    : (status == "Available"
+                          ? AppColor.blue.withValues(alpha: 0.2)
+                          : AppColor.orange.withValues(alpha: 0.2)),
               ),
               child: AppImage(
                 width: AppSize.width(value: 12),
@@ -344,11 +382,16 @@ class LoyeltyCardOne extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    AppText(
-                      data: title ?? "noText",
-                      fontSize: AppSize.width(value: 16),
-                      fontWeight: FontWeight.w700,
-                      color: AppColor.black,
+                    SizedBox(
+                      width: AppSize.width(value: 160),
+                      child: AppText(
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        data: title ?? "noText",
+                        fontSize: AppSize.width(value: 16),
+                        fontWeight: FontWeight.w700,
+                        color: AppColor.black,
+                      ),
                     ),
                     AppText(
                       data: type ?? "\$0",
@@ -394,9 +437,11 @@ class LoyeltyCardOne extends StatelessWidget {
                   maxValue: double.parse(maxValue ?? "0"),
                   currentValue: double.parse(currentValue ?? "0"),
                   height: 8,
-                  progressColor: status == "Available"
-                      ? AppColor.blue
-                      : Colors.orange,
+                  progressColor: isLocked
+                      ? Colors.grey.withValues(alpha: 0.2)
+                      : (status == "Available"
+                            ? AppColor.blue.withValues(alpha: 0.2)
+                            : AppColor.orange.withValues(alpha: 0.2)),
                 ),
                 Gap(height: AppSize.width(value: 8)),
                 Row(
@@ -406,9 +451,11 @@ class LoyeltyCardOne extends StatelessWidget {
                       padding: EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(24),
-                        color: status == "Available"
-                            ? AppColor.blueLight
-                            : Colors.orange.withValues(alpha: .4),
+                        color: isLocked
+                            ? Colors.grey.withValues(alpha: 0.2)
+                            : (status == "Available"
+                                  ? AppColor.blue.withValues(alpha: 0.2)
+                                  : AppColor.orange.withValues(alpha: 0.2)),
                       ),
                       child: AppText(
                         data: status,

@@ -101,4 +101,28 @@ class SubscriptionRepository {
     }
     return false;
   }
+
+  Future<bool> updateCardInfoPro({
+    String? tier,
+    String? subscription,
+    required String retailerId,
+  }) async {
+    Map<String, dynamic> body = {"tier": tier, "subscription": subscription};
+
+    try {
+      var response = await apiServices.apiPatchServices(
+        url: AppApiEndPoint.instance.editRetailerSubscription(retailerId),
+        body: body,
+      );
+      if (response != null) {
+        return true;
+      } else {
+        AppPrint.appError("UpdateCardInfo null");
+        return false;
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "updateCardInfo");
+    }
+    return false;
+  }
 }
