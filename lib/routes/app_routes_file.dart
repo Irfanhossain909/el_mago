@@ -204,7 +204,6 @@ List<GetPage> appRootRoutesFile = <GetPage>[
     page: () => const SalesMyTerritory(),
   ),
 
-
   GetPage(
     name: AppRoutes.instance.salesEditNewRetailersScreen,
     binding: AppBinding(),
