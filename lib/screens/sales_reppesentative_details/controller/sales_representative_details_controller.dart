@@ -1,5 +1,3 @@
-
-
 import 'package:el_mago/models/retailer_order/retailer_analitics.dart';
 import 'package:el_mago/models/retailer_order/retailer_details_model.dart';
 import 'package:el_mago/services/repository/retailer_order_repository.dart';
@@ -24,6 +22,7 @@ class SalesRepresentativeDetailsController extends GetxController {
       );
       if (response != null) {
         retailerModel.value = response;
+        AppPrint.apiResponse("Retailer Data: ${retailerModel.value?.image}");
         isLoading.value = false;
       } else {
         AppPrint.appError("Response is null");
@@ -50,12 +49,5 @@ class SalesRepresentativeDetailsController extends GetxController {
     } finally {
       isLoading.value = false; // লোডিং বন্ধ করা উচিত
     }
-  }
-
-  @override
-  void onInit() {
-    fetchRetailerData();
-    retailerId = Get.arguments;
-    super.onInit();
   }
 }

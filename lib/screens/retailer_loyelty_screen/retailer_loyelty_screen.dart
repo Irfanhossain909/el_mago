@@ -175,80 +175,90 @@ class RetailerLoyeltyScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child:
-                        controller
-                                .loyeltyModelData
-                                .value
-                                ?.availableRewards
-                                ?.isNotEmpty ==
-                            true
-                        ? ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount:
-                                controller
-                                    .loyeltyModelData
-                                    .value
-                                    ?.availableRewards
-                                    ?.length ??
-                                0,
-                            itemBuilder: (context, index) {
-                              final reward = controller
+                  Obx(() {
+                    return Padding(
+                      padding: const EdgeInsets.all(16),
+                      child:
+                          controller
                                   .loyeltyModelData
-                                  .value!
-                                  .availableRewards![index];
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                  bottom: AppSize.size.height * 0.01,
-                                ),
-                                child: LoyeltyCardOne(
-                                  status: controller.getStatus(
-                                    target: reward.target ?? 0,
-                                    totalSpend:
-                                        controller
-                                            .loyeltyModelData
-                                            .value
-                                            ?.loyalty
-                                            ?.totalSpent ??
-                                        0,
-                                    current:
-                                        controller
-                                            .loyeltyModelData
-                                            .value
-                                            ?.loyalty
-                                            ?.totalSpent ??
-                                        0,
-                                  ),
-                                  title: reward.title,
-                                  type: reward.type,
-                                  description: reward.description,
-                                  target: reward.target?.toString(),
-                                  value: reward.value?.toString(),
-                                  maxValue: reward.target?.toString(),
-                                  currentValue: controller
+                                  .value
+                                  ?.availableRewards
+                                  ?.isNotEmpty ==
+                              true
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount:
+                                  controller
                                       .loyeltyModelData
                                       .value
-                                      ?.loyalty
-                                      ?.totalSpent
-                                      ?.toString(),
-                                  isRedemed: reward.isRedeemed ?? false,
-                                  percentage:
-                                      "${controller.calculatePercentage(target: reward.target?.toDouble(), current: controller.loyeltyModelData.value?.loyalty?.totalSpent?.toDouble())}",
-                                ),
-                              );
-                            },
-                          )
-                        : Center(
-                            child: AppText(
-                              data: "No rewards available",
-                              fontSize: AppSize.width(value: 16),
-                              fontWeight: FontWeight.w500,
-                              color: AppColor.black,
+                                      ?.availableRewards
+                                      ?.length ??
+                                  0,
+                              itemBuilder: (context, index) {
+                                final reward = controller
+                                    .loyeltyModelData
+                                    .value!
+                                    .availableRewards![index];
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                    bottom: AppSize.size.height * 0.01,
+                                  ),
+                                  child: LoyeltyCardOne(
+                                    status: controller.getStatus(
+                                      target: reward.target ?? 0,
+                                      totalSpend:
+                                          controller
+                                              .loyeltyModelData
+                                              .value
+                                              ?.loyalty
+                                              ?.totalSpent ??
+                                          0,
+                                      current:
+                                          controller
+                                              .loyeltyModelData
+                                              .value
+                                              ?.loyalty
+                                              ?.totalSpent ??
+                                          0,
+                                    ),
+                                    title: reward.title,
+                                    type: reward.type,
+                                    description: reward.description,
+                                    target: reward.target?.toString(),
+                                    value: reward.value?.toString(),
+                                    maxValue: reward.target?.toString(),
+                                    onTap: () {
+                                      controller.redeemProduct(
+                                        retailerId: reward.id!,
+                                      );
+                                    },
+                                    targetLeft:
+                                        "${controller.remainingToTarget(totalSpend: controller.loyeltyModelData.value?.loyalty?.totalSpent ?? 0, target: reward.target ?? 0)}",
+
+                                    currentValue: controller
+                                        .loyeltyModelData
+                                        .value
+                                        ?.loyalty
+                                        ?.totalSpent
+                                        ?.toString(),
+                                    isRedemed: reward.isRedeemed ?? false,
+                                    percentage:
+                                        "${controller.calculatePercentage(target: reward.target?.toDouble(), current: controller.loyeltyModelData.value?.loyalty?.totalSpent?.toDouble())}",
+                                  ),
+                                );
+                              },
+                            )
+                          : Center(
+                              child: AppText(
+                                data: "No rewards available",
+                                fontSize: AppSize.width(value: 16),
+                                fontWeight: FontWeight.w500,
+                                color: AppColor.black,
+                              ),
                             ),
-                          ),
-                  ),
+                    );
+                  }),
                 ],
               ),
             ),
@@ -266,6 +276,7 @@ String formatMonthYear(DateTime dateTime) {
 class LoyeltyCardOne extends StatelessWidget {
   final String status;
   final String? title;
+  final String? targetLeft;
   final String? type;
   final String? description;
   final String? target;
@@ -288,6 +299,7 @@ class LoyeltyCardOne extends StatelessWidget {
     this.onTap,
     this.percentage,
     required this.status,
+    this.targetLeft,
   });
 
   @override
@@ -313,7 +325,9 @@ class LoyeltyCardOne extends StatelessWidget {
               padding: EdgeInsets.all(AppSize.width(value: 12)),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: AppColor.blueLight,
+                color: status == "Available"
+                    ? AppColor.blueLight
+                    : Colors.orange.withValues(alpha: .4),
               ),
               child: AppImage(
                 width: AppSize.width(value: 12),
@@ -391,7 +405,9 @@ class LoyeltyCardOne extends StatelessWidget {
                       padding: EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(24),
-                        color: AppColor.blueLight,
+                        color: status == "Available"
+                            ? AppColor.blueLight
+                            : Colors.orange.withValues(alpha: .4),
                       ),
                       child: AppText(
                         data: status,
@@ -401,42 +417,61 @@ class LoyeltyCardOne extends StatelessWidget {
                       ),
                     ),
 
-                    isRedemed
-                        ? Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: AppSize.width(value: 16),
-                              vertical: AppSize.width(value: 12),
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: CupertinoColors.activeGreen,
-                            ),
-                            child: AppText(
-                              data: "Complate",
-                              fontSize: AppSize.width(value: 20),
-                              fontWeight: FontWeight.w700,
-                              color: AppColor.white,
-                            ),
-                          )
-                        : InkWell(
-                            onTap: onTap,
-                            child: Container(
+                    if (status == "Running")
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: AppSize.width(value: 16),
+                          vertical: AppSize.width(value: 12),
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: Colors.grey,
+                        ),
+                        child: AppText(
+                          data: "$targetLeft More",
+                          fontSize: AppSize.width(value: 20),
+                          fontWeight: FontWeight.w700,
+                          color: AppColor.white,
+                        ),
+                      ),
+
+                    if (status != "Running")
+                      isRedemed
+                          ? Container(
                               padding: EdgeInsets.symmetric(
                                 horizontal: AppSize.width(value: 16),
                                 vertical: AppSize.width(value: 12),
                               ),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
-                                color: AppColor.blue,
+                                color: CupertinoColors.activeGreen,
                               ),
                               child: AppText(
-                                data: "Redeem Now",
+                                data: "Complate",
                                 fontSize: AppSize.width(value: 20),
                                 fontWeight: FontWeight.w700,
                                 color: AppColor.white,
                               ),
+                            )
+                          : InkWell(
+                              onTap: onTap,
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: AppSize.width(value: 16),
+                                  vertical: AppSize.width(value: 12),
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: AppColor.blue,
+                                ),
+                                child: AppText(
+                                  data: "Redeem Now",
+                                  fontSize: AppSize.width(value: 20),
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColor.white,
+                                ),
+                              ),
                             ),
-                          ),
                   ],
                 ),
               ],

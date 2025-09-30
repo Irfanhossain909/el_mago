@@ -91,6 +91,7 @@ class RetailerDashBoard extends StatelessWidget {
                       return ProductInformationCard(
                         onTap: () {
                           cartController.addProductToCart(product);
+
                           Get.snackbar(
                             duration: const Duration(seconds: 1),
                             snackPosition: SnackPosition.TOP,
@@ -111,6 +112,7 @@ class RetailerDashBoard extends StatelessWidget {
     );
   }
 }
+
 class RetailerDataCard extends StatelessWidget {
   final String? path;
   final String? title;

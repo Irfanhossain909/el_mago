@@ -16,15 +16,27 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class SalesReppesentativeDetails extends StatelessWidget {
+class SalesReppesentativeDetails extends StatefulWidget {
   const SalesReppesentativeDetails({super.key});
 
   @override
+  State<SalesReppesentativeDetails> createState() =>
+      _SalesReppesentativeDetailsState();
+}
+
+class _SalesReppesentativeDetailsState
+    extends State<SalesReppesentativeDetails> {
+  final controller = SalesRepresentativeDetailsController();
+  @override
+  void initState() {
+    controller.retailerId = Get.arguments;
+    controller.fetchRetailerData();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GetBuilder<SalesRepresentativeDetailsController>(
-      init: SalesRepresentativeDetailsController(),
-      builder: (controller) {
-        return Scaffold(
+    return Scaffold(
           appBar: CustomAppbar(title: "Retailer Details"),
           body: Padding(
             padding: EdgeInsets.all(AppSize.width(value: 12)),
@@ -119,7 +131,8 @@ class SalesReppesentativeDetails extends StatelessWidget {
                                         AppRoutes
                                             .instance
                                             .salesEditNewRetailersScreen,
-                                        arguments: controller.retailerModel.value?.id,
+                                        arguments:
+                                            controller.retailerModel.value?.id,
                                       );
                                     },
                                     child: AppImage(
@@ -233,8 +246,6 @@ class SalesReppesentativeDetails extends StatelessWidget {
             ),
           ),
         );
-      },
-    );
   }
 }
 
