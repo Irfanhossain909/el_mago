@@ -3,7 +3,20 @@ import 'package:el_mago/utils/app_size.dart';
 import 'package:flutter/material.dart';
 
 class RetailerCardData extends StatelessWidget {
-  const RetailerCardData({super.key});
+  final String? name;
+  final String? expires;
+  final String? zipCode;
+  final String? cvv;
+  final String? cardNumber;
+
+  const RetailerCardData({
+    super.key,
+    this.name,
+    this.expires,
+    this.zipCode,
+    this.cvv,
+    this.cardNumber,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +55,25 @@ class RetailerCardData extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    const Text(
-                      'Sabbir',
+                    Text(
+                      name ?? '--:--',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      'Card Number',
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: .8),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      cardNumber ?? '--:--',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -62,7 +92,7 @@ class RetailerCardData extends StatelessWidget {
                   child: const Icon(
                     Icons.credit_card,
                     color: Colors.white,
-                    size: 24,
+                    size: 42,
                   ),
                 ),
               ],
@@ -85,8 +115,8 @@ class RetailerCardData extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    const Text(
-                      'MM/YY',
+                    Text(
+                      expires ?? '--:--',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -108,8 +138,8 @@ class RetailerCardData extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    const Text(
-                      '123',
+                    Text(
+                      cvv ?? '--:--',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -131,8 +161,8 @@ class RetailerCardData extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    const Text(
-                      '123456',
+                    Text(
+                      zipCode ?? '--:--',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,

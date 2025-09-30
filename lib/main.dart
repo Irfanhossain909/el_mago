@@ -1,8 +1,9 @@
 import 'package:el_mago/my_app.dart';
+import 'package:el_mago/services/socket/socket_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   SystemChrome.setSystemUIOverlayStyle(
@@ -14,5 +15,9 @@ void main() async {
           Brightness.dark, // iOS এর জন্য (dark মানে light icons)
     ),
   );
+
+  // Initialize socket connection
+  SocketAllOparations.instance.initializeSocket();
+
   runApp(const MyApp());
 }

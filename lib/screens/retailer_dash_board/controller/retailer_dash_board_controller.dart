@@ -21,7 +21,7 @@ class RetailerDashBoardController extends GetxController {
       var response = await salesDashboardRepository.getProducts();
       if (response.isNotEmpty) {
         getAllProducts.assignAll(response);
-        print("getAllProducts Id: ${getAllProducts.first.id}");
+        
       }
     } catch (e) {
       AppPrint.appError(e, title: "fetchAllProducts");

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +12,7 @@ class SalesNavigationScreenController extends GetxController {
 
   final ScrollController scrollController = ScrollController();
 
+  
   // final GetStorageServices getStorageServices = GetStorageServices.instance;
 
   void toggleExpansion() {
@@ -20,5 +22,11 @@ class SalesNavigationScreenController extends GetxController {
 
   changeIndex(int index) {
     selectedIndex.value = index;
+  }
+
+  @override
+  void onInit() {
+    
+    super.onInit();
   }
 }

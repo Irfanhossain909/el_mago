@@ -11,7 +11,7 @@ class SalesRepresentativeCard extends StatelessWidget {
   final String? address;
   final VoidCallback? retailerDetails;
   final VoidCallback? retailerEdit;
-  final VoidCallback? retailerupdate;
+  // final VoidCallback? retailerupdate;
   final VoidCallback? retailerDelete;
   const SalesRepresentativeCard({
     super.key,
@@ -20,7 +20,7 @@ class SalesRepresentativeCard extends StatelessWidget {
     this.address,
     this.retailerDetails,
     this.retailerEdit,
-    this.retailerupdate,
+    // this.retailerupdate,
     this.retailerDelete,
   });
 
@@ -87,13 +87,13 @@ class SalesRepresentativeCard extends StatelessWidget {
                       path: AssetsPath.editIcon,
                     ),
                   ),
-                  InkWell(
-                    onTap: retailerupdate,
-                    child: AppImage(
-                      width: AppSize.width(value: 20),
-                      path: AssetsPath.reloadIcon,
-                    ),
-                  ),
+                  // InkWell(
+                  //   onTap: retailerupdate,
+                  //   child: AppImage(
+                  //     width: AppSize.width(value: 20),
+                  //     path: AssetsPath.reloadIcon,
+                  //   ),
+                  // ),
                   InkWell(
                     onTap: retailerDelete,
                     child: AppImage(
