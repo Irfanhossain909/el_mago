@@ -57,31 +57,43 @@ class ChangePassScreen extends StatelessWidget {
                     padding: EdgeInsets.all(AppSize.width(value: 20)),
                     child: Stack(
                       children: [
-                        Column(
-                          spacing: AppSize.size.height * 0.01,
-                          children: [
-                            AppInputWidgetTwo(
-                              isPassWord: true,
-                              controller: controller.oldPasswordController,
-                              isOptional: true,
-                              title: "Old Password",
-                              hintText: "Enter Old Password",
-                            ),
-                            AppInputWidgetTwo(
-                              isPassWord: true,
-                              controller: controller.newPasswordController,
-                              isOptional: true,
-                              title: "New Password",
-                              hintText: "Enter New Password",
-                            ),
-                            AppInputWidgetTwo(
-                              isPassWord: true,
-                              controller: controller.confirmPasswordController,
-                              isOptional: true,
-                              title: "Confirm Password",
-                              hintText: "Enter Confirm Password",
-                            ),
-                          ],
+                        Form(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          key: controller.formKey,
+                          child: Column(
+                            spacing: AppSize.size.height * 0.01,
+                            children: [
+                              AppInputWidgetTwo(
+                                validator: controller.validateOldPassword,
+                                isPassWord: true,
+                                controller: controller.oldPasswordController,
+                                isOptional: true,
+                                title: "Old Password",
+                                hintText: "Enter Old Password",
+                              ),
+                              AppInputWidgetTwo(
+                                validator: controller.validateNewPassword,
+                                isPassWord: true,
+                                controller: controller.newPasswordController,
+                                isOptional: true,
+                                title: "New Password",
+                                hintText: "Enter New Password",
+                              ),
+                              AppInputWidgetTwo(
+                                validator: (value) {
+                                  return controller.validateConfirmPassword(
+                                    value,
+                                    controller.newPasswordController.text,
+                                  );
+                                },
+                                isPassWord: true,
+                                controller: controller.confirmPasswordController,
+                                isOptional: true,
+                                title: "Confirm Password",
+                                hintText: "Enter Confirm Password",
+                              ),
+                            ],
+                          ),
                         ),
                         Obx(() {
                           if (controller.isLoading.value) {
