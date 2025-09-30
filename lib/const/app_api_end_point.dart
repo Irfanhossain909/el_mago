@@ -92,11 +92,11 @@ class AppApiEndPoint {
 
 // Move this function outside the class
 String _getDomain() {
-  String liveServer = "http://10.10.7.62:5003";
-  String localServer = "http://10.10.7.62:5003";
+  String liveServer = "https://api.elmagocigarsapp.com";
+  // String localServer = "http://10.10.7.62:5003";
   try {
     if (kDebugMode) {
-      return localServer;
+      // return localServer;
     }
     return liveServer;
   } catch (e) {

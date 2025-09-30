@@ -1,6 +1,7 @@
 import 'package:el_mago/const/app_color.dart';
 import 'package:el_mago/const/assets_icons_path.dart';
 import 'package:el_mago/routes/app_routes.dart';
+import 'package:el_mago/screens/retailer_dash_board/retailer_dash_board.dart';
 import 'package:el_mago/screens/sales_dash_board/controller/sales_dashboard_controller.dart';
 import 'package:el_mago/screens/sales_dash_board/widget/product_information_card.dart';
 import 'package:el_mago/screens/sales_shopping_cart/controller/sales_shopping_cart_controller.dart';
@@ -122,12 +123,16 @@ class SalesDashBoardScreen extends StatelessWidget {
                         product: product,
                         onTap: () {
                           cartController.addProductToCart(product);
-                          Get.snackbar(
-                            duration: const Duration(seconds: 1),
-                            snackPosition: SnackPosition.TOP,
-                            "Product Added",
-                            "${product.name} has been added to cart",
+                          showCustomToast(
+                            context,
+                            "${product.name} added to cart",
                           );
+                          // Get.snackbar(
+                          //   duration: const Duration(seconds: 1),
+                          //   snackPosition: SnackPosition.TOP,
+                          //   "Product Added",
+                          //   "${product.name} has been added to cart",
+                          // );
                         },
                       );
                     },
