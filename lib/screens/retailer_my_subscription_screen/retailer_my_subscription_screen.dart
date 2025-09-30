@@ -58,9 +58,7 @@ class RetailerMySubscriptionScreen extends StatelessWidget {
                             ),
                             Gap(width: AppSize.width(value: 8)),
                             AppText(
-                              data:
-                                  controller.message.value ??
-                                  "Next window opens in: 12 days",
+                              data: controller.message.value,
                               fontSize: AppSize.width(value: 12),
                               color: controller.status.value
                                   ? Colors.blue
@@ -93,38 +91,49 @@ class RetailerMySubscriptionScreen extends StatelessWidget {
                     ],
                   ),
 
-                  SizedBox(
-                    height: AppSize.size.height * 0.7,
-                    child: ListView.builder(
-                      padding: EdgeInsets.only(
-                        top: AppSize.size.height * 0.002,
-                      ),
-                      scrollDirection: Axis.horizontal,
-                      itemCount: controller.subModelData.length,
-                      itemBuilder: (context, index) {
-                        final subModel = controller.subModelData[index];
+                  Obx(() {
+                    return SizedBox(
+                      height: AppSize.size.height * 0.7,
+                      child: ListView.builder(
+                        padding: EdgeInsets.only(
+                          top: AppSize.size.height * 0.002,
+                        ),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: controller.subModelData.length,
+                        itemBuilder: (context, index) {
+                          final subModel = controller.subModelData[index];
 
-                        return SizedBox(
-                          width: AppSize.size.width * 0.9,
-                          child: SubcriptionCard(
-                            title: subModel.subscription,
-                            title2: subModel.freeShipping,
-                            title3: subModel.noCreditCardFee,
-                            title4: subModel.exclusiveProducts,
-                            title5: subModel.limitedReleases,
-                            onTap: (isChecked, arg2) {
-                              Get.toNamed(
-                                AppRoutes
-                                    .instance
-                                    .retailerComplateSubscriptionScreen,
-                                arguments: {"arg1": subModel, "arg2": arg2},
-                              );
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                          return SizedBox(
+                            width: AppSize.size.width * 0.9,
+                            child: SubcriptionCard(
+                              isActive:
+                                  controller
+                                          .retailerSelectExtraboxController
+                                          .currentSubscription
+                                          .value
+                                          ?.id ==
+                                      subModel.id
+                                  ? true
+                                  : false,
+                              title: subModel.subscription,
+                              title2: subModel.freeShipping,
+                              title3: subModel.noCreditCardFee,
+                              title4: subModel.exclusiveProducts,
+                              title5: subModel.limitedReleases,
+                              onTap: (isChecked, arg2) {
+                                Get.toNamed(
+                                  AppRoutes
+                                      .instance
+                                      .retailerComplateSubscriptionScreen,
+                                  arguments: {"arg1": subModel, "arg2": arg2},
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }),
                 ],
               ),
             ),

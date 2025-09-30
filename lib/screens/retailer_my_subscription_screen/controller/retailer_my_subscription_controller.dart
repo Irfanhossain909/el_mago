@@ -15,6 +15,19 @@ class RetailerMySubscriptionController extends GetxController {
   RetailerSelectExtraboxController retailerSelectExtraboxController =
       Get.find<RetailerSelectExtraboxController>();
 
+  // bool isSubActive () {
+
+  //   if (retailerSelectExtraboxController.currentSubscription.value.id == ) {
+      
+  //   }
+
+
+
+
+
+  //   return false;
+  // }
+
   // Rx variables
   RxBool status = false.obs;
   RxString message = "".obs;
