@@ -115,35 +115,60 @@ class RetailerOrderRepository {
   Future<RetailerDetailsDataModel?> getSingleRetailer({
     required String retailerId,
   }) async {
-    var url = "${AppApiEndPoint.instance.getMyRetailers}$retailerId";
+    var url = "${AppApiEndPoint.instance.getMyRetailer}/$retailerId";
+
+    AppPrint.appLog("getSingleRetailer: retailerId: $url");
     try {
       var response = await _apiServices.apiGetServices(url);
       if (response != null && response["data"] != null) {
-        // Handle both cases: when API returns a single object or a list
-        if (response["data"] is List) {
-          List<dynamic> dataList = response["data"];
-          if (dataList.isNotEmpty) {
-            return RetailerDetailsDataModel.fromJson(dataList.first);
-          } else {
-            AppPrint.appError("getSingleRetailer: Data list is empty");
-            return null;
-          }
-        } else if (response["data"] is Map<String, dynamic>) {
-          return RetailerDetailsDataModel.fromJson(response["data"]);
-        } else {
-          AppPrint.appError(
-            "getSingleRetailer: Unexpected data format - ${response["data"].runtimeType}",
-          );
-          return null;
-        }
+        // ✅ Directly parse object
+        return RetailerDetailsDataModel.fromJson(response["data"]);
       } else {
-        AppPrint.appError("SingleUser response is null");
+        AppPrint.appError(
+          "getSingleRetailer: response is null or data missing",
+        );
       }
     } catch (e) {
       AppPrint.appError(e, title: "getSingleRetailer");
     }
     return null;
   }
+
+  // Future<RetailerDetailsDataModel?> getSingleRetailer({
+  //   required String retailerId,
+  // }) async {
+  //   var url = "${AppApiEndPoint.instance.getMyRetailer}/$retailerId";
+
+  //   AppPrint.appLog("getSingleRetailer: retailerId: $url");
+  //   try {
+  //     var response = await _apiServices.apiGetServices(url);
+  //     if (response != null && response["data"] != null) {
+  //       // Handle both cases: when API returns a single object or a list
+  //       RetailerDetailsModelData.fromJson(response["data"]);
+  //       // if (response["data"] is List) {
+  //       //   List<dynamic> dataList = response["data"];
+  //       //   if (dataList.isNotEmpty) {
+  //       //     return RetailerDetailsDataModel.fromJson(dataList.first);
+  //       //   } else {
+  //       //     AppPrint.appError("getSingleRetailer: Data list is empty");
+  //       //     return null;
+  //       //   }
+  //       // } else if (response["data"] is Map<String, dynamic>) {
+  //       //   return RetailerDetailsDataModel.fromJson(response["data"]);
+  //       // } else {
+  //       //   AppPrint.appError(
+  //       //     "getSingleRetailer: Unexpected data format - ${response["data"].runtimeType}",
+  //       //   );
+  //       //   return null;
+  //       // }
+  //     } else {
+  //       AppPrint.appError("SingleUser response is null");
+  //     }
+  //   } catch (e) {
+  //     AppPrint.appError(e, title: "getSingleRetailer");
+  //   }
+  //   return null;
+  // }
 
   Future<bool> createRetailer({
     required String salesRepId,
@@ -209,6 +234,7 @@ class RetailerOrderRepository {
   Future<RetailerAnaliticsData?> getSingleUserAnalatics({
     required String retailerId,
   }) async {
+    print("retailerId : $retailerId");
     var url =
         "${AppApiEndPoint.instance.getSingleRetailerDetailsAnalysis}$retailerId";
     try {

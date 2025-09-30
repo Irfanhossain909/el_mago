@@ -313,7 +313,9 @@ class LoyeltyCardOne extends StatelessWidget {
               padding: EdgeInsets.all(AppSize.width(value: 12)),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: AppColor.blueLight,
+                color: status == "Available"
+                    ? AppColor.blueLight
+                    : Colors.orange.withValues(alpha: .4),
               ),
               child: AppImage(
                 width: AppSize.width(value: 12),
@@ -391,7 +393,9 @@ class LoyeltyCardOne extends StatelessWidget {
                       padding: EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(24),
-                        color: AppColor.blueLight,
+                        color: status == "Available"
+                            ? AppColor.blueLight
+                            : Colors.orange.withValues(alpha: .4),
                       ),
                       child: AppText(
                         data: status,
@@ -400,6 +404,24 @@ class LoyeltyCardOne extends StatelessWidget {
                         color: AppColor.black,
                       ),
                     ),
+
+                    if (status == "Available")
+                    Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: AppSize.width(value: 16),
+                              vertical: AppSize.width(value: 12),
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: CupertinoColors.activeGreen,
+                            ),
+                            child: AppText(
+                              data: "Complate",
+                              fontSize: AppSize.width(value: 20),
+                              fontWeight: FontWeight.w700,
+                              color: AppColor.white,
+                            ),
+                          ),
 
                     isRedemed
                         ? Container(

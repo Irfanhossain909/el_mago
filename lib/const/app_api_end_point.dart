@@ -14,6 +14,7 @@ class AppApiEndPoint {
       "/notification/?page=$page&limit=$limit";
   ////////////////////// Sales Product Dashboard
   final String getProducts = "/retailer/dashboard/get-products";
+  final String getMyRetailer = "/sales/dashboard/my-retailer";
   final String getMyRetailers = "/sales/dashboard/my-retailers";
   final String createOrder = "/retailer/dashboard/create";
   final String getMyOrders = "/sales/orders/my-order";
