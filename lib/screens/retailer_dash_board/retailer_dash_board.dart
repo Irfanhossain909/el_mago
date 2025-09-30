@@ -11,6 +11,7 @@ import 'package:el_mago/widgets/app_log/gap.dart';
 import 'package:el_mago/widgets/app_text/app_text.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class RetailerDashBoard extends StatelessWidget {
@@ -91,12 +92,16 @@ class RetailerDashBoard extends StatelessWidget {
                       return ProductInformationCard(
                         onTap: () {
                           cartController.addProductToCart(product);
-                          Get.snackbar(
+                         /* Get.snackbar(
                             duration: const Duration(seconds: 1),
                             snackPosition: SnackPosition.TOP,
                             "Product Added",
                             "${product.name} has been added to cart",
-                          );
+                          );*/
+
+                          showCustomToast(context, "${product.name} added to cart");
+
+
                         },
                         product: product,
                       );
@@ -168,3 +173,47 @@ class RetailerDataCard extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+void showCustomToast(BuildContext context, String message) {
+  FToast fToast = FToast();
+  fToast.init(context);
+
+  Widget toast = Container(
+    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(12.0),
+      color: Colors.green.shade600,
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black26,
+          blurRadius: 6,
+          offset: const Offset(2, 2),
+        )
+      ],
+    ),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Icon(Icons.check_circle, color: Colors.white, size: 20),
+        const SizedBox(width: 12.0),
+        Flexible(
+          child: Text(
+            message,
+            style: const TextStyle(color: Colors.white, fontSize: 14),
+          ),
+        ),
+      ],
+    ),
+  );
+
+  fToast.showToast(
+    child: toast,
+    gravity: ToastGravity.BOTTOM,
+    toastDuration: const Duration(seconds: 1),
+  );
+}
+
