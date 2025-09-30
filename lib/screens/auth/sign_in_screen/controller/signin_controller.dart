@@ -1,6 +1,7 @@
 import 'package:el_mago/const/role.dart';
 import 'package:el_mago/models/user_model/user_model.dart';
 import 'package:el_mago/routes/app_routes.dart';
+import 'package:el_mago/services/api/get_storage_services.dart';
 import 'package:el_mago/services/repository/auth_repository.dart';
 import 'package:el_mago/services/repository/profile_repository.dart';
 import 'package:el_mago/widgets/app_log/app_print.dart';
@@ -14,7 +15,6 @@ class SigninController extends GetxController {
   //all repository
   AuthRepository authRepository = AuthRepository.instance;
   final ProfileRepository profileRepository = Get.find<ProfileRepository>();
-
 
   ///Model variables
   Rxn<UserModelData> profileData = Rxn<UserModelData>();
@@ -37,6 +37,7 @@ class SigninController extends GetxController {
     }
   }
 
+  GetStorageServices getStorageServices = GetStorageServices.instance;
   //Signin function
   Future<void> signin() async {
     try {
@@ -50,6 +51,9 @@ class SigninController extends GetxController {
       );
       if (response) {
         await fetchProfileData();
+
+        getStorageServices.setUID(profileData.value?.id ?? "");
+        AppPrint.apiResponse(getStorageServices.getUID());
 
         if (profileData.value != null) {
           if (profileData.value?.role == Role.RETAILER.name) {

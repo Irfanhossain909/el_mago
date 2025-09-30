@@ -4,6 +4,7 @@ import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/screens/sales_dash_board/controller/sales_dashboard_controller.dart';
 import 'package:el_mago/screens/sales_dash_board/widget/product_information_card.dart';
 import 'package:el_mago/screens/sales_shopping_cart/controller/sales_shopping_cart_controller.dart';
+import 'package:el_mago/widgets/app_circle_card/circle_icon_with_bg.dart';
 import 'package:el_mago/widgets/app_input/app_input_widget_two.dart';
 import 'package:el_mago/widgets/app_text/custom_text.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
@@ -40,20 +41,45 @@ class SalesDashBoardScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          CircleAvatar(
-            backgroundColor: AppColor.blue,
-            child: IconButton(
-              onPressed: () {
-                Get.toNamed(AppRoutes.instance.notificationScreen);
-              },
-              icon: Image.asset(
-                AssetsPath.notification,
-                color: AppColor.white,
-                width: 20,
-                height: 20,
+          Stack(
+            children: [
+              CircleIconWithBg(
+                onTap: () {
+                  controller.notificationCount.value = 0;
+                  Get.toNamed(AppRoutes.instance.notificationScreen);
+                },
+                path: AssetsPath.notification,
               ),
-            ),
+
+              if (controller.notificationCount.value > 0)
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  child: Container(
+                    width: 10,
+                    height: 10,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+            ],
           ),
+          // CircleAvatar(
+          //   backgroundColor: AppColor.blue,
+          //   child: IconButton(
+          //     onPressed: () {
+          //       Get.toNamed(AppRoutes.instance.notificationScreen);
+          //     },
+          //     icon: Image.asset(
+          //       AssetsPath.notification,
+          //       color: AppColor.white,
+          //       width: 20,
+          //       height: 20,
+          //     ),
+          //   ),
+          // ),
           const SizedBox(width: 10),
         ],
       ),

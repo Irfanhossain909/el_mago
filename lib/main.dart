@@ -15,9 +15,6 @@ Future<void> main() async {
           Brightness.dark, // iOS এর জন্য (dark মানে light icons)
     ),
   );
-
-  // Initialize socket connection
-  SocketAllOparations.instance.initializeSocket();
-
+  SocketServices.connectToSocket();
   runApp(const MyApp());
 }

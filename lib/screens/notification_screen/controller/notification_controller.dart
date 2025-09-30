@@ -11,7 +11,7 @@ class NotificationController extends GetxController {
       NotificationRepository.instance;
 
   final ScrollController notificationScrollController = ScrollController();
-  SocketAllOparations socketAllOparations = SocketAllOparations.instance;
+  SocketServices socketAllOparations = SocketServices();
   ProfileController profileController = Get.find<ProfileController>();
 
   RxList<Result> notifications = <Result>[].obs;
@@ -63,53 +63,79 @@ class NotificationController extends GetxController {
     }
   }
 
-  void readSocketMessage() {
-    try {
-      // Check if socket is connected
-      if (!socketAllOparations.isConnected) {
-        AppPrint.appError(
-          "Socket not connected, retrying in 2 seconds...",
-          title: "readSocketMessage",
-        );
-        Future.delayed(const Duration(seconds: 2), () {
-          readSocketMessage();
-        });
-        return;
-      }
+  void readSocketMessage() async {
+    SocketServices.on(
+      "notification::${profileController.profileData.value?.id}",
+      (data) {
+        try {
+          // New notification top e add hobe
+          final newNotification = Result.fromJson(data);
+          notifications.insert(0, newNotification);
+          notifications.refresh(); // Force UI update
+          update();
 
-      final eventName =
-          "notification::${profileController.profileData.value?.id}";
-      AppPrint.appLog("Setting up socket listener for event: $eventName");
+          AppPrint.appLog(
+            "New notification added to top. Total notifications: ${notifications.length}",
+          );
+        } catch (e) {
+          AppPrint.appError(
+            "Error parsing notification data: $e",
+            title: "readSocketMessage",
+          );
+        }
 
-      socketAllOparations.readEvent(
-        event: eventName,
-        handler: (data) {
-          AppPrint.appLog("Received notification data: $data");
-
-          try {
-            // New notification top e add hobe
-            final newNotification = Result.fromJson(data);
-            notifications.insert(0, newNotification);
-            notifications.refresh(); // Force UI update
-            update();
-
-            AppPrint.appLog(
-              "New notification added to top. Total notifications: ${notifications.length}",
-            );
-          } catch (e) {
-            AppPrint.appError(
-              "Error parsing notification data: $e",
-              title: "readSocketMessage",
-            );
-          }
-        },
-      );
-
-      AppPrint.appLog("Socket event listener setup completed");
-    } catch (e) {
-      AppPrint.appError(e, title: "readSocketMessage");
-    }
+        AppPrint.appLog("Received notification data: $data");
+      },
+    );
   }
+
+  // void readSocketMessage() {
+  //   try {
+  //     // Check if socket is connected
+  //     if (!socketAllOparations.isConnected) {
+  //       AppPrint.appError(
+  //         "Socket not connected, retrying in 2 seconds...",
+  //         title: "readSocketMessage",
+  //       );
+  //       Future.delayed(const Duration(seconds: 2), () {
+  //         readSocketMessage();
+  //       });
+  //       return;
+  //     }
+
+  //     final eventName =
+  //         "notification::${profileController.profileData.value?.id}";
+  //     AppPrint.appLog("Setting up socket listener for event: $eventName");
+
+  //     socketAllOparations.readEvent(
+  //       event: eventName,
+  //       handler: (data) {
+  //         AppPrint.appLog("Received notification data: $data");
+
+  //         try {
+  //           // New notification top e add hobe
+  //           final newNotification = Result.fromJson(data);
+  //           notifications.insert(0, newNotification);
+  //           notifications.refresh(); // Force UI update
+  //           update();
+
+  //           AppPrint.appLog(
+  //             "New notification added to top. Total notifications: ${notifications.length}",
+  //           );
+  //         } catch (e) {
+  //           AppPrint.appError(
+  //             "Error parsing notification data: $e",
+  //             title: "readSocketMessage",
+  //           );
+  //         }
+  //       },
+  //     );
+
+  //     AppPrint.appLog("Socket event listener setup completed");
+  //   } catch (e) {
+  //     AppPrint.appError(e, title: "readSocketMessage");
+  //   }
+  // }
 
   Future<void> refreshNotification() async {
     notifyPage = 1;

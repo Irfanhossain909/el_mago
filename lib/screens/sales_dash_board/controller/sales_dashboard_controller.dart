@@ -1,6 +1,8 @@
-
 import 'package:el_mago/models/product_model/product_model.dart';
 import 'package:el_mago/screens/controller/global_controller.dart';
+import 'package:el_mago/services/api/get_storage_services.dart';
+import 'package:el_mago/services/socket/socket_service.dart';
+import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,6 +16,11 @@ class SalesDashboardController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    AppPrint.appPrint(
+      "notification::${getStorageServices.getUID()}",
+      title: "SOCket...............................",
+    );
+    readSocketMessage();
     // Initialize the filtered list with the master list from the global controller
     filteredProductList.assignAll(globalController.masterProductList);
 
@@ -37,12 +44,27 @@ class SalesDashboardController extends GetxController {
     } else {
       // Filter the master list based on the search query
       var filteredList = globalController.masterProductList
-          .where((product) =>
-              product.name.toLowerCase().contains(productName.toLowerCase()))
+          .where(
+            (product) =>
+                product.name.toLowerCase().contains(productName.toLowerCase()),
+          )
           .toList();
       filteredProductList.assignAll(filteredList);
     }
   }
+
+  /////////////////////////////notification////////
+  RxInt notificationCount = 0.obs;
+  void readSocketMessage() async {
+    var uid = getStorageServices.getUID();
+    SocketServices.on("notification::$uid", (data) {
+      notificationCount.value++;
+      AppPrint.appLog("Received notification data: $data");
+    });
+  }
+
+  /////////////////////////////////////////////
+  GetStorageServices getStorageServices = GetStorageServices.instance;
 
   @override
   void onClose() {
