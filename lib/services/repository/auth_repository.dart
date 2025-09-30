@@ -58,6 +58,13 @@ class AuthRepository {
       if (response.statusCode == 200) {
         return true;
       }
+      if (response.statusCode == 400) {
+        
+        Get.snackbar(
+          "error",
+          "${response.data["message"] ?? "Something went wrong"}",
+        );
+      }
     } catch (e) {
       AppPrint.appError(e, title: "forgetEmailSend");
     }
@@ -287,10 +294,17 @@ class AuthRepository {
     }
   }
 
-  Future<bool> resetPassword({required String newPassword, required String confirmPassword, required String resetToken}) async {
+  Future<bool> resetPassword({
+    required String newPassword,
+    required String confirmPassword,
+    required String resetToken,
+  }) async {
     try {
       appInPutUnfocused();
-      Map body = {"newPassword": newPassword, "confirmPassword": confirmPassword};
+      Map body = {
+        "newPassword": newPassword,
+        "confirmPassword": confirmPassword,
+      };
       var response = await nonAuthApi.sendRequest.post(
         AppApiEndPoint.instance.resetPassword,
         data: body,
@@ -308,7 +322,10 @@ class AuthRepository {
       return false;
     } on DioException catch (error) {
       if (error.response?.data["message"].runtimeType != Null) {
-        Get.snackbar("Error", "${error.response?.data["message"] ?? "Something was wrong"}");
+        Get.snackbar(
+          "Error",
+          "${error.response?.data["message"] ?? "Something was wrong"}",
+        );
       }
       return false;
     } catch (e) {

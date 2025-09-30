@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:el_mago/const/app_api_end_point.dart';
 import 'package:el_mago/routes/app_routes.dart';
@@ -46,6 +45,12 @@ class AppApi {
               Get.offAllNamed(AppRoutes.instance.signinScreen);
               return handler.next(error);
             }
+            if (error.response?.statusCode == 400) {
+              // await storageServices.storageClear();
+              // Get.offAllNamed(AppRoutes.instance.signinScreen);
+              AppPrint.appLog("error message: ${error.message}");
+              return handler.next(error);
+            }
           } catch (e) {
             errorLog("error form api try and catch bloc", e);
             return handler.next(error);
@@ -76,4 +81,3 @@ class AppApi {
   // Expose Dio client
   Dio get sendRequest => _dio;
 }
-

@@ -11,50 +11,68 @@ class ChnagePasswordController extends GetxController {
   TextEditingController oldPasswordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  //form key
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   //loading indicator
   RxBool isLoading = false.obs;
 
-  //validation
-  bool validate() {
-    if (oldPasswordController.text.isEmpty) {
-      Get.snackbar("Error", "Please enter your old password");
-      return false;
-    } else if (newPasswordController.text.isEmpty) {
-      Get.snackbar("Error", "Please enter your new password");
-      return false;
-    } else if (confirmPasswordController.text.isEmpty) {
-      Get.snackbar("Error", "Please confirm your new password");
-      return false;
-    } else if (newPasswordController.text != confirmPasswordController.text) {
-      return false;
+
+  // Validate Old Password
+  String? validateOldPassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Enter your old password";
+    } else if (value.length < 8) {
+      return "Old password should be at least 8 characters long";
     }
-    return true;
+    return null;
   }
+
+// Validate New Password
+  String? validateNewPassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Enter a new password";
+    } else if (value.length < 8) {
+      return "New password should be at least 8 characters long";
+    }
+    return null;
+  }
+
+// Validate Confirm Password
+  String? validateConfirmPassword(String? value, String newPassword) {
+    if (value == null || value.isEmpty) {
+      return "Confirm your new password";
+    } else if (value != newPassword) {
+      return "Passwords do not match";
+    }
+    return null;
+  }
+
 
   // change password function
   Future<void> changePassword() async {
-    try {
-      if (!validate()) return;
-      isLoading.value = true;
-      var response = await authRepository.changePassword(
-        currentPassword: oldPasswordController.text,
-        newPassword: newPasswordController.text,
-        confirmPassword: confirmPasswordController.text,
-      );
+    if (formKey.currentState!.validate()) {
+      try {
+        isLoading.value = true;
+        var response = await authRepository.changePassword(
+          currentPassword: oldPasswordController.text,
+          newPassword: newPasswordController.text,
+          confirmPassword: confirmPasswordController.text,
+        );
 
-      if (response) {
-        Get.snackbar("Success", "Password changed successfully");
-        controllerClear();
-        Get.close(1);
-      } else {
+        if (response) {
+          Get.snackbar("Success", "Password changed successfully");
+          controllerClear();
+          Get.close(1);
+        } else {
+          isLoading.value = false;
+          Get.snackbar("Error", "Password change failed");
+        }
+      } catch (e) {
+        AppPrint.appError(e, title: "changePassword");
+      } finally {
         isLoading.value = false;
-        Get.snackbar("Error", "Password change failed");
       }
-    } catch (e) {
-      AppPrint.appError(e, title: "changePassword");
-    } finally {
-      isLoading.value = false;
     }
   }
 

@@ -22,7 +22,30 @@ class SigninController extends GetxController {
   //Loading state
   RxBool loading = false.obs;
 
-  //get profile
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  // Validate Email
+  String? validateEmail(String? value) {
+    bool emailValid = RegExp(
+      r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
+    ).hasMatch(value ?? "");
+    if (value == null || value.isEmpty) {
+      return "Enter Email";
+    } else if (!emailValid) {
+      return "Enter a valid Email";
+    }
+    return null;
+  }
+
+  // Validate Password
+  String? validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return "Enter Password";
+    } else if (value.length < 8) {
+      return "Password length should be more than 8 characters";
+    }
+    return null;
+  }
 
   Future<void> fetchProfileData() async {
     try {
@@ -38,44 +61,100 @@ class SigninController extends GetxController {
   }
 
   GetStorageServices getStorageServices = GetStorageServices.instance;
+
   //Signin function
   Future<void> signin() async {
-    try {
-      bool valid = validation();
-      if (!valid) return;
+    if (formKey.currentState!.validate()) {
+      try {
+        loading.value = true;
+        var response = await authRepository.login(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        if (response) {
+          await fetchProfileData();
 
-      loading.value = true;
-      var response = await authRepository.login(
-        email: emailController.text,
-        password: passwordController.text,
-      );
-      if (response) {
-        await fetchProfileData();
-
-        getStorageServices.setUID(profileData.value?.id ?? "");
-        AppPrint.apiResponse(getStorageServices.getUID());
-
-        if (profileData.value != null) {
-          if (profileData.value?.role == Role.RETAILER.name) {
-            Get.offAllNamed(AppRoutes.instance.retailerNavigationScreen);
+          if (profileData.value != null) {
+            if (profileData.value?.role == Role.RETAILER.name) {
+              Get.offAllNamed(AppRoutes.instance.retailerNavigationScreen);
+            }
+            if (profileData.value?.role == Role.SALES.name) {
+              Get.offAllNamed(AppRoutes.instance.salesNavigationScreen);
+            }
+          } else {
+            Get.snackbar("Error", "Profile data is empty");
           }
-          if (profileData.value?.role == Role.SALES.name) {
-            Get.offAllNamed(AppRoutes.instance.salesNavigationScreen);
-          }
+
+          Get.snackbar("Success", "You have successfully logged in!");
         } else {
-          Get.snackbar("Error", "Profile data is empty");
+          loading.value = false;
         }
-
-        Get.snackbar("Success", "You have successfully logged in!");
-      } else {
+      } catch (e) {
+        AppPrint.appError(e, title: "signin");
+      } finally {
         loading.value = false;
       }
-    } catch (e) {
-      AppPrint.appError(e, title: "signin");
-    } finally {
-      loading.value = false;
     }
   }
+  // Future<void> signin() async {
+
+  //   if (formKey.currentState!.validate()) {
+  //     try {
+  //       loading.value = true;
+  //       var response = await authRepository.login(
+  //         email: emailController.text,
+  //         password: passwordController.text,
+  //       );
+  //       if (response) {
+  //         await fetchProfileData();
+
+  //         if (profileData.value != null) {
+  //           if (profileData.value?.role == Role.RETAILER.name) {
+  //             Get.offAllNamed(AppRoutes.instance.retailerNavigationScreen);
+  //           }
+  //           if (profileData.value?.role == Role.SALES.name) {
+  //             Get.offAllNamed(AppRoutes.instance.salesNavigationScreen);
+  //           }
+  //         } else {
+  //           Get.snackbar("Error", "Profile data is empty");
+
+  //   try {
+  //     bool valid = validation();
+  //     if (!valid) return;
+
+  //     loading.value = true;
+  //     var response = await authRepository.login(
+  //       email: emailController.text,
+  //       password: passwordController.text,
+  //     );
+  //     if (response) {
+  //       await fetchProfileData();
+
+  //       getStorageServices.setUID(profileData.value?.id ?? "");
+  //       AppPrint.apiResponse(getStorageServices.getUID());
+
+  //       if (profileData.value != null) {
+  //         if (profileData.value?.role == Role.RETAILER.name) {
+  //           Get.offAllNamed(AppRoutes.instance.retailerNavigationScreen);
+  //         }
+  //         if (profileData.value?.role == Role.SALES.name) {
+  //           Get.offAllNamed(AppRoutes.instance.salesNavigationScreen);
+
+  //         }
+
+  //         Get.snackbar("Success", "You have successfully logged in!");
+  //       } else {
+  //         loading.value = false;
+  //       }
+  //     } catch (e) {
+  //       AppPrint.appError(e, title: "signin");
+  //     }
+
+  //     finally {
+  //       loading.value = false;
+  //     }
+  //   }
+  // }
 
   //valisation
   bool validation() {

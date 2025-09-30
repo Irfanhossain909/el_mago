@@ -102,7 +102,8 @@ class RetailerLoyeltyScreen extends StatelessWidget {
                                     color: AppColor.white,
                                   ),
                                   AppText(
-                                    data: r"$1,356 / $2,500",
+                                    data:
+                                        "${controller.loyeltyModelData.value?.availableRewards?.first.target}",
                                     fontSize: AppSize.width(value: 16),
                                     fontWeight: FontWeight.w600,
                                     color: AppColor.white,

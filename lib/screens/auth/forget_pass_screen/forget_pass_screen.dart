@@ -52,13 +52,18 @@ class ForgetPassScreen extends StatelessWidget {
                           ),
                         ),
 
-                        AppInputWidgetTwo(
-                          controller: controller.emailController,
-                          borderRadius: AppSize.width(value: 8),
-                          contentPadding: EdgeInsets.symmetric(
-                            horizontal: AppSize.width(value: 20),
+                        Form(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          key: controller.formKey,
+                          child: AppInputWidgetTwo(
+                            validator: controller.validateEmail,
+                            controller: controller.emailController,
+                            borderRadius: AppSize.width(value: 8),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: AppSize.width(value: 20),
+                            ),
+                            hintText: "example@gmail.com",
                           ),
-                          hintText: "example@gmail.com",
                         ),
 
                         AppButton(

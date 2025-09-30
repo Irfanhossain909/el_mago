@@ -151,6 +151,10 @@ class ApiServices {
           Get.offAllNamed(AppRoutes.instance.signinScreen);
         }
 
+        if (e.response?.statusCode == 400) {
+          Get.snackbar("error", "${e.response?.data["message"]}");
+        }
+
         if (e.response?.data["message"] != null) {
           Get.snackbar("error", "${e.response?.data["message"]}");
         }

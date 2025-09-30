@@ -34,6 +34,16 @@ class AppApiEndPoint {
   final String getSalesAllretailerSubcription =
       "/sales/dashboard/my-retailers-details";
 
+  ////////////////////// Sales Order History
+  static String getSalesRetailerOrderHistory(String userId) =>
+      "/sales/dashboard/my-retailer/details/orders/$userId";
+
+  ////////////////////// Sales Subscription
+  static String getSalesSubscription(String userId) =>
+      "/retailer/subscription/subscription/$userId";
+  static String updateSalesExtraBoxes(String userId) =>
+      "/retailer/subscription/update-boxes/$userId";
+
   ////////////////////// Retailer Product Dashboard
   final String getMyOrdersRetailer = "/retailer/dashboard/orders";
   final String getRetailerDashboardSummary = "/retailer/dashboard/summary";
@@ -48,7 +58,7 @@ class AppApiEndPoint {
 
   final String refreshToken = "/auth/refresh-token";
   final String user = "/user";
-  final String privacyPolicy = "/others/privacy-policy";
+  final String privacyPolicy = "/api/v1/admin/settings?key=privacyPolicy";
   final String termsAndConditions = "/others/terms-and-conditions";
   final String faq = "/others/faq";
   final String deleteAccount = "/auth/delete-account";
@@ -82,11 +92,11 @@ class AppApiEndPoint {
 
 // Move this function outside the class
 String _getDomain() {
-  String liveServer = "http://10.10.7.62:5003";
-  String localServer = "http://10.10.7.62:5003";
+  String liveServer = "https://api.elmagocigarsapp.com";
+  // String localServer = "http://10.10.7.62:5003";
   try {
     if (kDebugMode) {
-      return localServer;
+      // return localServer;
     }
     return liveServer;
   } catch (e) {

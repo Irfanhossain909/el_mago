@@ -10,6 +10,7 @@ class ForgetPasswordController extends GetxController {
 
   //TextEditingController
   TextEditingController emailController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   //loading indicator
   RxBool isLoading = false.obs;
@@ -23,29 +24,41 @@ class ForgetPasswordController extends GetxController {
     return true;
   }
 
+  String? validateEmail(String? value) {
+    bool emailValid =
+    RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+        .hasMatch(value ?? "");
+    if (value == null || value.isEmpty) {
+      return "Enter Email";
+    } else if (!emailValid) {
+      return "Enter a valid Email";
+    }
+    return null;
+  }
+
   // change password function
   Future<void> forgetPassEmailSend() async {
-    try {
-      if (!validate()) return;
-      isLoading.value = true;
-      var response = await authRepository.forgetEmailSend(
-        email: emailController.text,
-      );
-
-      if (response) {
-        Get.snackbar("Success", "Otp send your email successfully");
-        Get.toNamed(
-          AppRoutes.instance.forgetPassOtpVerifyScreen,
-          arguments: emailController.text,
+    if( formKey.currentState!.validate()){
+      try {
+        if (!validate()) return;
+        isLoading.value = true;
+        var response = await authRepository.forgetEmailSend(
+          email: emailController.text,
         );
-      } else {
+
+        if (response) {
+          Get.snackbar("Success", "Otp send your email successfully");
+          Get.toNamed(
+            AppRoutes.instance.forgetPassOtpVerifyScreen,
+            arguments: emailController.text,
+          );
+        }
+
+      } catch (e) {
+        AppPrint.appError(e, title: "Forget Password");
+      } finally {
         isLoading.value = false;
-        Get.snackbar("Error", "Password change failed");
       }
-    } catch (e) {
-      AppPrint.appError(e, title: "Forget Password");
-    } finally {
-      isLoading.value = false;
     }
   }
 

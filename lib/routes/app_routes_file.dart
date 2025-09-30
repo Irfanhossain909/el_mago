@@ -6,6 +6,7 @@ import 'package:el_mago/screens/retailer_complate_subscription_screen/retailer_c
 import 'package:el_mago/screens/retailer_loyelty_screen/retailer_loyelty_screen.dart';
 import 'package:el_mago/screens/retailer_my_subscription_screen/retailer_my_subscription_screen.dart';
 import 'package:el_mago/screens/retailer_select_extrabox_screen/retailer_select_extrabox_screen.dart';
+import 'package:el_mago/screens/sales_select_extrabox_screen/sales_select_extrabox_screen.dart';
 
 import 'package:el_mago/screens/sales_my_sales_screen/sales_my_sales_screen.dart';
 import 'package:el_mago/screens/sales_my_territory/sales_my_territoy.dart';
@@ -38,6 +39,8 @@ import 'package:el_mago/screens/sales_order_details_screen/sales_order_details_s
 import 'package:el_mago/screens/sales_shopping_cart/sales_shopping_cart_screen.dart';
 import 'package:el_mago/screens/terms_screen/terms_screen.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
+
+import '../screens/sales_my_sales_screen/sales_my_sales_screen.dart';
 
 List<GetPage> appRootRoutesFile = <GetPage>[
   //   /////////////////  splash screen start
@@ -106,7 +109,7 @@ List<GetPage> appRootRoutesFile = <GetPage>[
   GetPage(
     name: AppRoutes.instance.termScreen,
     binding: AppBinding(),
-    page: () => const TermsScreen(),
+    page: () =>  TermsScreen(),
   ),
   GetPage(
     name: AppRoutes.instance.privicyScreen,
@@ -189,6 +192,11 @@ List<GetPage> appRootRoutesFile = <GetPage>[
     page: () => const RetailerSelectExtraboxScreen(),
   ),
   GetPage(
+    name: AppRoutes.instance.salesSelectExtraBoxScreen,
+    binding: AppBinding(),
+    page: () => const SalesSelectExtraboxScreen(),
+  ),
+  GetPage(
     name: AppRoutes.instance.retailerComplateSubscriptionScreen,
     binding: AppBinding(),
     page: () => const RetailerComplateSubscriptionScreen(),
@@ -203,7 +211,6 @@ List<GetPage> appRootRoutesFile = <GetPage>[
     binding: AppBinding(),
     page: () => const SalesMyTerritory(),
   ),
-
 
   GetPage(
     name: AppRoutes.instance.salesEditNewRetailersScreen,
@@ -224,6 +231,5 @@ List<GetPage> appRootRoutesFile = <GetPage>[
     name: AppRoutes.instance.salesRetailerInformationScreen,
     binding: AppBinding(),
     page: () => const SalesRetailerInformationScreen(),
-
   ),
 ];
