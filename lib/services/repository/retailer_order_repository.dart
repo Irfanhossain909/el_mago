@@ -6,6 +6,7 @@ import 'package:el_mago/models/retailer_order/retailer_card_info_model.dart';
 import 'package:el_mago/models/retailer_order/retailer_details_model.dart';
 import 'package:el_mago/models/retailer_order/retailer_order_model.dart';
 import 'package:el_mago/models/retailer_model/retailer_dashboard_summary_model.dart';
+import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/services/api/api_services.dart';
 import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:el_mago/widgets/app_log/error_log.dart';
@@ -134,41 +135,7 @@ class RetailerOrderRepository {
     return null;
   }
 
-  // Future<RetailerDetailsDataModel?> getSingleRetailer({
-  //   required String retailerId,
-  // }) async {
-  //   var url = "${AppApiEndPoint.instance.getMyRetailer}/$retailerId";
-
-  //   AppPrint.appLog("getSingleRetailer: retailerId: $url");
-  //   try {
-  //     var response = await _apiServices.apiGetServices(url);
-  //     if (response != null && response["data"] != null) {
-  //       // Handle both cases: when API returns a single object or a list
-  //       RetailerDetailsModelData.fromJson(response["data"]);
-  //       // if (response["data"] is List) {
-  //       //   List<dynamic> dataList = response["data"];
-  //       //   if (dataList.isNotEmpty) {
-  //       //     return RetailerDetailsDataModel.fromJson(dataList.first);
-  //       //   } else {
-  //       //     AppPrint.appError("getSingleRetailer: Data list is empty");
-  //       //     return null;
-  //       //   }
-  //       // } else if (response["data"] is Map<String, dynamic>) {
-  //       //   return RetailerDetailsDataModel.fromJson(response["data"]);
-  //       // } else {
-  //       //   AppPrint.appError(
-  //       //     "getSingleRetailer: Unexpected data format - ${response["data"].runtimeType}",
-  //       //   );
-  //       //   return null;
-  //       // }
-  //     } else {
-  //       AppPrint.appError("SingleUser response is null");
-  //     }
-  //   } catch (e) {
-  //     AppPrint.appError(e, title: "getSingleRetailer");
-  //   }
-  //   return null;
-  // }
+  
 
   Future<bool> createRetailer({
     required String salesRepId,

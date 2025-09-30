@@ -10,6 +10,13 @@ class LoyeltyController extends GetxController {
 
   LoyeltyRepository loyeltyRepository = LoyeltyRepository.instance;
 
+  int remainingToTarget({required int totalSpend, required int target}) {
+    int remaining = target - totalSpend;
+    // Jodi totalSpend target er besi hoy, baki 0 hobe
+    if (remaining < 0) return 0;
+    return remaining;
+  }
+
   String getStatus({
     required int target,
     required int totalSpend,
@@ -23,7 +30,6 @@ class LoyeltyController extends GetxController {
     // target <= totalSpend হলে Available
     return "Available";
   }
-
 
   int calculatePercentage({double? current, double? target}) {
     double percentage = 0;
@@ -69,6 +75,23 @@ class LoyeltyController extends GetxController {
     } finally {
       isLoading.value = false;
       update(); // Trigger UI rebuild for GetBuilder widgets
+    }
+  }
+
+  Future<void> redeemProduct({required String retailerId}) async {
+    try {
+      var response = await loyeltyRepository.redeemLoyelty(
+        retailerId: retailerId,
+      );
+
+      if (response) {
+        Get.snackbar("Success", "Reward redeemed successfully");
+        getLoyeltyModelData();
+      } else {
+        Get.snackbar("Error", "Failed to redeem reward");
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "redeemProduct");
     }
   }
 

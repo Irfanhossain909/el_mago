@@ -51,4 +51,19 @@ class LoyeltyRepository {
       return null;
     }
   }
+
+  Future<bool> redeemLoyelty({required String retailerId}) async {
+    var url = "${AppApiEndPoint.instance.redeemProducts}/$retailerId";
+    try {
+      var response = await apiServices.apiPostServices(url: url);
+      if (response.status == 200 && response != null) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      AppPrint.appError(e, title: "redeemLoyelty");
+    }
+    return false;
+  }
 }
