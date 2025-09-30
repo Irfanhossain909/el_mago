@@ -91,8 +91,7 @@ class RetailerMySubscriptionScreen extends StatelessWidget {
                     ],
                   ),
 
-                  Obx(() {
-                    return SizedBox(
+                  SizedBox(
                       height: AppSize.size.height * 0.7,
                       child: ListView.builder(
                         padding: EdgeInsets.only(
@@ -132,8 +131,7 @@ class RetailerMySubscriptionScreen extends StatelessWidget {
                           );
                         },
                       ),
-                    );
-                  }),
+                    ),
                 ],
               ),
             ),
