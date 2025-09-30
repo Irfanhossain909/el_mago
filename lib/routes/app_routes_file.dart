@@ -109,7 +109,7 @@ List<GetPage> appRootRoutesFile = <GetPage>[
   GetPage(
     name: AppRoutes.instance.termScreen,
     binding: AppBinding(),
-    page: () => const TermsScreen(),
+    page: () =>  TermsScreen(),
   ),
   GetPage(
     name: AppRoutes.instance.privicyScreen,
