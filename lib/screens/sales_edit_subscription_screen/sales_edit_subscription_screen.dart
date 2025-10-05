@@ -3,9 +3,9 @@ import 'package:el_mago/models/sub_model/sub_model.dart';
 import 'package:el_mago/screens/sales_edit_subscription_screen/controller/sales_subscription_edit_controller.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:el_mago/widgets/app_button/app_button.dart';
-import 'package:el_mago/widgets/app_dropdown/custom_dropdown.dart';
 import 'package:el_mago/widgets/app_dropdown/custom_dropdown_with_map.dart';
 import 'package:el_mago/widgets/app_input/app_input_widget_two.dart';
+import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:el_mago/widgets/app_text/app_text.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +37,7 @@ class SalesEditSubscriptionScreen extends StatelessWidget {
                     ),
                   ),
                   CustomDropdownWithMap(
+                    // ignore: invalid_use_of_protected_member
                     items: getMap(controller.subTypeList.value),
                     selectedValue: 0,
                     hint: 'subscription',
@@ -109,7 +110,7 @@ class SalesEditSubscriptionScreen extends StatelessWidget {
 
   Map<int, String> getMap(List<SubModelData> models) {
     final list = models.map((e) {
-      print(e.subscription);
+      AppPrint.appPrint(e.subscription);
       int index = models.indexOf(e);
       return MapEntry(index, e.subscription ?? '');
     });

@@ -145,6 +145,7 @@ class _AppInputWidgetTwoState extends State<AppInputWidgetTwo> {
                 if (text.length >= 2) {
                   formatted = text.substring(0, 2);
                   if (text.length > 2) {
+                    // ignore: prefer_interpolation_to_compose_strings
                     formatted += '/' + text.substring(2);
                   }
                 } else {

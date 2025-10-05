@@ -1,5 +1,6 @@
 import 'package:el_mago/models/retailer_order/retailer_order_model.dart';
 import 'package:el_mago/services/repository/retailer_order_repository.dart';
+import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:get/get.dart';
 
 class RetailerOrderDetailsController extends GetxController {
@@ -22,7 +23,7 @@ class RetailerOrderDetailsController extends GetxController {
     if (orderId.isNotEmpty) {
       fetchOrderDetails(orderId);
     } else {
-      print('No order ID provided');
+      AppPrint.appPrint('No order ID provided');
       isLoading(false);
     }
   }
@@ -30,16 +31,16 @@ class RetailerOrderDetailsController extends GetxController {
   void fetchOrderDetails(String orderId) async {
     try {
       isLoading(true);
-      print('Fetching order details for ID: $orderId');
+      AppPrint.appPrint('Fetching order details for ID: $orderId');
       final orderData = await _repository.getSingleRetailerOrder(orderId);
       if (orderData != null) {
         order.value = orderData;
-        print('Order details fetched successfully: ${orderData.orderId}');
+        AppPrint.appPrint('Order details fetched successfully: ${orderData.orderId}');
       } else {
-        print('No order data received');
+        AppPrint.appPrint('No order data received');
       }
     } catch (e) {
-      print('Error fetching order details: $e');
+      AppPrint.appPrint('Error fetching order details: $e');
     } finally {
       isLoading(false);
     }

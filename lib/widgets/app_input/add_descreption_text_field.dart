@@ -32,7 +32,7 @@ class AppDescriptionTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     final outlineBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(8),
-      borderSide: BorderSide(color: AppColor.black.withOpacity(0.5)),
+      borderSide: BorderSide(color: AppColor.black.withValues(alpha: .5)),
 
       // No border color
     );

@@ -1,27 +1,20 @@
 import 'package:get/get.dart';
-import '../../../const/app_api_end_point.dart';
-import '../../../models/legal_document_model/legal_document_model.dart';
-import '../../../services/repository/commonRepository.dart';
+import '../../../services/repository/common_repository.dart';
 import '../../../widgets/app_log/error_log.dart';
-
 
 class TermsAndConditionsController extends GetxController {
   final CommonRepository commonRepository = CommonRepository();
   // final args = Get.arguments;
 
-  // Observable for the complete terms and conditions model
-  var termsConditions = TermsAndConditionsModel(
-    id: '',
-    type: '',
-    content: '',
-
-  ).obs;
-
   var isLoading = false.obs;
   var errorMessage = ''.obs;
 
+  String? tarms;
+  String? value;
+
   @override
   void onInit() {
+    value = Get.arguments['value'];
     super.onInit();
     loadData();
   }
@@ -31,9 +24,11 @@ class TermsAndConditionsController extends GetxController {
       isLoading(true);
       errorMessage('');
 
-      final response = await commonRepository.fetchDisclaimerData(url: AppApiEndPoint.instance.termsAndConditions );
+      final response = await commonRepository.fetchDisclaimerData(
+        value: value ?? "",
+      );
       if (response != null) {
-        termsConditions.value = response.data;
+        tarms = response;
         errorMessage('');
       } else {
         errorMessage('No content available');
@@ -50,9 +45,4 @@ class TermsAndConditionsController extends GetxController {
   void refreshData() {
     loadData();
   }
-
-  // Getter methods for easy access
-  String get content => termsConditions.value.content;
-  String get type => termsConditions.value.type;
-  DateTime? get lastUpdated => termsConditions.value.updatedAt;
 }

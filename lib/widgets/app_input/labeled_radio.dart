@@ -30,7 +30,9 @@ class LabeledRadio<T> extends StatelessWidget {
             groupValue: groupValue,
             onChanged: onChanged,
             activeColor: AppColor.white,
+            // ignore: deprecated_member_use
             fillColor: MaterialStateProperty.resolveWith<Color>((states) {
+              // ignore: deprecated_member_use
               if (states.contains(MaterialState.selected)) {
                 return AppColor.button;
               }

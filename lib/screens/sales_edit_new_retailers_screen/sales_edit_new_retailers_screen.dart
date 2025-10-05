@@ -100,6 +100,7 @@ class SalesEditNewRetailersScreen extends StatelessWidget {
                               controller: controller.cvcController,
                               keyboardType: TextInputType.number,
                               hintText: "CVC",
+                              cvvLength: 4,
                             ),
                           ),
                         ],

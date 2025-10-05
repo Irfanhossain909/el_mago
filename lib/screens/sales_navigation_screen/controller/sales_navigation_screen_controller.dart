@@ -24,9 +24,5 @@ class SalesNavigationScreenController extends GetxController {
     selectedIndex.value = index;
   }
 
-  @override
-  void onInit() {
-    
-    super.onInit();
-  }
+  
 }

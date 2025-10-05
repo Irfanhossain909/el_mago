@@ -32,7 +32,7 @@ class SalesSelectExtraboxScreen extends StatelessWidget {
                     () => controller.isLoadingSubscription.value
                         ? Container(
                             decoration: BoxDecoration(
-                              color: Colors.blue.withOpacity(0.1),
+                              color: Colors.blue.withValues(alpha: .1),
                               border: Border.all(
                                 color: Colors.blue,
                                 width: 0.5,
@@ -46,7 +46,7 @@ class SalesSelectExtraboxScreen extends StatelessWidget {
                           )
                         : Container(
                             decoration: BoxDecoration(
-                              color: Colors.blue.withOpacity(0.1),
+                              color: Colors.blue.withValues(alpha: .1),
                               border: Border.all(
                                 color: Colors.blue,
                                 width: 0.5,
@@ -213,7 +213,7 @@ class SalesExtraBoxCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: isSelected ? Colors.blue.withOpacity(0.1) : Colors.white,
+        color: isSelected ? Colors.blue.withValues(alpha: .1) : Colors.white,
         border: Border.all(
           color: isSelected ? Colors.blue : Colors.grey.shade300,
         ),
@@ -268,10 +268,10 @@ class SalesSelectedProductCard extends StatelessWidget {
   final SalesSelectExtraboxScreenController controller;
 
   const SalesSelectedProductCard({
-    Key? key,
+    super.key,
     required this.cartItem,
     required this.controller,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -284,7 +284,7 @@ class SalesSelectedProductCard extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade200),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withValues(alpha: .1),
             spreadRadius: 1,
             blurRadius: 5,
             offset: const Offset(0, 3),
@@ -385,8 +385,7 @@ class SalesSelectedProductCard extends StatelessWidget {
 class SalesBottomSummaryBar extends StatelessWidget {
   final SalesSelectExtraboxScreenController controller;
 
-  const SalesBottomSummaryBar({Key? key, required this.controller})
-    : super(key: key);
+  const SalesBottomSummaryBar({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {

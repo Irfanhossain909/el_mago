@@ -6,6 +6,7 @@ import 'package:el_mago/services/api/get_storage_services.dart';
 import 'package:el_mago/services/repository/order_repository.dart';
 import 'package:el_mago/services/repository/profile_repository.dart';
 import 'package:el_mago/services/repository/rewards_repository.dart';
+import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -64,7 +65,7 @@ class RetailerShoppingCartController extends GetxController {
         availableRewards.clear();
       }
     } catch (e) {
-      print('Error fetching rewards: $e');
+      AppPrint.appPrint('Error fetching rewards: $e');
       availableRewards.clear();
     } finally {
       isLoadingRewards(false);
@@ -81,7 +82,7 @@ class RetailerShoppingCartController extends GetxController {
         await _storageServices.setUID(profileData.id!);
       }
     } catch (e) {
-      print('Error fetching profile: $e');
+      AppPrint.appPrint('Error fetching profile: $e');
     }
   }
 

@@ -104,6 +104,7 @@ class SalesAddRetailersScreen extends StatelessWidget {
                               keyboardType: TextInputType.phone,
                               hintText: "123",
                               controller: controller.cvcController,
+                              cvvLength: 4,
                               isCvvField: true, // 3-digit only
                             ),
                           ),

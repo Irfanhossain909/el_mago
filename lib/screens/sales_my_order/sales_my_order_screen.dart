@@ -105,7 +105,7 @@ class SalesViewOrderCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.width(value: 16)),
-          border: Border.all(color: AppColor.black.withOpacity(0.1)),
+          border: Border.all(color: AppColor.black.withValues(alpha: .1)),
         ),
         padding: EdgeInsets.symmetric(
           horizontal: AppSize.width(value: 16),
