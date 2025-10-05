@@ -48,6 +48,8 @@ class AppApiEndPoint {
   final String getMyOrdersRetailer = "/retailer/dashboard/orders";
   final String getRetailerDashboardSummary = "/retailer/dashboard/summary";
   final String getRetailerSubscription = "/retailer/subscription/";
+  String editRetailerSubscription(String id) =>
+      "/retailer/subscription/update/$id";
   final String getCurrentSubscription = "/retailer/subscription/current";
   final String getMyRewards = "/retailer/loyalty/my-reward";
   final String loyelty = "/retailer/loyalty";
@@ -58,9 +60,9 @@ class AppApiEndPoint {
 
   final String refreshToken = "/auth/refresh-token";
   final String user = "/user";
-  final String privacyPolicy = "/api/v1/admin/settings?key=privacyPolicy";
-  final String termsAndConditions = "/others/terms-and-conditions";
-  final String faq = "/others/faq";
+  final String privacyPolicy = "/admin/settings?key=privacyPolicy";
+  final String termsAndConditions = "/admin/settings?key=";
+  // final String faq = "/others/faq";
   final String deleteAccount = "/auth/delete-account";
 
   ////////////////////// auth

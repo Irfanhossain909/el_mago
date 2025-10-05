@@ -10,7 +10,6 @@ import 'package:el_mago/widgets/app_text/app_text.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart'; // Add this import
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:get/get.dart';
 
 class SalesCommisionBreakdownScreen extends StatelessWidget {
@@ -72,7 +71,7 @@ class SalesCommisionBreakdownScreen extends StatelessWidget {
                                         () => AppText(
                                           data: controller.isLoading.value
                                               ? "Loading..."
-                                              : "\$${controller.salesCommitionBreackdown.value}",
+                                              : "\$${double.tryParse(controller.salesCommitionBreackdown.value.toString())?.toStringAsFixed(2) ?? '0'}",
                                           color: AppColor.white,
                                           fontWeight: FontWeight.w600,
                                           fontSize: AppSize.width(value: 16),
@@ -86,6 +85,29 @@ class SalesCommisionBreakdownScreen extends StatelessWidget {
                                       ),
                                     ],
                                   ),
+                                  // Column(
+                                  //   spacing: AppSize.width(value: 8),
+                                  //   crossAxisAlignment:
+                                  //       CrossAxisAlignment.start,
+                                  //   children: [
+                                  //     Obx(
+                                  //       () => AppText(
+                                  //         data: controller.isLoading.value
+                                  //             ? "Loading..."
+                                  //             : "\$${controller.salesCommitionBreackdown.value.toStringAsFixed(0)}",
+                                  //         color: AppColor.white,
+                                  //         fontWeight: FontWeight.w600,
+                                  //         fontSize: AppSize.width(value: 16),
+                                  //       ),
+                                  //     ),
+                                  //     AppText(
+                                  //       data: "Total Commission Earned",
+                                  //       fontWeight: FontWeight.w500,
+                                  //       color: AppColor.white,
+                                  //       fontSize: AppSize.width(value: 12),
+                                  //     ),
+                                  //   ],
+                                  // ),
                                 ],
                               ),
                             ),

@@ -247,7 +247,7 @@ class RetailerShoppingCart extends StatelessWidget {
                                   Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(9),
-                                      color: Colors.green.withOpacity(0.2),
+                                      color: Colors.green.withValues(alpha: .2),
                                     ),
                                     padding: EdgeInsets.all(
                                       AppSize.width(value: 12),

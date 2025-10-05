@@ -26,8 +26,6 @@ class TermsScreen extends StatelessWidget {
 }
 */
 
-
-
 class TermsScreen extends StatelessWidget {
   TermsScreen({super.key});
 
@@ -37,17 +35,18 @@ class TermsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final name = Get.arguments['pageTitle'];
     return Scaffold(
-      appBar: CustomAppbar(title: "Terms & conditions"),
+      appBar: CustomAppbar(title: name),
 
       body: Padding(
         padding: EdgeInsets.all(AppSize.width(value: 16)),
-        child:Obx(() {
+        child: Obx(() {
           if (controller.isLoading.value) {
             return Center(child: CircularProgressIndicator());
           }
 
-          if (controller.errorMessage.value.isNotEmpty) {
+          if (controller.tarms!.isEmpty) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +55,6 @@ class TermsScreen extends StatelessWidget {
                     width: AppSize.size.width * 0.6,
                     path: AssetsPath.termsImg,
                   ),
-
                 ],
               ),
             );
@@ -65,7 +63,7 @@ class TermsScreen extends StatelessWidget {
           return SingleChildScrollView(
             padding: EdgeInsets.all(16),
             child: Html(
-              data: controller.content,
+              data: controller.tarms,
               // You'll need flutter_html package for this
               // Or use Text widget if you want plain text
             ),
@@ -75,5 +73,3 @@ class TermsScreen extends StatelessWidget {
     );
   }
 }
-
-

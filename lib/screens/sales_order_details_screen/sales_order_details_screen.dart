@@ -87,7 +87,7 @@ class SalesOrderDetailsScreen extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.width(value: 12)),
-        border: Border.all(color: AppColor.black.withOpacity(0.2)),
+        border: Border.all(color: AppColor.black.withValues(alpha: .2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,7 +102,7 @@ class SalesOrderDetailsScreen extends StatelessWidget {
             ),
           ),
           Divider(
-            color: AppColor.black.withOpacity(0.1),
+            color: AppColor.black.withValues(alpha: .1),
             thickness: AppSize.width(value: 1),
           ),
           Padding(
@@ -118,7 +118,7 @@ class SalesOrderDetailsScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: Divider(
-              color: AppColor.black.withOpacity(0.2),
+              color: AppColor.black.withValues(alpha: .2),
               thickness: AppSize.width(value: 1),
             ),
           ),
@@ -133,7 +133,7 @@ class SalesOrderDetailsScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: Divider(
-              color: AppColor.black.withOpacity(0.2),
+              color: AppColor.black.withValues(alpha: .2),
               thickness: AppSize.width(value: 1),
             ),
           ),
@@ -154,7 +154,7 @@ class SalesOrderDetailsScreen extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.width(value: 12)),
-        border: Border.all(color: AppColor.black.withOpacity(0.2)),
+        border: Border.all(color: AppColor.black.withValues(alpha: .2)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,7 +180,7 @@ class SalesOrderDetailsScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: Divider(
-              color: AppColor.black.withOpacity(0.3),
+              color: AppColor.black.withValues(alpha: .3),
               thickness: AppSize.width(value: 1),
             ),
           ),
@@ -220,7 +220,7 @@ class SalesOrderDetailsScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0),
             child: Divider(
-              color: AppColor.black.withOpacity(0.3),
+              color: AppColor.black.withValues(alpha: .3),
               thickness: AppSize.width(value: 1),
             ),
           ),
@@ -258,7 +258,7 @@ class SalesOrderDetailsScreen extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         color: AppColor.white,
-        border: Border.all(color: AppColor.black.withOpacity(0.2)),
+        border: Border.all(color: AppColor.black.withValues(alpha: .2)),
       ),
       padding: EdgeInsets.all(AppSize.width(value: 12)),
       child: Column(

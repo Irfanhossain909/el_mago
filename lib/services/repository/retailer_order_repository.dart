@@ -199,7 +199,7 @@ class RetailerOrderRepository {
   Future<RetailerAnaliticsData?> getSingleUserAnalatics({
     required String retailerId,
   }) async {
-    print("retailerId : $retailerId");
+    AppPrint.appPrint("retailerId : $retailerId");
     var url =
         "${AppApiEndPoint.instance.getSingleRetailerDetailsAnalysis}$retailerId";
     try {

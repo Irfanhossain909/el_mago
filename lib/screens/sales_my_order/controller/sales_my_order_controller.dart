@@ -7,7 +7,7 @@ class SalesMyOrderController extends GetxController {
   final MyOrderRepository _repository = Get.find<MyOrderRepository>();
 
   // Holds the master list of orders fetched from the API
-  var _masterOrderList = <OrderModel>[].obs;
+  final _masterOrderList = <OrderModel>[].obs;
   // Holds the filtered list that is displayed in the UI
   var filteredOrderList = <OrderModel>[].obs;
 

@@ -1,17 +1,14 @@
 import 'package:el_mago/const/app_color.dart';
-import 'package:el_mago/const/assets_icons_path.dart';
 import 'package:el_mago/models/retailer_order/retailer_order_model.dart';
 import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/screens/retailer_my_order_screen/controller/retailer_my_order_screen_controller.dart';
 import 'package:el_mago/utils/app_size.dart';
-import 'package:el_mago/widgets/app_circle_card/circle_icon_with_bg.dart';
 import 'package:el_mago/widgets/app_input/app_input_widget_two.dart';
 import 'package:el_mago/widgets/app_log/gap.dart';
 import 'package:el_mago/widgets/app_text/app_text.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 
 class RetailerMyOrderScreen extends StatelessWidget {
   const RetailerMyOrderScreen({super.key});
@@ -25,12 +22,12 @@ class RetailerMyOrderScreen extends StatelessWidget {
       appBar: CustomAppbar(
         title: 'My Order',
         autoShowLeading: false,
-        action: [
-          Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-            child: CircleIconWithBg(onTap: () {}, path: AssetsPath.filter),
-          ),
-        ],
+        // action: [
+        //   Padding(
+        //     padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+        //     child: CircleIconWithBg(onTap: () {}, path: AssetsPath.filter),
+        //   ),
+        // ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -115,7 +112,7 @@ class ViewOrderCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.width(value: 16)),
-          border: Border.all(color: AppColor.black.withOpacity(0.1)),
+          border: Border.all(color: AppColor.black.withValues(alpha: .1)),
         ),
         padding: EdgeInsets.symmetric(
           horizontal: AppSize.width(value: 16),

@@ -36,10 +36,10 @@ class RetailerDashBoardController extends GetxController {
           .getRetailerDashboardSummary();
       if (response != null) {
         dashboardSummary.value = response;
-        print(
+        AppPrint.appPrint(
           "Dashboard Summary - Total Purchase Amount: ${response.totalPurchaseAmount}",
         );
-        print(
+        AppPrint.appPrint(
           "Dashboard Summary - Total Order Complete: ${response.totalOrderCompleate}",
         );
       }

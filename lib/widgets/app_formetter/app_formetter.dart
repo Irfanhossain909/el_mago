@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 
+// ignore: non_constant_identifier_names
 String formatTo_ddMMyyyy(dynamic input) {
   if (input == null) return '';
 

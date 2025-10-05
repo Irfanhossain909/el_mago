@@ -28,7 +28,7 @@ class SalesMyTerritory extends StatelessWidget {
                   children: [
                     Card(
                       elevation: 4,
-                      shadowColor: Colors.black.withOpacity(0.8),
+                      shadowColor: Colors.black.withValues(alpha: .8),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -81,7 +81,7 @@ class SalesMyTerritory extends StatelessWidget {
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: AppColor.blue,
                                       disabledBackgroundColor: AppColor.blue
-                                          .withOpacity(0.6),
+                                          .withValues(alpha: .6),
                                       padding: const EdgeInsets.symmetric(
                                         vertical: 12,
                                         horizontal: 32,
@@ -150,9 +150,9 @@ class _MultiSelectDropdown extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             margin: const EdgeInsets.only(bottom: 16),
             decoration: BoxDecoration(
-              color: AppColor.blue.withOpacity(0.05),
+              color: AppColor.blue.withValues(alpha: .05),
               borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: AppColor.blue.withOpacity(0.2)),
+              border: Border.all(color: AppColor.blue.withValues(alpha: .2)),
             ),
             child: Wrap(
               spacing: 8,
