@@ -85,26 +85,49 @@ class SalesAddRetailersScreen extends StatelessWidget {
                         keyboardType: TextInputType.number,
                         controller: controller.cardNumberController,
                         hintText: "Card Number",
+                        isCard: true,
                       ),
+
                       Row(
-                        spacing: AppSize.width(value: 12),
                         children: [
                           Expanded(
                             child: AppInputWidgetTwo(
                               keyboardType: TextInputType.phone,
+                              hintText: "MM/YY",
                               controller: controller.expiryController,
-                              hintText: "mm/yy",
+                              isExpiryField: true, // auto slash format
                             ),
                           ),
+                          const SizedBox(width: 12),
                           Expanded(
                             child: AppInputWidgetTwo(
                               keyboardType: TextInputType.phone,
+                              hintText: "123",
                               controller: controller.cvcController,
-                              hintText: "CVC",
+                              isCvvField: true, // 3-digit only
                             ),
                           ),
                         ],
                       ),
+                      // Row(
+                      //   spacing: AppSize.width(value: 12),
+                      //   children: [
+                      //     Expanded(
+                      //       child: AppInputWidgetTwo(
+                      //         keyboardType: TextInputType.phone,
+                      //         controller: controller.expiryController,
+                      //         hintText: "mm/yy",
+                      //       ),
+                      //     ),
+                      //     Expanded(
+                      //       child: AppInputWidgetTwo(
+                      //         keyboardType: TextInputType.phone,
+                      //         controller: controller.cvcController,
+                      //         hintText: "CVC",
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                       AppInputWidgetTwo(
                         keyboardType: TextInputType.phone,
                         controller: controller.zipController,
