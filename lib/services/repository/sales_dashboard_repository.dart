@@ -8,6 +8,7 @@ import 'package:el_mago/widgets/app_log/error_log.dart';
 class SalesDashboardRepository {
   final ApiServices _apiServices = ApiServices.instance;
 
+  // Original method for backward compatibility - returns all products
   Future<List<ProductModel>> getProducts() async {
     try {
       final endpoint = AppApiEndPoint.instance.getProducts;
@@ -25,6 +26,43 @@ class SalesDashboardRepository {
     } catch (e) {
       errorLog('Exception in getProducts', e.toString());
       return [];
+    }
+  }
+
+  // New paginated method for pagination support
+  Future<Map<String, dynamic>> getProductsPaginated({
+    int page = 1,
+    int limit = 10,
+  }) async {
+    try {
+      final endpoint = AppApiEndPoint.instance.getProducts;
+      final response = await _apiServices.apiGetServices(
+        endpoint,
+        queryParameters: {'page': page, 'limit': limit},
+      );
+
+      if (response != null &&
+          response['success'] == true &&
+          response['data'] != null) {
+        final List<dynamic> productData = response['data'];
+        final pagination = response['pagination'];
+
+        // Determine if there are more pages
+        final bool hasMore = pagination['page'] < pagination['totalPage'];
+
+        return {
+          'products': productData
+              .map((json) => ProductModel.fromJson(json))
+              .toList(),
+          'hasMore': hasMore,
+        };
+      } else {
+        errorLog('Failed to fetch products or data is null', '');
+        return {'products': [], 'hasMore': false};
+      }
+    } catch (e) {
+      errorLog('Exception in getProducts', e.toString());
+      return {'products': [], 'hasMore': false};
     }
   }
 

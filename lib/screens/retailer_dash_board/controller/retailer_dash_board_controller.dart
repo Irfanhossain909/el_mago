@@ -14,6 +14,9 @@ class RetailerDashBoardController extends GetxController {
   var getAllProducts = <ProductModel>[].obs;
   var dashboardSummary = Rx<RetailerDashboardSummaryModel?>(null);
   var isLoading = false.obs;
+  var isLoadingMore = false.obs;
+  var hasMore = true.obs;
+  var page = 1;
   ProfileController profileController = Get.find<ProfileController>();
   SalesDashboardRepository salesDashboardRepository =
       SalesDashboardRepository();
@@ -21,12 +24,47 @@ class RetailerDashBoardController extends GetxController {
 
   Future<void> fetchAllProducts() async {
     try {
-      var response = await salesDashboardRepository.getProducts();
-      if (response.isNotEmpty) {
-        getAllProducts.assignAll(response);
-      }
+      isLoading.value = true;
+      page = 1; // Reset page
+      hasMore.value = true; // Reset hasMore
+      var result = await salesDashboardRepository.getProductsPaginated(
+        page: page,
+      );
+
+      final List<ProductModel> products = List<ProductModel>.from(
+        result['products'],
+      );
+      getAllProducts.assignAll(products);
+      hasMore.value = result['hasMore'];
     } catch (e) {
       AppPrint.appError(e, title: "fetchAllProducts");
+      getAllProducts.clear();
+      hasMore.value = false;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> loadMoreProducts() async {
+    if (isLoadingMore.value || !hasMore.value) return;
+
+    try {
+      isLoadingMore.value = true;
+      page++;
+      var result = await salesDashboardRepository.getProductsPaginated(
+        page: page,
+      );
+
+      final List<ProductModel> products = List<ProductModel>.from(
+        result['products'],
+      );
+      getAllProducts.addAll(products);
+      hasMore.value = result['hasMore'];
+    } catch (e) {
+      AppPrint.appError(e, title: "loadMoreProducts");
+      hasMore.value = false;
+    } finally {
+      isLoadingMore.value = false;
     }
   }
 
@@ -50,12 +88,9 @@ class RetailerDashBoardController extends GetxController {
 
   Future<void> refreshAllData() async {
     try {
-      isLoading.value = true;
       await Future.wait([fetchAllProducts(), fetchDashboardSummary()]);
     } catch (e) {
       AppPrint.appError(e, title: "refreshAllData");
-    } finally {
-      isLoading.value = false;
     }
   }
 

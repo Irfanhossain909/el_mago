@@ -22,12 +22,53 @@ class SalesMyOrderScreen extends StatelessWidget {
       appBar: CustomAppbar(
         title: 'My Order',
         autoShowLeading: false,
-        // action: [
-        //   Padding(
-        //     padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-        //     child: CircleIconWithBg(onTap: () {}, path: AssetsPath.filter),
-        //   ),
-        // ],
+        action: [
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+            child: Obx(
+              () => Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColor.blue,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: controller.selectedFilter.value,
+                    icon: const Icon(
+                      Icons.filter_list,
+                      color: Colors.white,
+                      size: 16,
+                    ),
+                    dropdownColor: AppColor.blue,
+                    style: const TextStyle(color: Colors.white, fontSize: 12),
+                    items: controller.filterOptions.asMap().entries.map((
+                      entry,
+                    ) {
+                      int index = entry.key;
+                      String value = entry.value;
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          controller.filterLabels[index],
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        controller.onFilterChanged(newValue);
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -35,7 +76,7 @@ class SalesMyOrderScreen extends StatelessWidget {
           children: [
             AppInputWidgetTwo(
               controller: controller.searchController,
-              borderColor: AppColor.button,
+              borderColor: AppColor.blue,
               contentPadding: const EdgeInsets.symmetric(
                 vertical: 4.0,
                 horizontal: 12.0,
@@ -49,28 +90,36 @@ class SalesMyOrderScreen extends StatelessWidget {
                 }
                 if (controller.filteredOrderList.isEmpty) {
                   return RefreshIndicator(
-                    onRefresh: () async {
-                      controller.fetchMyOrders();
-                    },
-                    child: const SingleChildScrollView(
-                      physics: AlwaysScrollableScrollPhysics(),
-                      child: Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 100),
-                          child: Text("No orders found."),
-                        ),
-                      ),
+                    color: AppColor.blue,
+                    onRefresh: controller.refreshOrders,
+                    child: ListView(
+                      children: const [
+                        SizedBox(height: 200),
+                        Center(child: Text("No orders found.")),
+                      ],
                     ),
                   );
                 }
                 return RefreshIndicator(
-                  onRefresh: () async {
-                    controller.fetchMyOrders();
-                  },
+                  color: AppColor.blue,
+                  onRefresh: controller.refreshOrders,
                   child: ListView.builder(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    itemCount: controller.filteredOrderList.length,
+                    // Attach the scroll controller
+                    controller: controller.scrollController,
+                    // Adjust item count for loading indicator
+                    itemCount:
+                        controller.filteredOrderList.length +
+                        (controller.isLoadingMore.value ? 1 : 0),
                     itemBuilder: (context, index) {
+                      // Show loading indicator at the bottom
+                      if (index == controller.filteredOrderList.length) {
+                        return const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      }
                       final order = controller.filteredOrderList[index];
                       return SalesViewOrderCard(
                         order: order,

@@ -84,62 +84,98 @@ class SalesDashBoardScreen extends StatelessWidget {
           const SizedBox(width: 10),
         ],
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              AppInputWidgetTwo(
-                controller: controller.searchController,
-                borderColor: AppColor.button,
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 4.0,
-                  horizontal: 12.0,
+      body: RefreshIndicator(
+        onRefresh: () => controller.globalController.refreshProducts(),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                AppInputWidgetTwo(
+                  controller: controller.searchController,
+                  borderColor: AppColor.button,
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 4.0,
+                    horizontal: 12.0,
+                  ),
+                  hintText: "Search by Product Name",
                 ),
-                hintText: "Search by Product Name",
-              ),
-              const SizedBox(height: 10),
-              Expanded(
-                child: Obx(() {
-                  if (controller.globalController.isLoading.value) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
+                const SizedBox(height: 10),
+                Expanded(
+                  child: Obx(() {
+                    if (controller.globalController.isLoading.value &&
+                        controller.filteredProductList.isEmpty) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
 
-                  if (controller.filteredProductList.isEmpty) {
-                    return Center(
-                      child: CustomText(
-                        text: "No products found.",
-                        fontSize: 16,
+                    if (controller.filteredProductList.isEmpty) {
+                      return RefreshIndicator(
+                        onRefresh: () =>
+                            controller.globalController.refreshProducts(),
+                        child: ListView(
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                            ),
+                            Center(
+                              child: CustomText(
+                                text: "No products found.",
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+
+                    return NotificationListener<ScrollNotification>(
+                      onNotification: (ScrollNotification scrollInfo) {
+                        if (scrollInfo.metrics.pixels ==
+                                scrollInfo.metrics.maxScrollExtent &&
+                            controller.globalController.hasMore.value &&
+                            !controller.globalController.isLoadingMore.value &&
+                            controller.searchController.text.isEmpty) {
+                          controller.globalController.loadMoreProducts();
+                        }
+                        return false;
+                      },
+                      child: ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount:
+                            controller.filteredProductList.length +
+                            (controller.globalController.isLoadingMore.value
+                                ? 1
+                                : 0),
+                        itemBuilder: (context, index) {
+                          // Show loading indicator at the bottom
+                          if (index == controller.filteredProductList.length) {
+                            return const Center(
+                              child: Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          }
+
+                          final product = controller.filteredProductList[index];
+                          return ProductInformationCard(
+                            product: product,
+                            onTap: () {
+                              cartController.addProductToCart(product);
+                              showCustomToast(
+                                context,
+                                "${product.name} added to cart",
+                              );
+                            },
+                          );
+                        },
                       ),
                     );
-                  }
-
-                  return ListView.builder(
-                    itemCount: controller.filteredProductList.length,
-                    itemBuilder: (context, index) {
-                      final product = controller.filteredProductList[index];
-                      return ProductInformationCard(
-                        product: product,
-                        onTap: () {
-                          cartController.addProductToCart(product);
-                          showCustomToast(
-                            context,
-                            "${product.name} added to cart",
-                          );
-                          // Get.snackbar(
-                          //   duration: const Duration(seconds: 1),
-                          //   snackPosition: SnackPosition.TOP,
-                          //   "Product Added",
-                          //   "${product.name} has been added to cart",
-                          // );
-                        },
-                      );
-                    },
-                  );
-                }),
-              ),
-            ],
+                  }),
+                ),
+              ],
+            ),
           ),
         ),
       ),

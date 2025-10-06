@@ -17,6 +17,24 @@ class RetailerMyOrderController extends GetxController {
 
   var selectedOrderId = Rx<String?>(null);
 
+  // Filter state variables
+  var selectedFilter = 'allorder'.obs;
+  final List<String> filterOptions = [
+    'allorder',
+    'pending',
+    'processing',
+    'shipped',
+    'delivered',
+  ];
+
+  final List<String> filterLabels = [
+    'All Orders',
+    'Pending',
+    'Processing',
+    'Shipped',
+    'Delivered',
+  ];
+
   final searchController = TextEditingController();
   final scrollController = ScrollController();
 
@@ -51,7 +69,13 @@ class RetailerMyOrderController extends GetxController {
       isLoading(true);
       page = 1; // Reset page
       hasMore(true); // Reset hasMore
-      var result = await _repository.getRetailerOrders(page: page);
+      String? orderStatus = selectedFilter.value == 'allorder'
+          ? null
+          : selectedFilter.value;
+      var result = await _repository.getRetailerOrders(
+        page: page,
+        orderStatus: orderStatus,
+      );
 
       // Debug logging
       AppPrint.appPrint('Repository result: $result');
@@ -62,7 +86,8 @@ class RetailerMyOrderController extends GetxController {
         result['orders'],
       );
       _masterOrderList.assignAll(orders);
-      filteredOrderList.assignAll(orders);
+      // Apply search filter after fetching
+      filterOrders(searchController.text);
       hasMore(result['hasMore']);
     } catch (e) {
       AppPrint.appPrint('Error in fetchMyOrders: $e');
@@ -80,14 +105,21 @@ class RetailerMyOrderController extends GetxController {
     try {
       page = 1; // Reset page
       hasMore(true); // Reset hasMore
-      var result = await _repository.getRetailerOrders(page: page);
+      String? orderStatus = selectedFilter.value == 'allorder'
+          ? null
+          : selectedFilter.value;
+      var result = await _repository.getRetailerOrders(
+        page: page,
+        orderStatus: orderStatus,
+      );
 
       // FIX: The repository already returns RetailerOrderModel objects, no need to parse again
       final List<RetailerOrderModel> orders = List<RetailerOrderModel>.from(
         result['orders'],
       );
       _masterOrderList.assignAll(orders);
-      filteredOrderList.assignAll(orders);
+      // Re-apply search filter after refresh
+      filterOrders(searchController.text);
       hasMore(result['hasMore']);
     } catch (e) {
       AppPrint.appPrint('Error in refreshOrders: $e');
@@ -101,7 +133,13 @@ class RetailerMyOrderController extends GetxController {
     try {
       isLoadingMore(true);
       page++;
-      var result = await _repository.getRetailerOrders(page: page);
+      String? orderStatus = selectedFilter.value == 'allorder'
+          ? null
+          : selectedFilter.value;
+      var result = await _repository.getRetailerOrders(
+        page: page,
+        orderStatus: orderStatus,
+      );
       // FIX: The repository already returns RetailerOrderModel objects, no need to parse again
       final List<RetailerOrderModel> orders = List<RetailerOrderModel>.from(
         result['orders'],
@@ -136,5 +174,11 @@ class RetailerMyOrderController extends GetxController {
 
   void viewOrderDetails(String orderId) {
     selectedOrderId.value = orderId;
+  }
+
+  // Handle filter changes
+  void onFilterChanged(String filter) {
+    selectedFilter.value = filter;
+    fetchMyOrders(); // Refetch orders with the new filter
   }
 }

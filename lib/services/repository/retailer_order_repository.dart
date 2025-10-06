@@ -15,12 +15,19 @@ class RetailerOrderRepository {
   final ApiServices _apiServices = ApiServices.instance;
 
   // Fetches a paginated list of orders for the retailer
-  Future<Map<String, dynamic>> getRetailerOrders({int page = 1}) async {
+  Future<Map<String, dynamic>> getRetailerOrders({
+    int page = 1,
+    String? orderStatus,
+  }) async {
     try {
       final endpoint = AppApiEndPoint.instance.getMyOrdersRetailer;
+      Map<String, dynamic> queryParams = {'page': page, 'limit': 10};
+      if (orderStatus != null) {
+        queryParams['orderStatus'] = orderStatus;
+      }
       final response = await _apiServices.apiGetServices(
         endpoint,
-        queryParameters: {'page': page, 'limit': 10},
+        queryParameters: queryParams,
       );
 
       if (response != null &&

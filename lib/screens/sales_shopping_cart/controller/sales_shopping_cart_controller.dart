@@ -78,12 +78,33 @@ class SalesShoppingCartController extends GetxController {
 
       // Construct the products list for the request body
       final List<Map<String, dynamic>> productsPayload = cartItems.map((item) {
+        // Calculate back order if cart quantity exceeds available stock
+        int availableStock = item.product.quantity;
+        int cartQuantity = item.quantity.value;
+        int fulfillableQuantity;
+        int backOrderQuantity;
+
+        if (availableStock <= 0) {
+          // If stock is 0 or negative, entire order quantity is back order
+          fulfillableQuantity = 0;
+          backOrderQuantity = cartQuantity;
+        } else if (cartQuantity > availableStock) {
+          // If order quantity exceeds positive stock, fulfill from stock and rest is back order
+          fulfillableQuantity = availableStock;
+          backOrderQuantity = cartQuantity - availableStock;
+        } else {
+          // If stock is sufficient, fulfill entire order quantity
+          fulfillableQuantity = cartQuantity;
+          backOrderQuantity = 0;
+        }
+
         return {
           "productId": item.product.id,
           "name": item.product.name,
-          "quantity": item.quantity.value,
+          "quantity": fulfillableQuantity,
           "totalAmount": item.totalPrice,
           "price": item.product.price,
+          "backOrder": backOrderQuantity,
         };
       }).toList();
 
@@ -167,8 +188,6 @@ class SalesShoppingCartController extends GetxController {
       cartItems.add(CartItemModel(product: product));
     }
   }
-
-  
 
   void incrementQuantity(CartItemModel item) {
     item.quantity.value++;
