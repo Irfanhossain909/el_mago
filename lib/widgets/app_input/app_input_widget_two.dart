@@ -207,7 +207,7 @@ class _AppInputWidgetTwoState extends State<AppInputWidgetTwo> {
             minLines: widget.minLines,
             maxLines: widget.maxLines ?? 1,
             validator: widget.validator,
-            keyboardType: widget.keyboardType ?? TextInputType.number,
+            keyboardType: widget.keyboardType ?? TextInputType.text,
             textInputAction: widget.textInputAction,
             obscureText: widget.isPassWord && isShowPassWord,
             obscuringCharacter: "*",
