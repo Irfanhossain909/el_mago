@@ -155,7 +155,9 @@ class _AppInputWidgetTwoState extends State<AppInputWidgetTwo> {
                 if (formatted != widget.controller?.text) {
                   widget.controller?.value = TextEditingValue(
                     text: formatted,
-                    selection: TextSelection.collapsed(offset: formatted.length),
+                    selection: TextSelection.collapsed(
+                      offset: formatted.length,
+                    ),
                   );
                 }
               }
@@ -175,7 +177,9 @@ class _AppInputWidgetTwoState extends State<AppInputWidgetTwo> {
                 if (formatted != widget.controller?.text) {
                   widget.controller?.value = TextEditingValue(
                     text: formatted,
-                    selection: TextSelection.collapsed(offset: formatted.length),
+                    selection: TextSelection.collapsed(
+                      offset: formatted.length,
+                    ),
                   );
                 }
               }
@@ -188,14 +192,11 @@ class _AppInputWidgetTwoState extends State<AppInputWidgetTwo> {
             inputFormatters: [
               if (widget.isExpiryField)
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9/]')),
-              if (widget.isExpiryField)
-                LengthLimitingTextInputFormatter(5),
-              if (widget.isCvvField)
-                FilteringTextInputFormatter.digitsOnly,
+              if (widget.isExpiryField) LengthLimitingTextInputFormatter(5),
+              if (widget.isCvvField) FilteringTextInputFormatter.digitsOnly,
               if (widget.isCvvField)
                 LengthLimitingTextInputFormatter(widget.cvvLength),
-              if (widget.isCard)
-                FilteringTextInputFormatter.digitsOnly,
+              if (widget.isCard) FilteringTextInputFormatter.digitsOnly,
               if (widget.isCard)
                 LengthLimitingTextInputFormatter(19), // 16 digits + 3 spaces
             ],
@@ -206,13 +207,14 @@ class _AppInputWidgetTwoState extends State<AppInputWidgetTwo> {
             minLines: widget.minLines,
             maxLines: widget.maxLines ?? 1,
             validator: widget.validator,
-            keyboardType: TextInputType.number,
+            keyboardType: widget.keyboardType ?? TextInputType.number,
             textInputAction: widget.textInputAction,
             obscureText: widget.isPassWord && isShowPassWord,
             obscuringCharacter: "*",
             textAlignVertical:
                 widget.textAlignVertical ?? TextAlignVertical.center,
-            style: widget.style ??
+            style:
+                widget.style ??
                 TextStyle(
                   height: 2,
                   fontFamily: AppConst.fontFamily1,
@@ -222,11 +224,12 @@ class _AppInputWidgetTwoState extends State<AppInputWidgetTwo> {
             decoration: InputDecoration(
               hintText: widget.hintText,
               hintStyle: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    color: widget.hintColor ?? Colors.black.withValues(alpha: .5),
-                  ),
+                color: widget.hintColor ?? Colors.black.withValues(alpha: .5),
+              ),
               filled: widget.filled,
               fillColor: widget.fillColor ?? Colors.white,
-              contentPadding: widget.contentPadding ??
+              contentPadding:
+                  widget.contentPadding ??
                   const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
               prefixIcon: widget.prefix != null
                   ? Padding(
@@ -280,6 +283,3 @@ class _AppInputWidgetTwoState extends State<AppInputWidgetTwo> {
     );
   }
 }
-
-
-
