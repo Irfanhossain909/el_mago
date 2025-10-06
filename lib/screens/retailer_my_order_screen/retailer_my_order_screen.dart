@@ -22,12 +22,53 @@ class RetailerMyOrderScreen extends StatelessWidget {
       appBar: CustomAppbar(
         title: 'My Order',
         autoShowLeading: false,
-        // action: [
-        //   Padding(
-        //     padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-        //     child: CircleIconWithBg(onTap: () {}, path: AssetsPath.filter),
-        //   ),
-        // ],
+        action: [
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+            child: Obx(
+              () => Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColor.blue,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    value: controller.selectedFilter.value,
+                    icon: const Icon(
+                      Icons.filter_list,
+                      color: Colors.white,
+                      size: 16,
+                    ),
+                    dropdownColor: AppColor.blue,
+                    style: const TextStyle(color: Colors.white, fontSize: 12),
+                    items: controller.filterOptions.asMap().entries.map((
+                      entry,
+                    ) {
+                      int index = entry.key;
+                      String value = entry.value;
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          controller.filterLabels[index],
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        controller.onFilterChanged(newValue);
+                      }
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -35,7 +76,7 @@ class RetailerMyOrderScreen extends StatelessWidget {
           children: [
             AppInputWidgetTwo(
               controller: controller.searchController,
-              borderColor: AppColor.button,
+              borderColor: AppColor.blue,
               contentPadding: const EdgeInsets.symmetric(
                 vertical: 4.0,
                 horizontal: 12.0,
