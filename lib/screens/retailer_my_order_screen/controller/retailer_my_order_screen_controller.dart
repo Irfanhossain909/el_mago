@@ -86,7 +86,8 @@ class RetailerMyOrderController extends GetxController {
         result['orders'],
       );
       _masterOrderList.assignAll(orders);
-      filteredOrderList.assignAll(orders);
+      // Apply search filter after fetching
+      filterOrders(searchController.text);
       hasMore(result['hasMore']);
     } catch (e) {
       AppPrint.appPrint('Error in fetchMyOrders: $e');
@@ -117,7 +118,8 @@ class RetailerMyOrderController extends GetxController {
         result['orders'],
       );
       _masterOrderList.assignAll(orders);
-      filteredOrderList.assignAll(orders);
+      // Re-apply search filter after refresh
+      filterOrders(searchController.text);
       hasMore(result['hasMore']);
     } catch (e) {
       AppPrint.appPrint('Error in refreshOrders: $e');

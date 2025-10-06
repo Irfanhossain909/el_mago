@@ -90,6 +90,7 @@ class RetailerMyOrderScreen extends StatelessWidget {
                 }
                 if (controller.filteredOrderList.isEmpty) {
                   return RefreshIndicator(
+                    color: AppColor.blue,
                     onRefresh: controller.refreshOrders,
                     child: ListView(
                       children: const [
@@ -100,6 +101,7 @@ class RetailerMyOrderScreen extends StatelessWidget {
                   );
                 }
                 return RefreshIndicator(
+                  color: AppColor.blue,
                   onRefresh: controller.refreshOrders,
                   child: ListView.builder(
                     // Attach the scroll controller
