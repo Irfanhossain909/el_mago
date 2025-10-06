@@ -70,7 +70,6 @@ class VerifyOtpController extends GetxController {
           Get.offAllNamed(AppRoutes.instance.salesNavigationScreen);
           Get.snackbar("Success", "You are a sales");
         }
-        Get.snackbar("Successsfull !!!", "");
       } else {
         isLoading.value = false;
         AppPrint.appPrint("forget password otp verify response false");

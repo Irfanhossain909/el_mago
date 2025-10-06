@@ -66,62 +66,94 @@ class RetailerDashBoard extends StatelessWidget {
         onRefresh: () => controller.refreshAllData(),
         child: Padding(
           padding: EdgeInsets.all(AppSize.width(value: 16)),
-          child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Column(
-              children: [
-                Row(
-                  spacing: AppSize.width(value: 12),
-                  children: [
-                    Expanded(
-                      child: Obx(() {
-                        final summary = controller.dashboardSummary.value;
-                        return RetailerDataCard(
-                          path: AssetsPath.dollerColor,
-                          title: summary != null
-                              ? "\$${summary.totalPurchaseAmount}"
-                              : "\$0",
-                          subTitle: "Total Purchased",
-                        );
-                      }),
-                    ),
-                    Expanded(
-                      child: Obx(() {
-                        final summary = controller.dashboardSummary.value;
-                        return RetailerDataCard(
-                          path: AssetsPath.cartColor,
-                          title: summary != null
-                              ? "${summary.totalOrderCompleate}"
-                              : "0",
-                          subTitle: "Total Orders Placed",
-                        );
-                      }),
-                    ),
-                  ],
-                ),
-                Obx(() {
-                  return ListView.builder(
-                    padding: EdgeInsets.only(top: AppSize.size.height * 0.02),
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: controller.getAllProducts.length,
-                    itemBuilder: (context, index) {
-                      final product = controller.getAllProducts[index];
-                      return ProductInformationCard(
-                        onTap: () {
-                          cartController.addProductToCart(product);
-
-
-                          showCustomToast(context, "${product.name} added to cart");
-
-
-                        },
-                        product: product,
+          child: NotificationListener<ScrollNotification>(
+            onNotification: (ScrollNotification scrollInfo) {
+              if (scrollInfo.metrics.pixels ==
+                      scrollInfo.metrics.maxScrollExtent &&
+                  controller.hasMore.value &&
+                  !controller.isLoadingMore.value) {
+                controller.loadMoreProducts();
+              }
+              return false;
+            },
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                children: [
+                  Row(
+                    spacing: AppSize.width(value: 12),
+                    children: [
+                      Expanded(
+                        child: Obx(() {
+                          final summary = controller.dashboardSummary.value;
+                          return RetailerDataCard(
+                            path: AssetsPath.dollerColor,
+                            title: summary != null
+                                ? "\$${summary.totalPurchaseAmount}"
+                                : "\$0",
+                            subTitle: "Total Purchased",
+                          );
+                        }),
+                      ),
+                      Expanded(
+                        child: Obx(() {
+                          final summary = controller.dashboardSummary.value;
+                          return RetailerDataCard(
+                            path: AssetsPath.cartColor,
+                            title: summary != null
+                                ? "${summary.totalOrderCompleate}"
+                                : "0",
+                            subTitle: "Total Orders Placed",
+                          );
+                        }),
+                      ),
+                    ],
+                  ),
+                  Obx(() {
+                    if (controller.isLoading.value &&
+                        controller.getAllProducts.isEmpty) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          top: AppSize.size.height * 0.02,
+                        ),
+                        child: Center(child: CircularProgressIndicator()),
                       );
-                    },
-                  );
-                }),
-              ],
+                    }
+
+                    return ListView.builder(
+                      padding: EdgeInsets.only(top: AppSize.size.height * 0.02),
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount:
+                          controller.getAllProducts.length +
+                          (controller.isLoadingMore.value ? 1 : 0),
+                      itemBuilder: (context, index) {
+                        // Show loading indicator at the bottom
+                        if (index == controller.getAllProducts.length) {
+                          return Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        }
+
+                        final product = controller.getAllProducts[index];
+                        return ProductInformationCard(
+                          onTap: () {
+                            cartController.addProductToCart(product);
+                            showCustomToast(
+                              context,
+                              "${product.name} added to cart",
+                            );
+                          },
+                          product: product,
+                        );
+                      },
+                    );
+                  }),
+                ],
+              ),
             ),
           ),
         ),
@@ -188,10 +220,6 @@ class RetailerDataCard extends StatelessWidget {
   }
 }
 
-
-
-
-
 void showCustomToast(BuildContext context, String message) {
   FToast fToast = FToast();
   fToast.init(context);
@@ -206,7 +234,7 @@ void showCustomToast(BuildContext context, String message) {
           color: Colors.black26,
           blurRadius: 6,
           offset: const Offset(2, 2),
-        )
+        ),
       ],
     ),
     child: Row(
@@ -230,4 +258,3 @@ void showCustomToast(BuildContext context, String message) {
     toastDuration: const Duration(seconds: 1),
   );
 }
-
