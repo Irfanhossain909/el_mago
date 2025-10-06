@@ -1,5 +1,6 @@
 import 'package:el_mago/models/retailer_order/retailer_order_model.dart';
 import 'package:el_mago/services/repository/retailer_order_repository.dart';
+import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,7 +8,7 @@ class RetailerMyOrderController extends GetxController {
   final RetailerOrderRepository _repository = RetailerOrderRepository();
 
   // State variables for pagination
-  var _masterOrderList = <RetailerOrderModel>[].obs;
+  final _masterOrderList = <RetailerOrderModel>[].obs;
   var filteredOrderList = <RetailerOrderModel>[].obs;
   var isLoading = true.obs;
   var isLoadingMore = false.obs;
@@ -53,8 +54,8 @@ class RetailerMyOrderController extends GetxController {
       var result = await _repository.getRetailerOrders(page: page);
 
       // Debug logging
-      print('Repository result: $result');
-      print('Orders type: ${result['orders'].runtimeType}');
+      AppPrint.appPrint('Repository result: $result');
+      AppPrint.appPrint('Orders type: ${result['orders'].runtimeType}');
 
       // FIX: The repository already returns RetailerOrderModel objects, no need to parse again
       final List<RetailerOrderModel> orders = List<RetailerOrderModel>.from(
@@ -64,7 +65,7 @@ class RetailerMyOrderController extends GetxController {
       filteredOrderList.assignAll(orders);
       hasMore(result['hasMore']);
     } catch (e) {
-      print('Error in fetchMyOrders: $e');
+      AppPrint.appPrint('Error in fetchMyOrders: $e');
       // Handle error gracefully
       _masterOrderList.clear();
       filteredOrderList.clear();
@@ -89,7 +90,7 @@ class RetailerMyOrderController extends GetxController {
       filteredOrderList.assignAll(orders);
       hasMore(result['hasMore']);
     } catch (e) {
-      print('Error in refreshOrders: $e');
+      AppPrint.appPrint('Error in refreshOrders: $e');
       // Handle error gracefully - don't clear data on refresh error
     }
   }
@@ -109,7 +110,7 @@ class RetailerMyOrderController extends GetxController {
       filterOrders(searchController.text); // Re-apply filter
       hasMore(result['hasMore']);
     } catch (e) {
-      print('Error in loadMoreOrders: $e');
+      AppPrint.appPrint('Error in loadMoreOrders: $e');
       // Handle error gracefully
       hasMore(false);
     } finally {

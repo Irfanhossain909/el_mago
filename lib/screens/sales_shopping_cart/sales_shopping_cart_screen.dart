@@ -171,7 +171,7 @@ class SalesShoppingCartScreen extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
-          color: AppColor.white.withOpacity(0.2),
+          color: AppColor.white.withValues(alpha: .2),
           borderRadius: BorderRadius.circular(12),
         ),
         child: DropdownButtonHideUnderline(
@@ -216,7 +216,7 @@ class SalesShoppingCartScreen extends StatelessWidget {
       () => Container(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
-          color: AppColor.white.withOpacity(0.2),
+          color: AppColor.white.withValues(alpha: .2),
           borderRadius: BorderRadius.circular(12),
         ),
         child: DropdownButtonHideUnderline(
@@ -249,7 +249,7 @@ class SalesShoppingCartScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       decoration: BoxDecoration(
-        color: AppColor.white.withOpacity(0.2),
+        color: AppColor.white.withValues(alpha: .2),
         borderRadius: BorderRadius.circular(12),
       ),
       child: TextFormField(

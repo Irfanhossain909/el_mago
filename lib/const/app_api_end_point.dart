@@ -60,8 +60,8 @@ class AppApiEndPoint {
 
   final String refreshToken = "/auth/refresh-token";
   final String user = "/user";
-  final String privacyPolicy = "/api/v1/admin/settings?key=privacyPolicy";
-  final String termsAndConditions = "/settings/settings?key=termsOfservice";
+  final String privacyPolicy = "/admin/settings?key=privacyPolicy";
+  final String termsAndConditions = "/admin/settings?key=";
   // final String faq = "/others/faq";
   final String deleteAccount = "/auth/delete-account";
 

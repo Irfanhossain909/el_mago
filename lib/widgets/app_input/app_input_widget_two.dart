@@ -1,6 +1,7 @@
 import 'package:el_mago/const/app_const.dart';
 import 'package:el_mago/utils/app_size.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppInputWidgetTwo extends StatefulWidget {
   const AppInputWidgetTwo({
@@ -38,7 +39,13 @@ class AppInputWidgetTwo extends StatefulWidget {
     this.filled = true,
     this.borderColor,
     this.textColor,
-    this.hintColor, // Default value for filled is set to true
+    this.hintColor,
+
+    // ✅ New optional parameters
+    this.isExpiryField = false,
+    this.isCvvField = false,
+    this.cvvLength = 3,
+    this.isCard = false, // ✅ new card field flag
   });
 
   final String? hintText;
@@ -51,7 +58,7 @@ class AppInputWidgetTwo extends StatefulWidget {
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final Color? fillColor;
-  final bool filled; // Now it's optional with a default value of true
+  final bool filled;
   final double elevation;
   final Color? elevationColor;
   final Color? borderColor;
@@ -76,6 +83,12 @@ class AppInputWidgetTwo extends StatefulWidget {
   final String? title;
   final FormFieldValidator<String>? validator;
 
+  // ✅ New Fields
+  final bool isExpiryField;
+  final bool isCvvField;
+  final int cvvLength;
+  final bool isCard;
+
   @override
   State<AppInputWidgetTwo> createState() => _AppInputWidgetTwoState();
 }
@@ -88,7 +101,6 @@ class _AppInputWidgetTwoState extends State<AppInputWidgetTwo> {
     return Material(
       elevation: widget.elevation,
       shadowColor: widget.elevationColor,
-      borderOnForeground: false,
       color: Colors.transparent,
       borderRadius: BorderRadius.circular(
         AppSize.width(value: widget.borderRadius ?? 8.0),
@@ -119,27 +131,88 @@ class _AppInputWidgetTwoState extends State<AppInputWidgetTwo> {
                   ),
               ],
             ),
-          const SizedBox(height: 8), // Space between title and TextField
+          const SizedBox(height: 8),
+
           TextFormField(
             cursorColor: widget.textColor ?? Colors.black,
-            onChanged: widget.onChanged,
+            onChanged: (value) {
+              String formatted = value;
+
+              // ✅ Expiry formatting logic
+              if (widget.isExpiryField) {
+                final text = value.replaceAll('/', '');
+                formatted = '';
+                if (text.length >= 2) {
+                  formatted = text.substring(0, 2);
+                  if (text.length > 2) {
+                    // ignore: prefer_interpolation_to_compose_strings
+                    formatted += '/' + text.substring(2);
+                  }
+                } else {
+                  formatted = text;
+                }
+
+                if (formatted != widget.controller?.text) {
+                  widget.controller?.value = TextEditingValue(
+                    text: formatted,
+                    selection: TextSelection.collapsed(offset: formatted.length),
+                  );
+                }
+              }
+
+              // ✅ Card formatting logic
+              if (widget.isCard) {
+                final digitsOnly = value.replaceAll(' ', '');
+                final buffer = StringBuffer();
+                for (int i = 0; i < digitsOnly.length; i++) {
+                  buffer.write(digitsOnly[i]);
+                  if ((i + 1) % 4 == 0 && i + 1 != digitsOnly.length) {
+                    buffer.write(' ');
+                  }
+                }
+                formatted = buffer.toString();
+
+                if (formatted != widget.controller?.text) {
+                  widget.controller?.value = TextEditingValue(
+                    text: formatted,
+                    selection: TextSelection.collapsed(offset: formatted.length),
+                  );
+                }
+              }
+
+              // 🔹 Pass final value (without spaces if card)
+              widget.onChanged?.call(
+                widget.isCard ? value.replaceAll(' ', '') : value,
+              );
+            },
+            inputFormatters: [
+              if (widget.isExpiryField)
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9/]')),
+              if (widget.isExpiryField)
+                LengthLimitingTextInputFormatter(5),
+              if (widget.isCvvField)
+                FilteringTextInputFormatter.digitsOnly,
+              if (widget.isCvvField)
+                LengthLimitingTextInputFormatter(widget.cvvLength),
+              if (widget.isCard)
+                FilteringTextInputFormatter.digitsOnly,
+              if (widget.isCard)
+                LengthLimitingTextInputFormatter(19), // 16 digits + 3 spaces
+            ],
             onTap: widget.onTap,
             onFieldSubmitted: widget.onFieldSubmitted,
             readOnly: widget.readOnly,
             controller: widget.controller,
             minLines: widget.minLines,
             maxLines: widget.maxLines ?? 1,
-            validator: widget.validator, // Apply the validator
-            keyboardType: widget.isEmail
-                ? TextInputType.emailAddress
-                : widget.keyboardType,
+            validator: widget.validator,
+            keyboardType: TextInputType.number,
             textInputAction: widget.textInputAction,
             obscureText: widget.isPassWord && isShowPassWord,
             obscuringCharacter: "*",
             textAlignVertical:
                 widget.textAlignVertical ?? TextAlignVertical.center,
-            style:
-                widget.style ??
+            style: widget.style ??
                 TextStyle(
                   height: 2,
                   fontFamily: AppConst.fontFamily1,
@@ -149,12 +222,11 @@ class _AppInputWidgetTwoState extends State<AppInputWidgetTwo> {
             decoration: InputDecoration(
               hintText: widget.hintText,
               hintStyle: Theme.of(context).textTheme.titleSmall?.copyWith(
-                color: widget.hintColor ?? Colors.black.withValues(alpha: .5),
-              ),
-              filled: widget.filled, // Use the filled property
-              fillColor: widget.fillColor ?? Colors.white, // White fill color
-              contentPadding:
-                  widget.contentPadding ??
+                    color: widget.hintColor ?? Colors.black.withValues(alpha: .5),
+                  ),
+              filled: widget.filled,
+              fillColor: widget.fillColor ?? Colors.white,
+              contentPadding: widget.contentPadding ??
                   const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
               prefixIcon: widget.prefix != null
                   ? Padding(
@@ -177,12 +249,6 @@ class _AppInputWidgetTwoState extends State<AppInputWidgetTwo> {
                           : const Icon(Icons.visibility_off),
                     )
                   : widget.suffixIcon,
-              prefixIconConstraints:
-                  widget.prefixIconConstraints ??
-                  const BoxConstraints(maxWidth: 40, maxHeight: 40),
-              suffixIconConstraints:
-                  widget.suffixIconConstraints ??
-                  const BoxConstraints(maxWidth: 40, maxHeight: 40),
               border: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: widget.borderColor ?? Colors.black,
@@ -207,18 +273,6 @@ class _AppInputWidgetTwoState extends State<AppInputWidgetTwo> {
                   widget.borderRadius ?? 12.0,
                 ),
               ),
-              errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.red),
-                borderRadius: BorderRadius.circular(
-                  widget.borderRadius ?? 12.0,
-                ),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.red),
-                borderRadius: BorderRadius.circular(
-                  widget.borderRadius ?? 12.0,
-                ),
-              ),
             ),
           ),
         ],
@@ -226,3 +280,6 @@ class _AppInputWidgetTwoState extends State<AppInputWidgetTwo> {
     );
   }
 }
+
+
+

@@ -101,7 +101,7 @@ class _SalesSummaryCard extends StatelessWidget {
               SizedBox(height: AppSize.height(value: 4)),
               AppText(
                 data: year,
-                color: AppColor.white.withOpacity(0.8),
+                color: AppColor.white.withValues(alpha: .8),
                 fontSize: 14,
               ),
             ],
@@ -125,7 +125,7 @@ class _YearComparisonChartCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.15),
+            color: Colors.grey.withValues(alpha: .15),
             spreadRadius: 5,
             blurRadius: 10,
             offset: const Offset(0, 5),
@@ -197,12 +197,12 @@ class _YearComparisonChartCard extends StatelessWidget {
               children: [
                 _LegendItem(
                   color: const Color(0xFF82A5E7),
-                  text: "${controller.displayYear1}",
+                  text: controller.displayYear1,
                 ),
                 const SizedBox(width: 20),
                 _LegendItem(
                   color: const Color(0xFF86D5A2),
-                  text: "${controller.displayYear2}",
+                  text: controller.displayYear2,
                 ),
               ],
             ),

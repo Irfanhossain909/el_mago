@@ -1,5 +1,4 @@
 import 'package:el_mago/models/sub_model/sub_model.dart';
-import 'package:el_mago/services/repository/retailer_order_repository.dart';
 import 'package:el_mago/services/repository/subscription_repository.dart';
 import 'package:el_mago/widgets/app_log/app_print.dart';
 import 'package:flutter/widgets.dart';
@@ -35,6 +34,7 @@ class SalesSubscriptionEditController extends GetxController {
 
   addRetailer() async {
     if (selectedSubType >= subTypeList.length) return;
+    // ignore: invalid_use_of_protected_member
     final model = subTypeList.value[selectedSubType.value];
     if (model.subscription == null || model.tier == null) return;
     final isSuccess = await subscriptionRepository.updateCardInfoPro(

@@ -92,46 +92,46 @@ class RetailerMySubscriptionScreen extends StatelessWidget {
                   ),
 
                   SizedBox(
-                      height: AppSize.size.height * 0.7,
-                      child: ListView.builder(
-                        padding: EdgeInsets.only(
-                          top: AppSize.size.height * 0.002,
-                        ),
-                        scrollDirection: Axis.horizontal,
-                        itemCount: controller.subModelData.length,
-                        itemBuilder: (context, index) {
-                          final subModel = controller.subModelData[index];
-
-                          return SizedBox(
-                            width: AppSize.size.width * 0.9,
-                            child: SubcriptionCard(
-                              isActive:
-                                  controller
-                                          .retailerSelectExtraboxController
-                                          .currentSubscription
-                                          .value
-                                          ?.id ==
-                                      subModel.id
-                                  ? true
-                                  : false,
-                              title: subModel.subscription,
-                              title2: subModel.freeShipping,
-                              title3: subModel.noCreditCardFee,
-                              title4: subModel.exclusiveProducts,
-                              title5: subModel.limitedReleases,
-                              onTap: (isChecked, arg2) {
-                                Get.toNamed(
-                                  AppRoutes
-                                      .instance
-                                      .retailerComplateSubscriptionScreen,
-                                  arguments: {"arg1": subModel, "arg2": arg2},
-                                );
-                              },
-                            ),
-                          );
-                        },
+                    height: AppSize.size.height * 0.7,
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(
+                        top: AppSize.size.height * 0.002,
                       ),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: controller.subModelData.length,
+                      itemBuilder: (context, index) {
+                        final subModel = controller.subModelData[index];
+
+                        return SizedBox(
+                          width: AppSize.size.width * 0.9,
+                          child: SubcriptionCard(
+                            isActive:
+                                controller
+                                        .retailerSelectExtraboxController
+                                        .currentSubscription
+                                        .value
+                                        ?.id ==
+                                    subModel.id
+                                ? true
+                                : false,
+                            title: subModel.subscription,
+                            title2: subModel.freeShipping,
+                            title3: subModel.noCreditCardFee,
+                            title4: subModel.exclusiveProducts,
+                            title5: subModel.limitedReleases,
+                            onTap: (isChecked, arg2) {
+                              Get.toNamed(
+                                AppRoutes
+                                    .instance
+                                    .retailerComplateSubscriptionScreen,
+                                arguments: {"arg1": subModel, "arg2": arg2},
+                              );
+                            },
+                          ),
+                        );
+                      },
                     ),
+                  ),
                 ],
               ),
             ),
@@ -148,6 +148,7 @@ class SubcriptionCard extends StatefulWidget {
   final String? title3;
   final String? title4;
   final String? title5;
+  final VoidCallback? termsOnTap;
 
   /// এখানে bool peram পাঠানোর জন্য change করা হয়েছে
   final void Function(bool isChecked, String? arg2)? onTap;
@@ -163,6 +164,7 @@ class SubcriptionCard extends StatefulWidget {
     this.title5,
     this.onTap,
     this.isActive = false,
+    this.termsOnTap,
   });
 
   @override
@@ -389,7 +391,13 @@ class _SubcriptionCardState extends State<SubcriptionCard> {
                             Expanded(
                               child: GestureDetector(
                                 onTap: () {
-                                  // Navigate to terms and conditions screen
+                                  Get.toNamed(
+                                    AppRoutes.instance.termScreen,
+                                    arguments: {
+                                      "value": "packageService",
+                                      "pageTitle": "Payment Terms & Conditions",
+                                    },
+                                  );
                                 },
                                 child: RichText(
                                   text: TextSpan(

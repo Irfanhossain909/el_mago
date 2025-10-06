@@ -9,7 +9,6 @@ import 'package:el_mago/widgets/app_text/app_text.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_state.dart';
 
 class SalesEditNewRetailersScreen extends StatelessWidget {
   const SalesEditNewRetailersScreen({super.key});
@@ -101,6 +100,7 @@ class SalesEditNewRetailersScreen extends StatelessWidget {
                               controller: controller.cvcController,
                               keyboardType: TextInputType.number,
                               hintText: "CVC",
+                              cvvLength: 4,
                             ),
                           ),
                         ],
