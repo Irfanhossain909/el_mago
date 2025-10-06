@@ -240,8 +240,11 @@ class _YearComparisonChart extends StatelessWidget {
       if (data2[i] > maxValue) maxValue = data2[i];
     }
     // Add some padding to the max value, minimum 1000
-    double maxY = maxValue > 0 ? (maxValue * 1.2).ceilToDouble() : 4000;
+    double maxY = maxValue > 0 ? (maxValue).ceilToDouble() : 4000;
     if (maxY < 1000) maxY = 4000;
+    if (maxY % 2000 != 0) {
+      maxY += 2000 - (maxY % 2000);
+    }
 
     return BarChart(
       BarChartData(
