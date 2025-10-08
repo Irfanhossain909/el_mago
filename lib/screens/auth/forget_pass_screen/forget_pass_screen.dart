@@ -56,6 +56,7 @@ class ForgetPassScreen extends StatelessWidget {
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           key: controller.formKey,
                           child: AppInputWidgetTwo(
+                            keyboardType: TextInputType.emailAddress,
                             validator: controller.validateEmail,
                             controller: controller.emailController,
                             borderRadius: AppSize.width(value: 8),

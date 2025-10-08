@@ -114,13 +114,27 @@ class RetailerLoyeltyScreen extends StatelessWidget {
                               AppProgressLine(
                                 progressColor: AppColor.blue,
                                 height: 8,
-                                maxValue: 100,
-                                currentValue: 60,
+                                maxValue:
+                                    (controller
+                                                .loyeltyModelData
+                                                .value
+                                                ?.availableRewards
+                                                ?.first
+                                                .target ??
+                                            0.0)
+                                        .toDouble(),
+                                currentValue:
+                                    (controller
+                                                .loyeltyModelData
+                                                .value
+                                                ?.loyalty
+                                                ?.totalSpent ??
+                                            0.0)
+                                        .toDouble(),
                               ),
                               AppText(
                                 textAlign: TextAlign.left,
-                                data:
-                                    r"Spend $1,144 more to unlock this reward",
+                                data: "Spend  more to unlock this reward",
                                 fontSize: AppSize.width(value: 16),
                                 fontWeight: FontWeight.w600,
                                 color: AppColor.white,

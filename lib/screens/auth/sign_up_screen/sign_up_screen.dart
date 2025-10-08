@@ -60,7 +60,7 @@ class SignUpScreen extends StatelessWidget {
                           ),
                           Gap(height: AppSize.size.height * 0.02),
                           AppInputWidgetTwo(
-                             validator: controller.validateFirstName,
+                            validator: controller.validateFirstName,
                             controller: controller.fullNameController,
                             borderRadius: AppSize.width(value: 8),
                             contentPadding: EdgeInsets.symmetric(
@@ -70,6 +70,7 @@ class SignUpScreen extends StatelessWidget {
                           ),
                           AppInputWidgetTwo(
                             validator: controller.validateEmail,
+                            keyboardType: TextInputType.emailAddress,
 
                             controller: controller.emailController,
                             isEmail: true,
@@ -89,7 +90,9 @@ class SignUpScreen extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(
                                       AppSize.width(value: 12),
                                     ),
-                                    borderSide: BorderSide(color: AppColor.black),
+                                    borderSide: BorderSide(
+                                      color: AppColor.black,
+                                    ),
                                   ),
                                 ),
                                 controller.isLoading.value
@@ -98,7 +101,7 @@ class SignUpScreen extends StatelessWidget {
                               ],
                             );
                           }),
-                      
+
                           AppInputWidgetTwo(
                             validator: controller.validatePassword,
                             controller: controller.passwordController,
@@ -119,7 +122,7 @@ class SignUpScreen extends StatelessWidget {
                             isPassWord: true,
                             hintText: "Confirm Password",
                           ),
-                      
+
                           Gap(height: AppSize.width(value: 12)),
                           Obx(() {
                             final selected = controller.userRole.value;

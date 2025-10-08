@@ -46,7 +46,7 @@ class SignInScreen extends StatelessWidget {
                               ),
                             ),
                             Gap(height: AppSize.size.height * 0.009),
-                        
+
                             Padding(
                               padding: EdgeInsets.symmetric(
                                 horizontal: AppSize.size.width * 0.2,
@@ -62,6 +62,7 @@ class SignInScreen extends StatelessWidget {
                               ),
                             ),
                             AppInputWidgetTwo(
+                              keyboardType: TextInputType.emailAddress,
                               validator: controller.validateEmail,
                               controller: controller.emailController,
                               isEmail: true,
@@ -71,8 +72,9 @@ class SignInScreen extends StatelessWidget {
                               ),
                               hintText: "example@gmail.com",
                             ),
-                        
+
                             AppInputWidgetTwo(
+                              keyboardType: TextInputType.visiblePassword,
                               validator: controller.validatePassword,
                               controller: controller.passwordController,
                               borderRadius: AppSize.width(value: 8),
@@ -100,7 +102,6 @@ class SignInScreen extends StatelessWidget {
                             ),
                             GestureDetector(
                               onTap: () {
-                        
                                 AppPrint.appLog("Tap to Signin");
                                 controller.signin();
                               },
@@ -145,7 +146,9 @@ class SignInScreen extends StatelessWidget {
                                 Gap(width: AppSize.width(value: 4)),
                                 InkWell(
                                   onTap: () {
-                                    Get.offNamed(AppRoutes.instance.signupScreen);
+                                    Get.offNamed(
+                                      AppRoutes.instance.signupScreen,
+                                    );
                                   },
                                   child: AppText(
                                     data: "Sign Up",
