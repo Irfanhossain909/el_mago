@@ -60,12 +60,12 @@ class SalesAddRetailersScreen extends StatelessWidget {
 
                         title: "Shipping Address",
                         hintText: "Shipping Address",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          borderSide: BorderSide(
-                            color: AppColor.black.withValues(alpha: 0.8),
-                          ),
-                        ),
+                        // border: OutlineInputBorder(
+                        //   borderRadius: BorderRadius.circular(12),
+                        //   borderSide: BorderSide(
+                        //     color: AppColor.black.withValues(alpha: 0.8),
+                        //   ),
+                        // ),
                       ),
 
                       Padding(

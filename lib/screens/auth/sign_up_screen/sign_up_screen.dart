@@ -86,14 +86,14 @@ class SignUpScreen extends StatelessWidget {
                                 AppDescriptionTextField(
                                   controller: controller.addressController,
                                   hintText: "Enter Your Full Address",
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      AppSize.width(value: 12),
-                                    ),
-                                    borderSide: BorderSide(
-                                      color: AppColor.black,
-                                    ),
-                                  ),
+                                  // border: OutlineInputBorder(
+                                  //   borderRadius: BorderRadius.circular(
+                                  //     AppSize.width(value: 12),
+                                  //   ),
+                                  //   borderSide: BorderSide(
+                                  //     color: AppColor.black,
+                                  //   ),
+                                  // ),
                                 ),
                                 controller.isLoading.value
                                     ? Center(child: AppLoading())
