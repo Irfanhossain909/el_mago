@@ -46,28 +46,26 @@ class TermsScreen extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           }
 
-          if (controller.tarms!.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  AppImage(
-                    width: AppSize.size.width * 0.6,
-                    path: AssetsPath.termsImg,
+          return controller.tarms == null
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AppImage(
+                        width: AppSize.size.width * 0.6,
+                        path: AssetsPath.termsImg,
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            );
-          }
-
-          return SingleChildScrollView(
-            padding: EdgeInsets.all(16),
-            child: Html(
-              data: controller.tarms,
-              // You'll need flutter_html package for this
-              // Or use Text widget if you want plain text
-            ),
-          );
+                )
+              : SingleChildScrollView(
+                  padding: EdgeInsets.all(16),
+                  child: Html(
+                    data: controller.tarms,
+                    // You'll need flutter_html package for this
+                    // Or use Text widget if you want plain text
+                  ),
+                );
         }),
       ),
     );
