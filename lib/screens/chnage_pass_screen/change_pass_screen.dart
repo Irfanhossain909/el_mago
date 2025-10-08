@@ -19,7 +19,6 @@ class ChangePassScreen extends StatelessWidget {
       init: ChnagePasswordController(),
       builder: (controller) {
         return Scaffold(
-          resizeToAvoidBottomInset: false,
           bottomNavigationBar: SafeArea(
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -87,7 +86,8 @@ class ChangePassScreen extends StatelessWidget {
                                   );
                                 },
                                 isPassWord: true,
-                                controller: controller.confirmPasswordController,
+                                controller:
+                                    controller.confirmPasswordController,
                                 isOptional: true,
                                 title: "Confirm Password",
                                 hintText: "Enter Confirm Password",

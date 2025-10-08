@@ -96,9 +96,12 @@ class ProfileScreen extends StatelessWidget {
 
                 Container(
                   decoration: BoxDecoration(
+                    border: Border.all(
+                      color: AppColor.black.withValues(alpha: 0.3),
+                    ),
                     color: AppColor.white, // Background color of the container
                     borderRadius: BorderRadius.circular(
-                      AppSize.width(value: 8),
+                      AppSize.width(value: 12),
                     ), // Border radius
                   ),
                   padding: EdgeInsets.all(24),
@@ -148,7 +151,7 @@ class ProfileScreen extends StatelessWidget {
                       ProfileRow(
                         iconPath: AssetsPath.privicy,
                         onTap: () {
-                         Get.toNamed(
+                          Get.toNamed(
                             AppRoutes.instance.termScreen,
                             arguments: {
                               "value": "privacyPolicy",

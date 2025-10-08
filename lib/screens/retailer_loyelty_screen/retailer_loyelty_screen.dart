@@ -92,59 +92,97 @@ class RetailerLoyeltyScreen extends StatelessWidget {
                               ),
                               Gap(height: AppSize.size.height * 0.002),
 
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  AppText(
-                                    data: "Current Target: FREE BOXES",
-                                    fontSize: AppSize.width(value: 16),
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColor.white,
-                                  ),
-                                  AppText(
-                                    data:
-                                        "${controller.loyeltyModelData.value?.availableRewards?.first.target}",
-                                    fontSize: AppSize.width(value: 16),
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColor.white,
-                                  ),
-                                ],
-                              ),
-                              AppProgressLine(
-                                progressColor: AppColor.blue,
-                                height: 8,
-                                maxValue:
-                                    (controller
-                                                .loyeltyModelData
-                                                .value
-                                                ?.availableRewards
-                                                ?.first
-                                                .target ??
-                                            0.0)
-                                        .toDouble(),
-                                currentValue:
-                                    (controller
-                                                .loyeltyModelData
-                                                .value
-                                                ?.loyalty
-                                                ?.totalSpent ??
-                                            0.0)
-                                        .toDouble(),
-                              ),
-                              AppText(
-                                textAlign: TextAlign.left,
-                                data: "Spend  more to unlock this reward",
-                                fontSize: AppSize.width(value: 16),
-                                fontWeight: FontWeight.w600,
-                                color: AppColor.white,
-                              ),
+                              controller
+                                          .loyeltyModelData
+                                          .value
+                                          ?.availableRewards
+                                          ?.isEmpty ==
+                                      true
+                                  ? SizedBox()
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        AppText(
+                                          data: "Current Target: FREE BOXES",
+                                          fontSize: AppSize.width(value: 16),
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColor.white,
+                                        ),
+                                        AppText(
+                                          data:
+                                              "${controller.loyeltyModelData.value?.availableRewards?.first.target}",
+                                          fontSize: AppSize.width(value: 16),
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColor.white,
+                                        ),
+                                      ],
+                                    ),
+
+                              controller
+                                          .loyeltyModelData
+                                          .value
+                                          ?.availableRewards
+                                          ?.isEmpty ==
+                                      true
+                                  ? AppText(
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      fontSize: AppSize.width(value: 12),
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.w600,
+                                      data:
+                                          "🎉   All available reward unlocked! Keep shopping for future rewards.",
+                                    )
+                                  : SizedBox(),
+                              controller
+                                          .loyeltyModelData
+                                          .value
+                                          ?.availableRewards
+                                          ?.isEmpty ==
+                                      true
+                                  ? SizedBox()
+                                  : AppProgressLine(
+                                      progressColor: AppColor.blue,
+                                      height: 8,
+                                      maxValue:
+                                          (controller
+                                                      .loyeltyModelData
+                                                      .value
+                                                      ?.availableRewards
+                                                      ?.first
+                                                      .target ??
+                                                  0.0)
+                                              .toDouble(),
+                                      currentValue:
+                                          (controller
+                                                      .loyeltyModelData
+                                                      .value
+                                                      ?.loyalty
+                                                      ?.totalSpent ??
+                                                  0.0)
+                                              .toDouble(),
+                                    ),
+                              controller
+                                          .loyeltyModelData
+                                          .value
+                                          ?.availableRewards
+                                          ?.isEmpty ==
+                                      true
+                                  ? SizedBox()
+                                  : AppText(
+                                      textAlign: TextAlign.left,
+                                      data: "Spend  more to unlock this reward",
+                                      fontSize: AppSize.width(value: 16),
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColor.white,
+                                    ),
                               Gap(height: AppSize.size.height * 0.002),
                               AppText(
                                 data: "Member Since",
                                 fontSize: AppSize.width(value: 16),
                                 fontWeight: FontWeight.w400,
-                                color: AppColor.white,
+                                color: AppColor.white.withValues(alpha: 0.5),
                               ),
                               AppText(
                                 textAlign: TextAlign.left,

@@ -50,26 +50,72 @@ class AuthRepository {
 
   Future<bool> forgetEmailSend({required String email}) async {
     Map<String, String> body = {"email": email};
+
     try {
       var response = await nonAuthApi.sendRequest.post(
         AppApiEndPoint.instance.resendOtp,
         data: body,
       );
+
       if (response.statusCode == 200) {
         return true;
       }
+
       if (response.statusCode == 400) {
-        
         Get.snackbar(
-          "error",
+          "Error",
           "${response.data["message"] ?? "Something went wrong"}",
         );
       }
+    } on DioException catch (e) {
+      // 🔥 Dio specific error handle
+      if (e.response != null && e.response?.data != null) {
+        // Server response ase
+        Get.snackbar(
+          "Error",
+          "${e.response?.data["message"] ?? "Something went wrong"}",
+        );
+        AppPrint.appError(
+          e.response?.data,
+          title: "forgetEmailSend Response Error",
+        );
+      } else {
+        // Server theke kono response nai
+        Get.snackbar("Error", "Network error or server not responding");
+        AppPrint.appError(e, title: "forgetEmailSend DioException");
+      }
     } catch (e) {
-      AppPrint.appError(e, title: "forgetEmailSend");
+      // 🔹 Other unexpected errors
+      AppPrint.appError(e, title: "forgetEmailSend Unknown Error");
+      Get.snackbar("Error", "Unexpected error occurred");
     }
+
     return false;
   }
+
+  // Future<bool> forgetEmailSend({required String email}) async {
+  //   Map<String, String> body = {"email": email};
+  //   try {
+  //     var response = await nonAuthApi.sendRequest.post(
+  //       AppApiEndPoint.instance.resendOtp,
+  //       data: body,
+  //     );
+  //     if (response.statusCode == 200) {
+  //       return true;
+  //     }
+  //     if (response.statusCode == 400) {
+
+  //       Get.snackbar(
+  //         "error",
+  //         "${response.data["message"] ?? "Something went wrong"}",
+  //       );
+  //     }
+  //   } catch (e) {
+
+  //     AppPrint.appError(e, title: "forgetEmailSend");
+  //   }
+  //   return false;
+  // }
 
   Future<bool> signUp({
     required String name,
@@ -171,94 +217,6 @@ class AuthRepository {
     return false;
   }
 
-  // Future<dynamic> emailVerifyFormForgetPass({required String email, required String otp}) async {
-  //   Map<String, dynamic> body = {"email": email, "oneTimeCode": otp};
-  //   try {
-  //     var response = await nonAuthApi.sendRequest.post(AppApiEndPoint.instance.verifyOtp, data: body);
-  //     if (response.statusCode == 200 && response.data != null) {
-  //       String resendToken = response.data["data"]["resetToken"];
-  //       storageServices.setResetToken(resendToken);
-  //       AppPrint.apiResponse("Reset Tiken ${storageServices.getResetToken()}");
-  //       return true;
-  //     } else {
-  //       // Handle the error if the response or data is null
-  //       AppPrint.apiResponse("Error: Access Token not found!");
-  //     }
-
-  //     return false;
-  //   } catch (e) {
-  //     AppPrint.appError(e.toString(), title: "Email Verify");
-  //   }
-  //   return false;
-  // }
-
-  // Future<bool> forgetEmailSend({required String email}) async {
-  //   Map<String, String> body = {"email": email};
-  //   try {
-  //     var response = await nonAuthApi.sendRequest.post(AppApiEndPoint.instance.forgetPassword, data: body);
-  //     if (response.statusCode == 200) {
-  //       return true;
-  //     }
-  //   } catch (e) {
-  //     AppPrint.appError(e, title: "forgetEmailSend");
-  //   }
-  //   return false;
-  // }
-
-  // Future<bool> forgetEmailVerify({required String email, required String otp}) async {
-  //   Map<String, dynamic> body = {"email": email, "oneTimeCode": otp};
-  //   try {
-  //     var response = await nonAuthApi.sendRequest.post(AppApiEndPoint.instance.verifyOtp, data: body);
-  //     if (response.statusCode == 200 && response.data != null) {
-  //       // String accessToken = response.data["data"]["accessToken"];
-  //       // storageServices.setToken(accessToken);
-  //       // AppPrint.apiResponse(storageServices.getToken(), title: "Store Token");
-  //       return true;
-  //     } else {
-  //       // Handle the error if the response or data is null
-  //       AppPrint.apiResponse("Error: Access Token not found!");
-  //     }
-
-  //     return false;
-  //   } catch (e) {
-  //     AppPrint.appError(e.toString(), title: "Email Verify");
-  //   }
-  //   return false;
-  // }
-
-  // Future<dynamic> phoneVerify({required String phone, required String otp}) async {
-  //   Map<String, dynamic> body = {"phone": phone, "oneTimeCode": otp};
-  //   try {
-  //     var response = await nonAuthApi.sendRequest.post(AppApiEndPoint.instance.phoneVerify, data: body);
-
-  //     if (response.statusCode == 200 && response.data != null) {
-  //       String accessToken = response.data["data"]["accessToken"];
-  //       storageServices.setToken(accessToken);
-  //       AppPrint.apiResponse(storageServices.getToken(), title: "Store Token");
-  //       return response.data;
-  //     } else {
-  //       return false;
-  //     }
-  //     // if (response != null && response.data != null) {
-  //     //   String accessToken = response.data["data"]["accessToken"];
-  //     //   storageServices.setToken(accessToken);
-  //     //   AppPrint.apiResponse(storageServices.getToken(), title: "Store Token");
-  //     //   if (response.data["data"]["isFullfilled"] == true) {
-  //     //     Get.offAllNamed(AppRoutes.instance.navigationScreen);
-  //     //   } else {
-  //     //     Get.offAllNamed(AppRoutes.instance.selectBirthScreen);
-  //     //   }
-  //     //   return true;
-  //     // } else {
-  //     //   // Handle the error if the response or data is null
-  //     //   AppPrint.apiResponse("Error: Access Token not found!");
-  //     // }
-  //   } catch (e) {
-  //     AppPrint.appError(e.toString(), title: "Email Verify");
-  //   }
-  //   return false;
-  // }
-
   Future<bool> changePassword({
     required String currentPassword,
     required String newPassword,
@@ -333,22 +291,4 @@ class AuthRepository {
       return false;
     }
   }
-
-  // Future<bool> phoneLogin({required String phone}) async {
-  //   try {
-  //     Map<String, String> phoneData = {"phone": phone};
-
-  //     var response = await ApiServices.instance.apiPostServices(url: AppApiEndPoint.instance.phoneLogin, body: phoneData);
-  //     if (response != null) {
-  //       return true;
-  //     } else {
-  //       AppPrint.appError("phoneLogin");
-  //     }
-  //     return false;
-  //   } catch (e) {
-  //     AppPrint.appError(e, title: "phoneLogin");
-
-  //     return false;
-  //   }
-  // }
 }
