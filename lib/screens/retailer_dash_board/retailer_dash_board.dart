@@ -9,6 +9,7 @@ import 'package:el_mago/widgets/app_circle_card/circle_icon_with_bg.dart';
 import 'package:el_mago/widgets/app_image/app_image.dart';
 import 'package:el_mago/widgets/app_log/gap.dart';
 import 'package:el_mago/widgets/app_text/app_text.dart';
+import 'package:el_mago/widgets/app_text/custom_text.dart';
 import 'package:el_mago/widgets/appbar/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -63,6 +64,7 @@ class RetailerDashBoard extends StatelessWidget {
         ],
       ),
       body: RefreshIndicator(
+        color: AppColor.blue,
         onRefresh: () => controller.refreshAllData(),
         child: Padding(
           padding: EdgeInsets.all(AppSize.width(value: 16)),
@@ -117,6 +119,20 @@ class RetailerDashBoard extends StatelessWidget {
                           top: AppSize.size.height * 0.02,
                         ),
                         child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
+
+                    if (controller.getAllProducts.isEmpty) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          top: AppSize.size.height * 0.3,
+                        ),
+                        child: Center(
+                          child: CustomText(
+                            text: "No products found.",
+                            fontSize: 16,
+                          ),
+                        ),
                       );
                     }
 

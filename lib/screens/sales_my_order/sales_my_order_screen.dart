@@ -75,7 +75,7 @@ class SalesMyOrderScreen extends StatelessWidget {
                         value: value,
                         child: Text(
                           controller.filterLabels[index],
-                          style: TextStyle(color: AppColor.blue, fontSize: 12),
+                          style: TextStyle(color: AppColor.black, fontSize: 12),
                         ),
                       );
                     }).toList();

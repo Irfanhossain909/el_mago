@@ -20,7 +20,7 @@ class RetailerMyOrderScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppbar(
-        title: 'My Order',
+        title: 'My Orders',
         autoShowLeading: false,
         action: [
           Padding(
@@ -32,38 +32,57 @@ class RetailerMyOrderScreen extends StatelessWidget {
                   vertical: 4,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColor.blue,
+                  color: AppColor.blue500,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: controller.selectedFilter.value,
-                    icon: const Icon(
-                      Icons.filter_list,
-                      color: Colors.white,
-                      size: 16,
-                    ),
-                    dropdownColor: AppColor.blue,
-                    style: const TextStyle(color: Colors.white, fontSize: 12),
-                    items: controller.filterOptions.asMap().entries.map((
+                child: PopupMenuButton<String>(
+                  initialValue: controller.selectedFilter.value,
+                  icon: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        controller.filterLabels[controller.filterOptions
+                            .indexOf(controller.selectedFilter.value)],
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      const Icon(
+                        Icons.filter_list,
+                        color: Colors.white,
+                        size: 16,
+                      ),
+                    ],
+                  ),
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    side: BorderSide(color: AppColor.blue, width: 1),
+                  ),
+                  offset: const Offset(
+                    10,
+                    55,
+                  ), // Position dropdown below the button
+                  itemBuilder: (BuildContext context) {
+                    return controller.filterOptions.asMap().entries.map((
                       entry,
                     ) {
                       int index = entry.key;
                       String value = entry.value;
-                      return DropdownMenuItem<String>(
+                      return PopupMenuItem<String>(
                         value: value,
                         child: Text(
                           controller.filterLabels[index],
-                          style: const TextStyle(fontSize: 12),
+                          style: TextStyle(color: AppColor.black, fontSize: 12),
                         ),
                       );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      if (newValue != null) {
-                        controller.onFilterChanged(newValue);
-                      }
-                    },
-                  ),
+                    }).toList();
+                  },
+                  onSelected: (String newValue) {
+                    controller.onFilterChanged(newValue);
+                  },
                 ),
               ),
             ),
