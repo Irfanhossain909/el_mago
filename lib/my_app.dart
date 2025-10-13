@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       initialBinding: AppBinding(),
 
-      title: 'el_mago',
+      title: 'El mago',
       theme: AppTheme.lightTheme,
       defaultTransition: Transition.fadeIn,
       transitionDuration: Duration(milliseconds: 300),
