@@ -1,6 +1,7 @@
 import 'package:el_mago/routes/app_routes.dart';
 import 'package:el_mago/routes/bindings/app_binding.dart';
 import 'package:el_mago/screens/auth/forgetpass_verify_otp_screen/forgetpass_verify_otp_screen.dart';
+import 'package:el_mago/screens/delete_user_profile/delete_user_profile.dart';
 import 'package:el_mago/screens/notification_screen/notification_screen.dart';
 import 'package:el_mago/screens/retailer_complate_subscription_screen/retailer_complate_subscription_screen.dart';
 import 'package:el_mago/screens/retailer_loyelty_screen/retailer_loyelty_screen.dart';
@@ -123,6 +124,11 @@ List<GetPage> appRootRoutesFile = <GetPage>[
     name: AppRoutes.instance.changePasswordScreen,
     binding: AppBinding(),
     page: () => const ChangePassScreen(),
+  ),
+  GetPage(
+    name: AppRoutes.instance.deleteScreen,
+    binding: AppBinding(),
+    page: () => const DeleteUserProfile(),
   ),
   GetPage(
     name: AppRoutes.instance.retailerDashboardScreen,

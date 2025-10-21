@@ -116,6 +116,16 @@ class ProfileScreen extends StatelessWidget {
                         },
                         text: "Password",
                       ),
+                      ProfileRow(
+                        iconPath: AssetsPath.delete,
+                        onTap: () {
+                          Get.toNamed(
+                            AppRoutes.instance.deleteScreen,
+                            arguments: controller.profileData.value?.email,
+                          );
+                        },
+                        text: "Delete Account",
+                      ),
                       // Add the My Sales section for SALES role users
                       if (controller.profileData.value?.role == Role.SALES.name)
                         ProfileRow(
