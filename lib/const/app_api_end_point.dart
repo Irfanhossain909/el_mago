@@ -64,6 +64,7 @@ class AppApiEndPoint {
   final String termsAndConditions = "/admin/settings?key=";
   // final String faq = "/others/faq";
   final String deleteAccount = "/users/delete";
+  // final String deleteAccount = "/admin/settings/account-delete";
 
   ////////////////////// auth
   final String authLogin = "/auth/login";
