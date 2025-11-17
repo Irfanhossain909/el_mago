@@ -1,4 +1,4 @@
-package com.example.el_mago
+package com.elmago.elmago
 
 import io.flutter.embedding.android.FlutterActivity
 

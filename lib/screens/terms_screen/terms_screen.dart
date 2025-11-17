@@ -7,24 +7,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'controller/terms_screen_controller.dart';
 
-/*
-class TermsScreen extends StatelessWidget {
-  const TermsScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppbar(title: "Terms & conditions"),
-      body: Center(
-        child: AppImage(
-          width: AppSize.size.width * 0.6,
-          path: AssetsPath.termsImg,
-        ),
-      ),
-    );
-  }
-}
-*/
 
 class TermsScreen extends StatelessWidget {
   TermsScreen({super.key});
