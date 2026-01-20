@@ -4,53 +4,43 @@ class AppRoutes {
   static AppRoutes get instance => _instance;
   /////////////  initial or splash screen
   final String initial = "/";
-  final String roleSelectionScreen = "/role-selection-screen";
-  final String onBoardingScreen1 = "/onboarding-screen1";
-  final String navigationScreen = "/navigation-screen";
-  final String navigationForClientScreen = "/navigation-for-client-screen";
-  ///////////////////////////Auth/////////////////////////////////
-  final String signInScreen = "/sign-in-screen";
-  final String forgetPassScreen = "/forget-pass-screen";
-  final String createNewScreen = "/create-new-screen";
-  final String verifyOtpScreen = "/verify-otp-screen";
-  final String signUpScreen = "/sign-up-screen";
-  final String locationScreen = "/location-screen";
-  final String personalInfoScreen = "/personal-info-screen";
-  final String clientBusinessInfoScreen = "/client-business-info-screen";
-
-  //////////////////////Profile Screen/////////////////////////
-  final String notification = "/notification-screen";
+  final String retailerNavigationScreen = "/retailer-navigation-screen";
+  final String salesNavigationScreen = "/sales-navigation-screen";
+  final String signupScreen = "/sign-up-screen";
+  final String signinScreen = "/sign-in-screen";
+  final String forgetPasswordScreen = "/forget-password-screen";
+  final String otpVerifyScreen = "/otp-verify-screen";
+  final String forgetPassOtpVerifyScreen = "/forgetpass-otp-verify-screen";
+  final String createNewPassScreen = "/create-new-pass-screen";
   final String profileScreen = "/profile-screen";
-  final String termsCondiScreen = "/terms-condi-screen";
+  final String termScreen = "/term-screen";
   final String privicyScreen = "/privicy-screen";
-  final String changePassScreen = "/change-pass-screen";
-  final String contactUsScreen = "/contact-us-screen";
+  final String deleteScreen = "/delete-screen";
   final String changeProfileScreen = "/change-profile-screen";
-  //////////////////////Home Screen/////////////////////////
-  final String employeeHome = "/employee-home-screen";
-  final String clientHomeScreen = "/client-home-screen";
-  //////////////////////shift Screen/////////////////////////
-  final String employeeShiftScreen = "/employee-shift-screen";
-  final String clientShiftScreen = "/client-shift-screen";
-  final String clientAllSubstituteScreen = "/client-substitute-screen";
-  final String employeeShiftDetailsScreen = "/employee-shift-details-screen";
-  //////////////////////earning Screen/////////////////////////
-  final String employeeEarningScreen = "/employee-earning-screen";
-  //////////////////////Employee findShift Screen/////////////////////////
-  final String employeeFindShiftScreen = "/employee-find-shift-screen";
-  final String employeeFindShiftDetailsScreen =
-      "/employee-find-shift-details-screen";
-  //////////////////////add shift Screen/////////////////////////
-  final String clientAddShiftScreen = "/client-add-shift-screen";
-  ////////////////////////peronal info submit screen/////////////////
-  final String employeePersonalInfoSubmitScreen1 =
-      "/employee-personal-info-submit-screen1";
-  final String employeePersonalInfoSubmitScreen2 =
-      "/employee-personal-info-submit-screen2";
-  final String employeePersonalInfoSubmitScreen3 =
-      "/employee-personal-info-submit-screen3";
-  final String employeeAddMyDocumentScreen = "/employee-add-my-document-screen";
-  final String employeeSettingScreen = "/employee-setting-screen";
-  final String clientSubscriptionScreen = "/client_subcription-screen";
-  final String paymentSuccessfullScreen = "/payment-successfull-screen";
+  final String changePasswordScreen = "/change-password-screen";
+  final String retailerDashboardScreen = "/retailer-dashboard-screen";
+  final String retailerShoppingCartScreen = "/retailer-shopping-cart-screen";
+  final String retailerMyOrderScreen = "/retailer-my-order-screen";
+  final String retailerOrderDetailsScreen = "/retailer-order-details-screen";
+  final String salesDashboardScreen = "/sales-dashboard-screen";
+  final String salesShoppingCartScreen = "/sales-shopping-cart-screen";
+  final String salesMyOrderScreen = "/sales-my-order-screen";
+  final String salesOrderDetailsScreen = "/sales-order-details-screen";
+  final String sealesMySalesScreen = "/sales-my-sales-screen";
+  final String salesMyTerritoryScreen = "/sales-my-territory-screen";
+  final String retailerSubscriptionScreen = "/retailer-subscription-screen";
+  final String retailerLoyaltyScreen = "/retailer-loyalty-screen";
+  final String notificationScreen = "/notification-screen";
+  final String retailerComplateSubscriptionScreen =
+      "/retailer-complate-subscription-screen";
+  final String retailerSelectExtraBoxScreen =
+      "/retailer-select-extra-box-screen";
+  final String salesSelectExtraBoxScreen = "/sales-select-extra-box-screen";
+  final String salesRepresentativeDetailsScreen =
+      "/sales-representative-screen";
+  final String salesEditNewRetailersScreen = "/sales-edit-new-retailers-screen";
+  final String salesAddRetailersScreen = "/sales-add-retailers-screen";
+  final String salesEditSubscriptionScreen = "/sales-edit-subscription-screen";
+  final String salesRetailerInformationScreen =
+      "/sales-retailer-information-screen";
 }

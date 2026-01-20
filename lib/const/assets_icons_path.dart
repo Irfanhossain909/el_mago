@@ -2,7 +2,6 @@ class AssetsPath {
   AssetsPath._();
 
   static const String google = "assets/icons/icgoogle.png";
-  static const String arrowBack = "assets/icons/Back.png";
   static const String icClose = "assets/icons/ic_close.png";
   static const String icLocation = "assets/icons/icLocation.png";
   static const String terms = "assets/icons/tarms.png";
@@ -17,8 +16,6 @@ class AssetsPath {
   static const String nav3 = "assets/icons/nav3.png";
   static const String nav4 = "assets/icons/nav4.png";
   static const String nav5 = "assets/icons/nav5.png";
-  static const String nav6 = "assets/icons/nav6.png";
-  static const String camera = "assets/icons/camera.png";
   static const String close = "assets/icons/close.png";
   static const String filter = "assets/icons/filter.png";
   static const String right = "assets/icons/right.png";
@@ -28,20 +25,52 @@ class AssetsPath {
   static const String editBio = "assets/icons/edit_bio.png";
   static const String delete = "assets/icons/delete.png";
   static const String subIcon = "assets/icons/subIcon.png";
+  static const String camera = "assets/icons/camera.png";
+  static const String cart = "assets/icons/cart.png";
+  static const String notification = "assets/icons/notification.png";
+  static const String cartColor = "assets/icons/cart_color.png";
+  static const String dollerColor = "assets/icons/doller_color.png";
+  static const String gift = "assets/icons/gift.png";
+  static const String subscriptionIcon = "assets/icons/subcription_icon.png";
+  static const String activeCard = "assets/images/active_card.png";
   static const String qualificationDocument =
       "assets/icons/qualification_doc.png";
+  static const String currency = "assets/icons/currency.png";
+  static const String calender = "assets/icons/calender_ic.png";
+  static const String box = "assets/icons/box.png";
+  static const String addressCard = "assets/icons/address_card.png";
+  static const String tag = "assets/icons/tag.png";
+  static const String editText = "assets/icons/edit_text.png";
+  static const String card1 = "assets/icons/card1.png";
+  static const String card2 = "assets/icons/card2.png";
+  static const String card3 = "assets/icons/card3.png";
+  static const String cvv = "assets/icons/cvc.png";
+  static const String deleteIcon = "assets/icons/ic_delete.png";
+  static const String editIcon = "assets/icons/ic_edit.png";
+  static const String eyeIcon = "assets/icons/ic_eye.png";
+  static const String reloadIcon = "assets/icons/ic_reload.png";
+  static const String boxColor = "assets/icons/box_color.png";
+  static const String icVerification = "assets/icons/ic_verification.png";
+  static const String icRole = "assets/icons/ic_role.png";
+  static const String icCalender = "assets/icons/ic_calender.png";
+  static const String icAddress = "assets/icons/ic_address.png";
+
+  //sales
+  static const String retailerManagement =
+      "assets/icons/retailer_management.png";
+  static const String salesMyOrder = "assets/icons/sales_myorder.png";
+  static const String commisionBreakdown =
+      "assets/icons/commision_breakdown.png";
+  //person
+  static const String person = "assets/icons/person.png";
+  static const String mySales = "assets/icons/my_sales.png";
+  static const String myTerritory = "assets/icons/my_territory.png";
 
   //////////////////////Image//////////////////////////////////////
-  static const String authImg = "assets/images/pass_img.png";
-  static const String locationImg = "assets/images/locationimg.png";
-  static const String termsImg = "assets/images/tarmImg.png";
-  static const String otpImg = "assets/images/otpImg.png";
-  static const String changePass = "assets/images/change_pass.png";
+
   static const String placeHolder = "assets/images/placeholder.png";
-  static const String rightDown = "assets/images/right_down.png";
-  static const String leftUp = "assets/images/left_up.png";
+  static const String changePass = "assets/images/change_pass.png";
+
   static const String appLogo = "assets/images/app_logo.png";
-  static const String map = "assets/images/map.webp";
-  static const String paymentSuccessFullimg =
-      "assets/images/payment_successfull_img.png";
+  static const String termsImg = "assets/images/terms_img.png";
 }
