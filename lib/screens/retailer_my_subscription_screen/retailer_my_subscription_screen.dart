@@ -21,10 +21,7 @@ class RetailerMySubscriptionScreen extends StatelessWidget {
       init: RetailerMySubscriptionController(),
       builder: (controller) {
         return Scaffold(
-          appBar: CustomAppbar(
-            autoShowLeading: false,
-            title: 'My Subscription',
-          ),
+          appBar: CustomAppbar(autoShowLeading: false, title: 'Membership'),
           body: Padding(
             padding: EdgeInsets.all(AppSize.width(value: 16)),
             child: SingleChildScrollView(
