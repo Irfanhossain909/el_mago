@@ -26,9 +26,9 @@ class RetailerNavigationScreen extends StatelessWidget {
               children: [
                 RetailerDashBoard(),
                 RetailerMyOrderScreen(),
-                RetailerMySubscriptionScreen(),
 
-               RetailerLoyeltyScreen(),
+                // RetailerMySubscriptionScreen(),
+                RetailerLoyeltyScreen(),
                 ProfileScreen(),
               ],
             ),
@@ -58,12 +58,12 @@ class RetailerNavigationScreen extends StatelessWidget {
               child: Obx(
                 () => Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: List.generate(5, (index) {
+                  children: List.generate(4, (index) {
                     final isSelected = controller.selectedIndex.value == index;
                     final iconPaths = [
                       AssetsPath.nav1,
                       AssetsPath.nav5,
-                      AssetsPath.nav2,
+                      // AssetsPath.nav2,
                       AssetsPath.nav3,
 
                       AssetsPath.nav4,
