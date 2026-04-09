@@ -24,6 +24,7 @@ class SalesAddRetailersScreen extends StatelessWidget {
           body: Padding(
             padding: const EdgeInsets.all(12),
             child: SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               child: Stack(
                 children: [
                   Column(
